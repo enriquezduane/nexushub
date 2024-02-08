@@ -35,4 +35,4 @@ Whether you're here to relive your best Ragnarok moments or to carve new ones, N
 
 ---
 
-**Note**: NexusHub is in partial fulfillment, continually evolving, and embracing the coolness of the Ragnarok universe. Join us on this adventure and help shape the future of NexusHub! 🚀🌟
+Note: NexusHub is currently in development as part of a school project for a major course. It's a work in progress, blending academic goals with the engaging world of Ragnarok. Your participation and feedback are invaluable as we continue to develop NexusHub! 🚀📚
