@@ -1,7 +1,7 @@
 # 🌌 NexusHub - Ragnarok Forum 🛡️
 
 <p align="center">
-  <img src="images/nexushub.gif" alt="NexusHub GIF">
+  <img src="public/images/nexushub.gif" alt="NexusHub GIF">
 </p>
 
 Dive into the retro universe of **NexusHub**, a Ragnarok forums site that catapults you straight back to the 90s. With a design that's a love letter to the old-school internet, NexusHub combines nostalgia with the vibrant world of Ragnarok for the ultimate fan hangout spot. Crafted with the classic trio of HTML, CSS, and JS, NexusHub is a masterpiece in progress, embodying the cool essence of yesteryear with a sprinkle of today's web magic. 🎨✨
