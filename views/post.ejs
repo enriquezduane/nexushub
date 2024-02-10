@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
+    <title><%= post.title %></title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
     <script src="js/app.js" defer></script>
@@ -58,10 +58,10 @@
     <div class="content-container dashed-black-container container-margin">
         <div class="title-header post-container-template">
             <div class="post-title topic-header">
-                <%= title %>
+                <%= post.title %>
             </div>
             <p>
-                <br>Started by <a href="/profile/id=<%= users.find((user) => post.poster.username === user.username).id %>"><%= post.poster.username %></a>, <%= post.date %>
+                <br>Started by <a href="/user/id=<%= post.poster.id %>"><%= post.poster.username %></a>, <%= post.date %>
             </p>
         </div>
         <div class="post-section-top">
@@ -77,7 +77,7 @@
         <div class="post-section post-container-template">
             <div class="poster-info">
                 <div class="poster-name">
-                    <strong><a href="/profile/id=<%= users.find((user) => post.poster.username === user.username).id %>"><%= post.poster.username %></a></strong>
+                    <strong><a href="/user/id=<%= post.poster.id %>"><%= post.poster.username %></a></strong>
                 </div>
                 <div class="poster-role <%= post.poster.role.toLowerCase().replace(" ", "-") %>">
                     <%= post.poster.role %>
@@ -86,23 +86,23 @@
                     <img src="images/jejeling.gif" alt="jejeling">
                 </div>
                 <div class="poster-join-date">
-                    Join Date: <%= users.find((user) => post.poster.username === user.username).joinDate.replace(/\d{2}, /, '') %>
+                    Join Date: <%= post.poster.joinDate.replace(/\d{2}, /, '') %>
                 </div>
                 <div class="poster-posts">
-                    Posts: <%= users.find((user) => post.poster.username === user.username).posts%>
+                    Posts: <%= post.poster.posts %>
                 </div>
             </div>
             <div class="post-area">
                 <div class="post-info">
                     <div class="post-name">
-                        <a href="/post/<%= title.toLowerCase() %>"><strong><%= title %></strong></a>
+                        <a href="/post/<%= post.title.toLowerCase() %>"><strong><%= post.title %></strong></a>
                     </div>
                     <div class="post-date">
                         <%= post.date %>
                     </div>
                 </div>
                 <p class="post-content" script="">
-                    <%- post.post %>
+                    <%- post.content %>
                 </p>
             </div>
         </div>
@@ -111,7 +111,7 @@
             <div class="post-section post-container-template">
                 <div class="poster-info">
                     <div class="poster-name">
-                        <strong><a href="/profile/id=<%= users.find((user) => reply.poster.username === user.username).id %>"><%= reply.poster.username %></a></strong>
+                        <strong><a href="/user/id=<%= reply.poster.id %>"><%= reply.poster.username %></a></strong>
                     </div>
                     <div class="poster-role <%= reply.poster.role.toLowerCase().replace(" ", "-") %>">
                         <%= reply.poster.role %>
@@ -120,16 +120,16 @@
                         <img src="images/jejeling.gif" alt="jejeling">
                     </div>
                     <div class="poster-join-date">
-                        Join Date: <%= users.find((user) => reply.poster.username === user.username).joinDate.replace(/\d{2}, /, '') %>
+                        Join Date: <%= reply.poster.joinDate.replace(/\d{2}, /, '') %>
                     </div>
                     <div class="poster-posts">
-                        Posts: <%= users.find((user) => reply.poster.username === user.username).posts%>
+                        Posts: <%= reply.poster.posts%>
                     </div>
                 </div>
                 <div class="post-area">
                     <div class="post-info">
                         <div class="post-name">
-                            <a href="/post/<%= title.toLowerCase() %>"><strong>Re: <%= title %></strong></a>
+                            <a href="/post/<%= post.title.toLowerCase() %>"><strong><%= reply.title %></strong></a>
                         </div>
                         <div class="post-date">
                             <%= reply.date %>

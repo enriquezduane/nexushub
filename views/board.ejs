@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= title %></title>
+  <title><%= board.title %></title>
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
   <script src="js/app.js" defer></script>
@@ -59,7 +59,7 @@
         <table>
           <thead>
             <tr class="boards-header">
-              <td colspan="5"><%= title %></td>
+              <td colspan="5"><%= board.title %></td>
             </tr>
             <tr>
               <td colspan="5" class="index-subheading">Stay up-to-date with the latest forum guidelines and
@@ -84,13 +84,14 @@
                   <p><%= board.posts[i].date %></p>
                 </td>
                 <td class="center-table-data">
-                  <div class="username"><a href="/profile/id=<%= users.find((user) => board.posts[i].poster.username === user.username).id %>"><%= board.posts[i].poster.username %></a></div>
+                  <div class="username"><a href="/user/id=<%= board.posts[i].poster.id %>"><%= board.posts[i].poster.username %></a></div>
                   <div class="role <%= board.posts[i].poster.role.toLowerCase().replace(" ", "-") %>"><%= board.posts[i].poster.role %></div>
                 </td>
-                <td class="center-table-data"><%= board.posts[i].replies %></td>
+                <td class="center-table-data"><%= board.posts[i].replyCount %></td>
                 <td class="center-table-data"><%= board.posts[i].views %></td>
               </tr>
             <% } %>
+          </tbody>
         </table>
         <div class="navigation-buttons">
           <button class="prev-button">Previous</button>

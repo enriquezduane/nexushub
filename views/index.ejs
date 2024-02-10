@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= title %></title>
+  <title>NexusHub</title>
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
   <script src="js/app.js" defer></script>
@@ -67,10 +67,10 @@
             </tr>
           </thead>
           <tbody>
-            <% boards.forEach( (board) => { %>
+            <% categories.forEach( (category) => { %>
               <tr>
                 <td colspan="5">
-                  <%= board.category %>
+                  <%= category.title %>
                 </td>
               </tr>
               <tr class="topics">
@@ -79,23 +79,22 @@
                 <th style="width: 10%;">Replies</th>
                 <th style="width: 10%;">Last Post</th>
               </tr>
-
-              <% board.boardNames.forEach( (boardName) => { %>
+              <% category.boards.forEach( (board) => { %>
                 <tr>
                   <td class="post-logo">
                     <img src="images/jejeling.gif" alt="icon">
                   </td>
                   <td>
-                    <a href="/forum/<%= boardName.title.toLowerCase() %>"><strong><%= boardName.title %></strong></a>
-                    <p><%= boardName.description %></p>
+                    <a href="/forum/<%= board.title.toLowerCase() %>"><strong><%= board.title %></strong></a>
+                    <p><%= board.description %></p>
                   </td>
-                  <td><%= boardName.postCount %></td>
-                  <td><%= boardName.replies %></td>
+                  <td><%= board.postCount %></td>
+                  <td><%= board.replies %></td>
                   <td>
-                    Last post: <%= boardName.lastPost.date %> 
-                    <br>in <a href="/post/<%= boardName.lastPost.title.toLowerCase() %>"><%= boardName.lastPost.title %></a>
-                    <br>by <a href="/profile/id=<%= users.find((user) => boardName.lastPost.poster.username === user.username).id %>">
-                      <%= boardName.lastPost.poster.username %></a>
+                    Last post: <%= board.lastPost.date %> 
+                    <br>in <a href="/post/<%= board.lastPost.title.toLowerCase() %>"><%= board.lastPost.title %></a>
+                    <br>by <a href="/user/id=<%= board.lastPost.poster.id %>">
+                      <%= board.lastPost.poster.username %></a>
                   </td>
                 </tr>
               <% }); %>
@@ -114,7 +113,7 @@
         </div>
         <p>
           12 Topics and 14 Replies by 11 Members - Latest Member:
-          <a href="/profile/id=<%= users[users.length - 1].id %>">
+          <a href="/user/id=<%= users[users.length - 1].id %>">
             EternalWanderer
           </a>
           <br>
@@ -131,7 +130,7 @@
           <Strong>Online: 10 Guests, 1 User</Strong>
           - Most Online Today: <strong>16</strong> - Most Online Ever: 34 (Feb 01, 2024, 09:23 PM)
           <br>
-          Users active in past 15 minutes: <a href="/profile/id=1">lokitrickster</a>
+          Users active in past 15 minutes: <a href="/user/id=1">lokitrickster</a>
         </p>
       </div>
     </div>
@@ -140,7 +139,7 @@
   <footer class="dashed-black-container">
     <span>NexusHub &copy; 2024</span>
     <a href="terms-and-conditions.html">Terms and Conditions</a>
-    <a href="/post/<%= posts.find(post => post.id === 3).title.toLowerCase() %>">Forum Rules</a>
+    <a href="/post/forum rules">Forum Rules</a>
   </footer>
 
   <div class="bottom-footer">
