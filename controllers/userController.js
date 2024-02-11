@@ -1,7 +1,7 @@
 const User = require('../models/userModel');
 
 // Create a new user
-exports.createUser = async (req, res) => {
+const createUser = async (req, res) => {
     try {
         const newUser = await User.create(req.body);
         res.status(201).json(newUser);
@@ -11,7 +11,7 @@ exports.createUser = async (req, res) => {
 };
 
 // Get all users
-exports.getAllUsers = async (req, res) => {
+const getAllUsers = async (req, res) => {
   try {
     const users = await User.find();
     res.json(users);
@@ -21,7 +21,7 @@ exports.getAllUsers = async (req, res) => {
 };
 
 // Get user by ID
-exports.getUserById = async (req, res) => {
+const getUserById = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     if (!user) {
@@ -34,7 +34,7 @@ exports.getUserById = async (req, res) => {
 };
 
 // Update user by ID
-exports.updateUserById = async (req, res) => {
+const updateUserById = async (req, res) => {
   try {
     const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!user) {
@@ -47,7 +47,7 @@ exports.updateUserById = async (req, res) => {
 };
 
 // Delete user by ID
-exports.deleteUserById = async (req, res) => {
+const deleteUserById = async (req, res) => {
   try {
     const user = await User.findByIdAndDelete(req.params.id);
     if (!user) {
@@ -58,3 +58,38 @@ exports.deleteUserById = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+const getUserByUrl = async (req, res, next) => {
+  try {
+      // Split the URL by slashes and get the last part
+      const url = req.originalUrl;
+      const parts = url.split('/');
+      const lastPart = parts[parts.length - 1];
+
+      // Remove id= text
+      const idText = lastPart.replace("id=", '');
+      const idValue = parseInt(idText);
+
+      // Find the board in the database
+      const user = await User.findOne({ id: idValue });  
+
+      if (!user) {
+          return res.status(404).json({ message: 'User not found' });
+      } else {
+          res.user = user;
+      }
+  }
+  catch (err) {
+      res.status(500).json({ message: err.message });
+  }
+  next();
+}
+
+module.exports = {
+  createUser,
+  getAllUsers,
+  getUserById,
+  updateUserById,
+  deleteUserById,
+  getUserByUrl,
+}

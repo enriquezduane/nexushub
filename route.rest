@@ -1,0 +1,13 @@
+GET http://localhost:8080/
+
+###
+
+GET http://localhost:8080/search?query=nex
+
+###
+
+POST http://localhost:8080/
+
+###
+
+POST http://localhost:8080/post

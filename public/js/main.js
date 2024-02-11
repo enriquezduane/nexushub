@@ -5,13 +5,17 @@ const modal = document.querySelector('.modal');
 const openModalButton = document.querySelector('#login');
 const closeModalButton = document.querySelector('.close-btn');
 
-openModalButton.addEventListener('click', function() {
-    modal.classList.add('show');
-});
+if (openModalButton) {
+    openModalButton.addEventListener('click', function() {
+        modal.classList.add('show');
+    });
+}
 
-closeModalButton.addEventListener('click', function() {
-    modal.classList.remove('show');
-});
+if (closeModalButton) {
+    closeModalButton.addEventListener('click', function() {
+        modal.classList.remove('show');
+    });
+}
 
 // Close modal on window click
 window.addEventListener('click', function(event) {

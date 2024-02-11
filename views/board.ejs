@@ -17,12 +17,48 @@
   <div class="shade-4"></div>
   <div class="top-shade"></div>
   <header>
+    <% if (loggedIn) { %>
+    <nav class="cyberpunk-nav">
+      <ul class="nav-list">
+        <li class="nav-item dropdown">
+          <a href="#" class="nav-link dropbtn">Menu ▼</a>
+          <div class="dropdown-content">
+            <a href="#">Profile</a>
+            <a href="#">Account Settings</a>
+            <a href="#">My Posts</a>
+            <a href="#">Notifications</a>
+            <a href="#">Log out</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+    <nav class="navbar-logged-in">
+      <a href="/">
+        <img alt="home" src="images/home.gif">
+      </a>
+      <a id="register" href="#">
+        <img alt="register" src="images/register.gif">
+      </a>
+      <a id="search" href="#">
+        <img alt="search" src="images/search.gif">
+      </a>
+    </nav>
+    <div>
+      <a href="https://www.youtube.com/watch?v=BqijsweJzFQ&ab_channel=ScarliUwU" target="_blank">
+        <img class="spin-img" alt="spinning-disk" src="images/pixel-disk.png" style="width: 100px; height: 100px;">
+      </a>
+      <a href="#">
+        <img class="music-button" alt="sounds" src="images/pixel-speaker2.gif" style="width: 100px; height: 100px;">
+        <audio class="sound-effect" src="sound/ragnarokbg.mp3" preload="auto"></audio>
+      </a>
+    </div>
+    <% } else { %>
     <div>
       <a href="https://www.youtube.com/watch?v=BqijsweJzFQ&ab_channel=ScarliUwU" target="_blank">
         <img class="spin-img" alt="spinning-disk" src="images/pixel-disk.png" style="width: 100px; height: 100px;">
       </a>
     </div>
-    <nav class="navbar">
+    <nav>
       <a href="/">
         <img alt="home" src="images/home.gif">
       </a>
@@ -30,7 +66,7 @@
         <img alt="register" src="images/register.gif">
       </a>
       <a id="login" href="#">
-        <img alt="login" src="images/login.gif">
+        <img alt="register" src="images/login.gif">
       </a>
       <a id="search" href="#">
         <img alt="search" src="images/search.gif">
@@ -42,8 +78,8 @@
         <audio class="sound-effect" src="sound/ragnarokbg.mp3" preload="auto"></audio>
       </a>
     </div>
+    <% } %>
   </header>
-
   <main>
     <div class="logo-container">
       <div class="ragnarok-logo-frame">
@@ -113,27 +149,29 @@
     </a>
   </div>
 
-  <div class="modal">
-    <div class="modal-container">
-      <div class="modal-header">
-        <h2>Login</h2>
-        <span><button class="close-btn">&times;</button></span>
-      </div>
-      <div class="modal-content">
-        <form>
-          <label for="username">Username:</label>
-          <input type="text" id="username" name="username" required><br>
-          <label for="password">Password:</label>
-          <input type="password" id="password" name="password" style="margin-left: 3px;" required><br>
-          <button type="submit">Step into the Realm</button>
-        </form>
-        <br style="padding-top: 100px;">
-        <span>Don't have an account?<br><br>
-          <a href="#">Sign up</a>
-        </span>
+  <% if (!loggedIn) { %>
+    <div class="modal">
+      <div class="modal-container">
+        <div class="modal-header">
+          <h2>Login</h2>
+          <span><button class="close-btn">&times;</button></span>
+        </div>
+        <div class="modal-content">
+          <form>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required><br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" style="margin-left: 3px;" required><br>
+            <button type="submit">Step into the Realm</button>
+          </form>
+          <br style="padding-top: 100px;">
+          <span>Don't have an account?<br><br>
+            <a href="#">Sign up</a>
+          </span>
+        </div>
       </div>
     </div>
-  </div>
+    <% } %>
 
   <div class="modal2">
     <div class="agreement-frame">
@@ -208,7 +246,7 @@
         Search for Posts
       </div>
       <div class="search-box">
-        <form action="/search-results.html">
+        <form action="/search">
           <input type="text" name="query" class="search-input" placeholder="Search...">
           <button class="search-button" type="submit">Search</button>
         </form>

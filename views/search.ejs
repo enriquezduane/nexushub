@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= post.title %></title>
+    <title>Search Results</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
     <script src="js/app.js" defer></script>
@@ -79,7 +79,7 @@
           </a>
         </div>
         <% } %>
-      </header>
+    </header>
 
     <main>
         <div class="logo-container">
@@ -93,13 +93,8 @@
         </div>
 
         <div class="content-container dashed-black-container container-margin">
-            <div class="title-header post-container-template">
-                <div class="post-title topic-header">
-                    <%= post.title %>
-                </div>
-                <p>
-                    <br>Started by <a href="/user/id=<%= post.poster.id %>"><%= post.poster.username %></a>, <%= post.date %>
-                </p>
+            <div class="title-header post-container-template topic-header">
+                Search Results for "<%= query %>"
             </div>
             <div class="post-section-top">
                 <div class="left-side-buttons">
@@ -107,75 +102,27 @@
                     <button class="prev-button">Previous</button>
                     <button class="next-button">Next</button>
                 </div>
-                <div class="right-side-buttons">
-                    <a href="#bot" class="reply-button" style="text-decoration: none;">Reply</a>
-                </div>
-            </div>
-            <div class="post-section post-container-template">
-                <div class="poster-info">
-                    <div class="poster-name">
-                        <strong><a href="/user/id=<%= post.poster.id %>"><%= post.poster.username %></a></strong>
-                    </div>
-                    <div class="poster-role <%= post.poster.role.toLowerCase().replace(" ", "-") %>">
-                        <%= post.poster.role %>
-                    </div>
-                    <div class="poster-icon">
-                        <img src="images/jejeling.gif" alt="jejeling">
-                    </div>
-                    <div class="poster-join-date">
-                        Join Date: <%= post.poster.joinDate.replace(/\d{2}, /, '') %>
-                    </div>
-                    <div class="poster-posts">
-                        Posts: <%= post.poster.posts %>
-                    </div>
-                </div>
-                <div class="post-area">
-                    <div class="post-info">
-                        <div class="post-name">
-                            <a href="/post/<%= post.title.toLowerCase() %>"><strong><%= post.title %></strong></a>
-                        </div>
-                        <div class="post-date">
-                            <%= post.date %>
-                        </div>
-                    </div>
-                    <p class="post-content" script="">
-                        <%- post.content %>
-                    </p>
-                </div>
             </div>
 
-            <% for(const reply of post.replies) { %>
-                <div class="reply-section post-section post-container-template">
-                    <div class="poster-info">
-                        <div class="poster-name">
-                            <strong><a href="/user/id=<%= reply.poster.id %>"><%= reply.poster.username %></a></strong>
+            <% if (posts.length > 0) { %>
+                <% posts.forEach( (post, index) => { %>
+                    <div class="search-result-container post-section post-container-template">
+                        <div class="search-result-content">
+                            <a href="/post/<%= post.title.toLowerCase() %>">
+                                <%- highlightSubstring(post.title, query) %>
+                            </a>
+                            <span>
+                                <strong>#<%= index + 1 %></strong>
+                            </span>
                         </div>
-                        <div class="poster-role <%= reply.poster.role.toLowerCase().replace(" ", "-") %>">
-                            <%= reply.poster.role %>
-                        </div>
-                        <div class="poster-icon">
-                            <img src="images/jejeling.gif" alt="jejeling">
-                        </div>
-                        <div class="poster-join-date">
-                            Join Date: <%= reply.poster.joinDate.replace(/\d{2}, /, '') %>
-                        </div>
-                        <div class="poster-posts">
-                            Posts: <%= reply.poster.posts%>
-                        </div>
-                    </div>
-                    <div class="post-area">
-                        <div class="post-info">
-                            <div class="post-name">
-                                <a href="/post/<%= post.title.toLowerCase() %>"><strong><%= reply.title %></strong></a>
-                            </div>
-                            <div class="post-date">
-                                <%= reply.date %>
-                            </div>
-                        </div>
-                        <p class="post-content" script="">
-                            <%- reply.reply %>
+                        <p>
+                            <span style="font-size: 15px;"><%= post.date %></span> by <a href="/user/id=<%= post.poster.id %>"><%= post.poster.username %></a>
                         </p>
                     </div>
+                <% }) %>
+            <% } else { %>
+                <div class="search-result-container post-section post-container-template">
+                    <p>No results found for <strong style="color: #FFF; font-size: 18px;"><%= query %></strong>.</p>
                 </div>
             <% } %>
 
@@ -185,21 +132,6 @@
                     <button class="prev-button">Previous</button>
                     <button class="next-button">Next</button>
                 </div>
-            </div>
-            <div class="reply-section post-container-template">
-                <div class="reply-header topic-header">
-                    Reply
-                </div>
-                <form id="replyForm">
-                    <input type="hidden" name="postId" value="<%= post.id %>">
-                    <div class="reply-area">
-                        <div>
-                            <label for="reply"></label>
-                            <textarea id="reply-box" name="reply" dir="ltr"></textarea>
-                        </div>
-                        <button type="submit" class="post-button">Post</button>
-                    </div>
-                </form>
             </div>
         </div>
     </main>
@@ -317,11 +249,10 @@
                 </form>
             </div>
             <p>e.g. Orwell "Animal Farm" -movie</p>
-        </div>
+          </div>
     </div>
 
-    <script src="js/main.js"></script>
-    <script src="js/reply.js"></script>
+    <script src="js/main.js"></script>  
 </body>
 
 </html>

@@ -5,7 +5,7 @@ const Post = require('../models/postModel');
 const Board = require('../models/boardModel');
 const Category = require('../models/categoryModel');
 
-const populate = async () => {
+const populate = async (req, res, next) => {
     const categories = await Category.find()
     .populate(
         {
@@ -155,7 +155,13 @@ const populate = async () => {
     const replies = await Reply.find().populate('poster').populate('refPost');
     const users = await User.find();
 
-    return { categories, boards, posts, users };
+    res.categories = categories;
+    res.boards = boards;
+    res.posts = posts;
+    res.replies = replies;
+    res.users = users;
+
+    next();
 }
 
 module.exports = populate;

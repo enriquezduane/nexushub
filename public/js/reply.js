@@ -1,70 +1,68 @@
-// Add event listener to the post button inside the reply form
-const postButton = document.querySelector('.post-button');
-postButton.addEventListener('click', function() {
-    const replyContent = document.querySelector('#reply-box').value;
-    
-    // validate the reply
-    if (replyContent.trim() === '') {
-        alert('Please enter some text before submitting.');
-    } else {
-        // fake reload page :)
-        simulateReload();
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('replyForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
 
-        // Create a new div for the reply
-        const replyDiv = document.createElement('div');
-        replyDiv.className = 'post-section post-container-template';
-        replyDiv.innerHTML = `
-        <div class="poster-info">
-            <div class="poster-name">
-                <strong><a href="#">lokitrickster</a></strong>
-            </div>
-            <div class="poster-role forum-master">
-                Forum Master
-            </div>
-            <div class="poster-icon">
-                <img src="images/jejeling.gif" alt="jejeling">
-            </div>
-            <div class="poster-join-date">
-                Join Date: Jan 2024
-            </div>
-            <div class="poster-posts">
-                Posts: 23
-            </div>
-        </div>
-        <div class="post-area">
-            <div class="post-info">
-                <div class="post-name">
-                    <a href=""><strong>NexusHub Forum Upgraded</strong></a>
-                </div>
-                <div class="post-date">
-                    February 1, 2024, 04:42 AM
-                </div>
-            </div>
-            <p class="post-content">
-            ${replyContent}
-            </p>
-        </div>
-        `;
+        // Collect reply content and post ID
+        const content = document.querySelector('#reply-box').value;
+        const postId = document.querySelector('input[name="postId"]').value;
 
-        // Append the reply to the content container
-        const contentContainer = document.querySelector('.content-container');
-        const contentFooter = document.querySelector('.reply-section-top')
-        contentContainer.insertBefore(replyDiv, contentFooter);
+        // Send AJAX request to add the reply
+        fetch('/post/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ content: content, postId: postId })
+        })
+        .then(response => response.json())
+        .then(newReplyData => {
+            // On successful response, update the page with the new reply
+            replyContainer = document.querySelector('.content-container');
+            const newReplySection = document.createElement('div');
+            const repliesSectionFooter = document.querySelector('.reply-section-top');
+            const replyBox = document.querySelector('#reply-box');
 
-        // Clear the reply form and hide it
-        document.getElementById('reply-box').value = '';
-    }
+            newReplySection.classList.add('reply-section', 'post-section', 'post-container-template');
+
+            newReplySection.innerHTML = `
+                    <div class="poster-info">
+                        <div class="poster-name">
+                            <strong><a href="/user/id=${newReplyData.poster.id}">${newReplyData.poster.username}</a></strong>
+                        </div>
+                        <div class="poster-role ${newReplyData.poster.role.toLowerCase().replace(" ", "-")}">
+                            ${newReplyData.poster.role}
+                        </div>
+                        <div class="poster-icon">
+                            <img src="images/jejeling.gif" alt="jejeling">
+                        </div>
+                        <div class="poster-join-date">
+                            Join Date: ${newReplyData.poster.joinDate.replace(/\d{2}, /, '')}
+                        </div>
+                        <div class="poster-posts">
+                            Posts: ${newReplyData.poster.posts}
+                        </div>
+                    </div>
+                    <div class="post-area">
+                        <div class="post-info">
+                            <div class="post-name">
+                                <a href="/post/${newReplyData.title.toLowerCase()}"><strong>${newReplyData.title}</strong></a>
+                            </div>
+                            <div class="post-date">
+                                ${newReplyData.date}
+                            </div>
+                        </div>
+                        <p class="post-content" script="">
+                            ${newReplyData.reply}
+                        </p>
+                    </div>
+            `;
+
+            replyBox.value = '';
+            replyContainer.insertBefore(newReplySection, repliesSectionFooter);
+        })
+        .catch(error => {
+            // Handle error
+            console.error('Error:', error);
+        });
+    });
 });
-
-// fake reload page
-function simulateReload() {
-    // Hide the main content
-    const mainContent = document.querySelector('main');
-    mainContent.style.display = 'none';
-
-    // Simulate a delay for the fake reload effect
-    setTimeout(function () {
-        // Show the main content again
-        mainContent.style.display = 'block';
-    }, 1000); // Adjust the delay duration as needed
-}

@@ -7,7 +7,6 @@ const database = require('./database/database');
 const app = express();
 const port = process.env.PORT;
 
-
 // middlewares
 app.use(express.static('public'));
 app.use(express.json());
@@ -17,33 +16,24 @@ app.set('view engine', 'ejs');
 // connect to database
 database();
 
-// import routes
+// import routers
 const forumRouter = require('./routes/forum');
 const postRouter = require('./routes/post');
 const userRouter = require('./routes/user');
-
-
-// import database
-const User = require('./models/userModel');
-const Reply = require('./models/replyModel');
-const Post = require('./models/postModel');
-const Board = require('./models/boardModel');
-const Category = require('./models/categoryModel');
+const searchRouter = require('./routes/search');
 
 // initialize database
 const populate = require('./database/initdb');
 
 // render homepage
-app.get('/', async (req, res) => {
+app.get('/', populate, (req, res) => {
       try {
-            // Fetch data from the database
-            const { categories, boards, posts, users } = await populate();
-    
             // Render the homepage with the fetched data
-            res.render('index', { categories: categories, boards: boards, posts: posts, users: users });
+            res.render('index', { loggedIn: false, categories: res.categories, 
+                  boards: res.boards, posts: res.posts, users: res.users });
       } catch (error) {
             console.error('Error fetching data:', error);
-            res.status(500).send('Internal Server Error');
+            res.status(500).json({ message: err.message });
       }
 })
 
@@ -51,13 +41,7 @@ app.get('/', async (req, res) => {
 app.use('/forum', forumRouter);
 app.use('/post', postRouter);
 app.use('/user', userRouter);
-
-
-// error handling 
-app.use((req, res) => {
-      res.status(404).send('Page not found');
-});
-
+app.use('/search', searchRouter);
 
 // server listener
 app.listen(port, () => {
