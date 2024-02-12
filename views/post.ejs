@@ -1,327 +1,122 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= post.title %></title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
-    <script src="js/app.js" defer></script>
-</head>
-
-<body>
-    <div class="shade"></div>
-    <div class="shade-2"></div>
-    <div class="shade-3"></div>
-    <div class="shade-4"></div>
-    <div class="top-shade"></div>
-    <header>
-        <% if (loggedIn) { %>
-        <nav class="cyberpunk-nav">
-          <ul class="nav-list">
-            <li class="nav-item dropdown">
-              <a href="#" class="nav-link dropbtn">Menu ▼</a>
-              <div class="dropdown-content">
-                <a href="#">Profile</a>
-                <a href="#">Account Settings</a>
-                <a href="#">My Posts</a>
-                <a href="#">Notifications</a>
-                <a href="#">Log out</a>
-              </div>
-            </li>
-          </ul>
-        </nav>
-        <nav class="navbar-logged-in">
-          <a href="/">
-            <img alt="home" src="images/home.gif">
-          </a>
-          <a id="register" href="#">
-            <img alt="register" src="images/register.gif">
-          </a>
-          <a id="search" href="#">
-            <img alt="search" src="images/search.gif">
-          </a>
-        </nav>
-        <div>
-          <a href="https://www.youtube.com/watch?v=BqijsweJzFQ&ab_channel=ScarliUwU" target="_blank">
-            <img class="spin-img" alt="spinning-disk" src="images/pixel-disk.png" style="width: 100px; height: 100px;">
-          </a>
-          <a href="#">
-            <img class="music-button" alt="sounds" src="images/pixel-speaker2.gif" style="width: 100px; height: 100px;">
-            <audio class="sound-effect" src="sound/ragnarokbg.mp3" preload="auto"></audio>
-          </a>
-        </div>
-        <% } else { %>
-        <div>
-          <a href="https://www.youtube.com/watch?v=BqijsweJzFQ&ab_channel=ScarliUwU" target="_blank">
-            <img class="spin-img" alt="spinning-disk" src="images/pixel-disk.png" style="width: 100px; height: 100px;">
-          </a>
-        </div>
-        <nav>
-          <a href="/">
-            <img alt="home" src="images/home.gif">
-          </a>
-          <a id="register" href="#">
-            <img alt="register" src="images/register.gif">
-          </a>
-          <a id="login" href="#">
-            <img alt="register" src="images/login.gif">
-          </a>
-          <a id="search" href="#">
-            <img alt="search" src="images/search.gif">
-          </a>
-        </nav>
-        <div>
-          <a href="#">
-            <img class="music-button" alt="sounds" src="images/pixel-speaker2.gif" style="width: 100px; height: 100px;">
-            <audio class="sound-effect" src="sound/ragnarokbg.mp3" preload="auto"></audio>
-          </a>
-        </div>
-        <% } %>
-      </header>
-
-    <main>
-        <div class="logo-container">
-            <div class="ragnarok-logo-frame">
-                <a href="/">
-                    <img alt="dark-lord" src="images/dark-lord.gif">
-                    <h1 id="logo">NexusHub</h1>
-                    <img alt="kades" src="images/kades.gif" style="height: 180px; width: 160px;">
-                </a>
-            </div>
-        </div>
-
-        <div class="content-container dashed-black-container container-margin">
-            <div class="title-header post-container-template">
-                <div class="post-title topic-header">
-                    <%= post.title %>
-                </div>
-                <p>
-                    <br>Started by <a href="/user/id=<%= post.poster.id %>"><%= post.poster.username %></a>, <%= post.date %>
-                </p>
-            </div>
-            <div class="post-section-top">
-                <div class="left-side-buttons">
-                    <a href="#bot" id="top">Go Down</a>
-                    <button class="prev-button">Previous</button>
-                    <button class="next-button">Next</button>
-                </div>
-                <div class="right-side-buttons">
-                    <a href="#bot" class="reply-button" style="text-decoration: none;">Reply</a>
-                </div>
-            </div>
-            <div class="post-section post-container-template">
-                <div class="poster-info">
-                    <div class="poster-name">
-                        <strong><a href="/user/id=<%= post.poster.id %>"><%= post.poster.username %></a></strong>
-                    </div>
-                    <div class="poster-role <%= post.poster.role.toLowerCase().replace(" ", "-") %>">
-                        <%= post.poster.role %>
-                    </div>
-                    <div class="poster-icon">
-                        <img src="images/jejeling.gif" alt="jejeling">
-                    </div>
-                    <div class="poster-join-date">
-                        Join Date: <%= post.poster.joinDate.replace(/\d{2}, /, '') %>
-                    </div>
-                    <div class="poster-posts">
-                        Posts: <%= post.poster.posts %>
-                    </div>
-                </div>
-                <div class="post-area">
-                    <div class="post-info">
-                        <div class="post-name">
-                            <a href="/post/<%= post.title.toLowerCase() %>"><strong><%= post.title %></strong></a>
-                        </div>
-                        <div class="post-date">
-                            <%= post.date %>
-                        </div>
-                    </div>
-                    <p class="post-content" script="">
-                        <%- post.content %>
-                    </p>
-                </div>
-            </div>
-
-            <% for(const reply of post.replies) { %>
-                <div class="reply-section post-section post-container-template">
-                    <div class="poster-info">
-                        <div class="poster-name">
-                            <strong><a href="/user/id=<%= reply.poster.id %>"><%= reply.poster.username %></a></strong>
-                        </div>
-                        <div class="poster-role <%= reply.poster.role.toLowerCase().replace(" ", "-") %>">
-                            <%= reply.poster.role %>
-                        </div>
-                        <div class="poster-icon">
-                            <img src="images/jejeling.gif" alt="jejeling">
-                        </div>
-                        <div class="poster-join-date">
-                            Join Date: <%= reply.poster.joinDate.replace(/\d{2}, /, '') %>
-                        </div>
-                        <div class="poster-posts">
-                            Posts: <%= reply.poster.posts%>
-                        </div>
-                    </div>
-                    <div class="post-area">
-                        <div class="post-info">
-                            <div class="post-name">
-                                <a href="/post/<%= post.title.toLowerCase() %>"><strong><%= reply.title %></strong></a>
-                            </div>
-                            <div class="post-date">
-                                <%= reply.date %>
-                            </div>
-                        </div>
-                        <p class="post-content" script="">
-                            <%- reply.reply %>
-                        </p>
-                    </div>
-                </div>
-            <% } %>
-
-            <div class="reply-section-top">
-                <div class="left-side-buttons">
-                    <a href="#top" id="bot">Go Up</a>
-                    <button class="prev-button">Previous</button>
-                    <button class="next-button">Next</button>
-                </div>
-            </div>
-            <div class="reply-section post-container-template">
-                <div class="reply-header topic-header">
-                    Reply
-                </div>
-                <form id="replyForm">
-                    <input type="hidden" name="postId" value="<%= post.id %>">
-                    <div class="reply-area">
-                        <div>
-                            <label for="reply"></label>
-                            <textarea id="reply-box" name="reply" dir="ltr"></textarea>
-                        </div>
-                        <button type="submit" class="post-button">Post</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </main>
-
-    <footer class="dashed-black-container">
-        <span>NexusHub &copy; 2024</span>
-        <a href="terms-and-conditions.html">Terms and Conditions</a>
-        <a href="/post/forum rules">Forum Rules</a>
-    </footer>
-
-    <div class="bottom-footer">
-        <a href="#">
-            <img alt="ragnarok logo" src="images/ragnaroklogo.png" style="scale: 0.6;">
+<div class="logo-container">
+    <div class="ragnarok-logo-frame">
+        <a href="/">
+            <img alt="dark-lord" src="images/dark-lord.gif">
+            <h1 id="logo">NexusHub</h1>
+            <img alt="kades" src="images/kades.gif" style="height: 180px; width: 160px;">
         </a>
     </div>
+</div>
 
-    <% if (!loggedIn) { %>
-        <div class="modal">
-          <div class="modal-container">
-            <div class="modal-header">
-              <h2>Login</h2>
-              <span><button class="close-btn">&times;</button></span>
-            </div>
-            <div class="modal-content">
-              <form>
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required><br>
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" style="margin-left: 3px;" required><br>
-                <button type="submit">Step into the Realm</button>
-              </form>
-              <br style="padding-top: 100px;">
-              <span>Don't have an account?<br><br>
-                <a href="#">Sign up</a>
-              </span>
-            </div>
-          </div>
+<div class="content-container dashed-black-container container-margin">
+    <div class="title-header post-container-template">
+        <div class="post-title topic-header">
+            <%= post.title %>
         </div>
-        <% } %>
-
-    <div class="modal2">
-        <div class="agreement-frame">
-            <div id="registration-agreement">
-                Registration Agreement
+        <p>
+            <br>Started by <a href="/user/id=<%= post.poster.id %>"><%= post.poster.username %></a>, <%= post.date %>
+        </p>
+    </div>
+    <div class="post-section-top">
+        <div class="left-side-buttons">
+            <a href="#bot" id="top">Go Down</a>
+            <button class="prev-button">Previous</button>
+            <button class="next-button">Next</button>
+        </div>
+        <div class="right-side-buttons">
+            <a href="#bot" class="reply-button" style="text-decoration: none;">Reply</a>
+        </div>
+    </div>
+    <div class="post-section post-container-template">
+        <div class="poster-info">
+            <div class="poster-name">
+                <strong><a href="/user/id=<%= post.poster.id %>"><%= post.poster.username %></a></strong>
             </div>
-            <div>
-                <p>
-                    By using NexusHub, you agree not to post any content that is false, defamatory, inaccurate,
-                    abusive, vulgar, hateful, harassing, obscene, profane, sexually oriented, threatening, invasive of a
-                    person's privacy, or adult material. You also agree not to post any copyrighted material unless
-                    you own the copyright or have written consent from the owner. Spam, flooding, advertisements,
-                    chain letters, pyramid schemes, and solicitations are strictly forbidden on NexusHub. The staff
-                    and owners of NexusHub cannot confirm the validity of all posts. While we do not actively monitor
-                    every message, we reserve the right to remove any content that violates these guidelines within a
-                    reasonable time frame. The views expressed in posted messages are those of the author and not
-                    necessarily of NexusHub, its staff, subsidiaries, or owner. If you find a post objectionable, please
-                    notify an administrator or moderator immediately. The staff and owner reserve the right to remove
-                    objectionable content as needed. Users are solely responsible for the content of their posts. You
-                    agree to indemnify and hold harmless the owners of NexusHub, related websites, staff, and
-                    subsidiaries. The owners may reveal your identity in the event of a formal complaint or legal action.
-                    As a registered user, choose an appropriate username and never share your password except with an
-                    administrator. Do not use another person's account for any reason. Use a strong, unique password
-                    to protect your account. Your IP address is recorded with each post for security purposes. Your
-                    profile information must be clean and accurate. Inaccurate or vulgar information may be removed,
-                    and appropriate sanctions may be applied. By registering, you agree to follow additional global
-                    and sectional rules and guidelines governing NexusHub.
-                    <br>
-                    <br>
-                </p>
-                <button class="agree-button">I ACCEPT THE TERMS OF THE AGREEMENT.</button>
+            <div class="poster-role <%= post.poster.role.toLowerCase().replace(" ", "-") %>">
+                <%= post.poster.role %>
             </div>
+            <div class="poster-icon">
+                <img src="images/jejeling.gif" alt="jejeling">
+            </div>
+            <div class="poster-join-date">
+                Join Date: <%= post.poster.joinDate.replace(/\d{2}, /, '') %>
+            </div>
+            <div class="poster-posts">
+                Posts: <%= post.poster.posts %>
+            </div>
+        </div>
+        <div class="post-area">
+            <div class="post-info">
+                <div class="post-name">
+                    <a href="/post/<%= post.title.toLowerCase() %>"><strong><%= post.title %></strong></a>
+                </div>
+                <div class="post-date">
+                    <%= post.date %>
+                </div>
+            </div>
+            <p class="post-content" script="">
+                <%- post.content %>
+            </p>
         </div>
     </div>
 
-    <div class="modal3">
-        <div class="registration-form-frame">
-            <form class="registration-form">
-                <header>Registration Form</header>
-                <fieldset>
-                    <dl class="register_form">
-                        <dt>
-                            <strong><label for="register-username">Username:</label></strong>
-                        </dt>
-                        <dt>
-                            <input type="text" id="register-username" name="register-username" placeholder="Your username..." required>
-                        </dt>
-                    </dl>
-
-                    <dl class="register_form">
-                        <dt>
-                            <strong><label for="register-password">Password:</label></strong>
-                        </dt>
-                        <dt>
-                            <input type="password" id="register-password" name="register-password" placeholder="Your password..." required>
-                        </dt>
-                    </dl>
-                    <div class="button-area">
-                        <button id="register-button" type="submit">Register</button>
+    <% for(const reply of post.replies) { %>
+        <div class="reply-section post-section post-container-template">
+            <div class="poster-info">
+                <div class="poster-name">
+                    <strong><a href="/user/id=<%= reply.poster.id %>"><%= reply.poster.username %></a></strong>
+                </div>
+                <div class="poster-role <%= reply.poster.role.toLowerCase().replace(" ", "-") %>">
+                    <%= reply.poster.role %>
+                </div>
+                <div class="poster-icon">
+                    <img src="images/jejeling.gif" alt="jejeling">
+                </div>
+                <div class="poster-join-date">
+                    Join Date: <%= reply.poster.joinDate.replace(/\d{2}, /, '') %>
+                </div>
+                <div class="poster-posts">
+                    Posts: <%= reply.poster.posts%>
+                </div>
+            </div>
+            <div class="post-area">
+                <div class="post-info">
+                    <div class="post-name">
+                        <a href="/post/<%= post.title.toLowerCase() %>"><strong><%= reply.title %></strong></a>
                     </div>
+                    <div class="post-date">
+                        <%= reply.date %>
+                    </div>
+                </div>
+                <p class="post-content" script="">
+                    <%- reply.reply %>
+                </p>
+            </div>
+        </div>
+    <% } %>
 
-                </fieldset>
-            </form>
+    <div class="reply-section-top">
+        <div class="left-side-buttons">
+            <a href="#top" id="bot">Go Up</a>
+            <button class="prev-button">Previous</button>
+            <button class="next-button">Next</button>
         </div>
     </div>
-
-    <div class="modal4">
-        <div class="search-container">
-            <div class="search-header">
-                Search for Posts
-            </div>
-            <div class="search-box">
-                <form action ="/search">
-                    <input type="text" name="query" class="search-input" placeholder="Search...">
-                    <button class="search-button" type="submit">Search</button>
-                </form>
-            </div>
-            <p>e.g. Orwell "Animal Farm" -movie</p>
+    <div class="reply-section post-container-template">
+        <div class="reply-header topic-header">
+            Reply
         </div>
+        <form id="replyForm">
+            <input type="hidden" name="postId" value="<%= post.id %>">
+            <div class="reply-area">
+                <div>
+                    <label for="reply"></label>
+                    <textarea id="reply-box" name="reply" dir="ltr"></textarea>
+                </div>
+                <button type="submit" class="post-button">Post</button>
+            </div>
+        </form>
     </div>
+</div>
 
-    <script src="js/main.js"></script>
-    <script src="js/reply.js"></script>
-</body>
-
-</html>
+<script src="js/reply.js"></script>

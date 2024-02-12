@@ -1,0 +1,64 @@
+<header>
+  <% if (loggedIn) { %>
+  <nav class="cyberpunk-nav">
+    <ul class="nav-list">
+      <li class="nav-item dropdown">
+        <a href="#" class="nav-link dropbtn">Menu ▼</a>
+        <div class="dropdown-content">
+          <a href="#">Profile</a>
+          <a href="#">Account Settings</a>
+          <a href="#">My Posts</a>
+          <a href="#">Notifications</a>
+          <a href="#">Log out</a>
+        </div>
+      </li>
+    </ul>
+  </nav>
+  <nav class="navbar-logged-in">
+    <a href="/">
+      <img alt="home" src="images/home.gif">
+    </a>
+    <a id="register" href="#">
+      <img alt="register" src="images/register.gif">
+    </a>
+    <a id="search" href="#">
+      <img alt="search" src="images/search.gif">
+    </a>
+  </nav>
+  <div>
+    <a href="https://www.youtube.com/watch?v=BqijsweJzFQ&ab_channel=ScarliUwU" target="_blank">
+      <img class="spin-img" alt="spinning-disk" src="images/pixel-disk.png" style="width: 100px; height: 100px;">
+    </a>
+    <a href="#">
+      <img class="music-button" alt="sounds" src="images/pixel-speaker2.gif" style="width: 100px; height: 100px;">
+      <audio class="sound-effect" src="sound/ragnarokbg.mp3" preload="auto"></audio>
+    </a>
+  </div>
+  <% } else { %>
+  <div>
+    <a href="https://www.youtube.com/watch?v=BqijsweJzFQ&ab_channel=ScarliUwU" target="_blank">
+      <img class="spin-img" alt="spinning-disk" src="images/pixel-disk.png" style="width: 100px; height: 100px;">
+    </a>
+  </div>
+  <nav>
+    <a href="/">
+      <img alt="home" src="images/home.gif">
+    </a>
+    <a id="register" href="#">
+      <img alt="register" src="images/register.gif">
+    </a>
+    <a id="login" href="#">
+      <img alt="register" src="images/login.gif">
+    </a>
+    <a id="search" href="#">
+      <img alt="search" src="images/search.gif">
+    </a>
+  </nav>
+  <div>
+    <a href="#">
+      <img class="music-button" alt="sounds" src="images/pixel-speaker2.gif" style="width: 100px; height: 100px;">
+      <audio class="sound-effect" src="sound/ragnarokbg.mp3" preload="auto"></audio>
+    </a>
+  </div>
+  <% } %>
+</header>

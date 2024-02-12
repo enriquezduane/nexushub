@@ -2,6 +2,7 @@
 const express = require('express');
 const dotenv = require('dotenv').config();
 const database = require('./database/database');
+const expressLayouts = require('express-ejs-layouts');
 
 // config 
 const app = express();
@@ -11,7 +12,11 @@ const port = process.env.PORT;
 app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// templating engine
 app.set('view engine', 'ejs');
+app.use(expressLayouts);
+app.set('layout', './layouts/default')
 
 // connect to database
 database();
@@ -29,7 +34,7 @@ const populate = require('./database/initdb');
 app.get('/', populate, (req, res) => {
       try {
             // Render the homepage with the fetched data
-            res.render('index', { loggedIn: false, categories: res.categories, 
+            res.render('index', { loggedIn: true, categories: res.categories, 
                   boards: res.boards, posts: res.posts, users: res.users });
       } catch (error) {
             console.error('Error fetching data:', error);
