@@ -38,6 +38,34 @@ replySchema.virtual('createdAtSGT').get(function() {
   return moment(this.createdAt).tz('Asia/Singapore').format('MMM DD, YYYY hh:mm A'); // Format SGT createdAt
 });
 
+replySchema.pre('save', async function(next) {
+  try {
+    // Check if the document is new (i.e., being created)
+    if (this.isNew) {
+      // Add the new reply object id to the post's replies array
+      const post = await mongoose.model('Post').findById(this.refPost);
+
+      if (post) {
+        post.replies.push(this._id);
+        await post.save();
+      }
+
+      // Add the new reply object id to the poster's replies array
+      const poster = await mongoose.model('User').findById(this.poster);
+
+      if (poster) {
+        poster.replies.push(this._id);
+        await poster.save();
+      }
+    }
+
+    console.log('Reply pre-save middleware executed');
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
+
 replySchema.pre('deleteOne', async function(next) {
   try {
     const reply = await mongoose.model('Reply').findOne(this.getQuery()).populate('refPost').populate('poster');

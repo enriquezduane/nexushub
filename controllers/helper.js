@@ -257,7 +257,7 @@ const populateCategories = async (categories) => {
 }
 
 const populateCategory = async (category) => {
-    post = await Category.findOne( { id: category.id } ).populate(
+    post = await Category.findById(category.id).populate(
         {
             path: 'boards',
             populate: [
@@ -319,7 +319,7 @@ const populateBoards = async (boards) => {
 }
 
 const populateBoard = async (board) => {
-    board = await Board.findOne( { id: board.id } ).populate(
+    board = await Board.findById(board.id).populate(
     { 
         path: 'posts', 
         model: 'Post', 
@@ -371,7 +371,7 @@ const populatePosts = async (posts) => {
 }
 
 const populatePost = async (post) => {
-    post = await Post.findOne( { id: post.id } ).populate(
+    post = await Post.findById(post.id).populate(
         { 
             path: 'poster', 
             model: 'User', 
@@ -444,7 +444,7 @@ const populatePost = async (post) => {
 }
 
 const populateReplies = async (replies) => {
-    replies = await Reply.findById(reply._id).populate({
+    replies = await Reply.findById(replies.id).populate({
         path: 'refPost',
         model: 'Post',
         populate: [
@@ -495,7 +495,7 @@ const populateReplies = async (replies) => {
 }
 
 const populateReply = async (reply) => {
-    reply = await Reply.findById(reply._id).populate({
+    reply = await Reply.findById(reply.id).populate({
         path: 'refPost',
         model: 'Post',
         populate: [

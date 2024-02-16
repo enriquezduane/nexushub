@@ -64,8 +64,16 @@ userSchema.virtual('replyCount').get(function() {
   return this.replies.length;
 });
 
+userSchema.virtual('roleClass').get(function() {
+  return this.role.toLowerCase().replace(" ", "-");
+});
+
 userSchema.virtual('createdAtSGT').get(function() {
-  return moment(this.createdAt).tz('Asia/Singapore').format('MMM DD, YYYY hh:mm A'); // Format SGT createdAt
+  return moment(this.createdAt).tz('Asia/Singapore').format('MMM YYYY hh:mm A'); // Format SGT createdAt
+});
+
+userSchema.virtual('joinDateMonth').get(function() {
+  return moment(this.createdAt).tz('Asia/Singapore').format('MMM YYYY'); // Format SGT createdAt
 });
 
 userSchema.pre('deleteOne', async function(next) {

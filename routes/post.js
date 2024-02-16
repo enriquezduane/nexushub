@@ -27,7 +27,18 @@ router.get('/:title', populateAll, getPostByUrl, (req, res) => {
 router.post('/newReply', createReply, (req, res) => {
     try {
         // Send the new reply data
-        res.json(res.reply);
+        const reply = {
+            id: res.reply._id,
+            title: res.reply.title,
+            reply: res.reply.reply,
+            date: res.reply.createdAtSGT,
+            username: res.reply.poster.username,
+            joinDate: res.reply.poster.joinDateMonth,
+            role: res.reply.poster.role,
+            roleClass: res.reply.poster.roleClass,
+            postCount: res.reply.poster.postCount,
+        }
+        res.json(reply);
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ message: error.message });

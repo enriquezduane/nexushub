@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: JSON.stringify({ content: content, postId: postId })
             })
             .then(response => response.json())
-            .then(newReplyData => {
+            .then( reply => {
                 // On successful response, update the page with the new reply
                 const replyContainer = document.querySelector('.content-container');
                 const newReplySection = document.createElement('div');
@@ -29,26 +29,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 newReplySection.innerHTML = `
                         <div class="poster-info">
                             <div class="poster-name">
-                                <strong><a href="/user/id=${newReplyData.poster.id}">${newReplyData.poster.username}</a></strong>
+                                <strong><a href="/user/${reply.id}">${reply.username}</a></strong>
                             </div>
-                            <div class="poster-role ${newReplyData.poster.role.toLowerCase().replace(" ", "-")}">
-                                ${newReplyData.poster.role}
+                            <div class="poster-role ${reply.roleClass}">
+                                ${reply.role}
                             </div>
                             <div class="poster-icon">
                                 <img src="images/jejeling.gif" alt="jejeling">
                             </div>
                             <div class="poster-join-date">
-                                Join Date: ${newReplyData.poster.joinDate.replace(/\d{2}, /, '')}
+                                Join Date: ${reply.joinDate}
                             </div>
                             <div class="poster-posts">
-                                Posts: ${newReplyData.poster.posts}
+                                Posts: ${reply.postCount}
                             </div>
                         </div>
                         <div class="post-area">
                             <div class="post-info">
                                 <div class="post-info-top">
                                     <div class="post-name">
-                                    <a href="/post/${newReplyData.title.toLowerCase()}"><strong>${newReplyData.title}</strong></a>
+                                    <a href="/post/${reply.title.toLowerCase()}"><strong>${reply.title}</strong></a>
                                     </div>
                                     <div class="vote-container">
                                         <button class="upvote-btn">Upvote</button>
@@ -57,11 +57,11 @@ document.addEventListener('DOMContentLoaded', function() {
                                     </div>
                                 </div>
                                 <div class="post-date">
-                                    ${newReplyData.date}
+                                    ${reply.date}
                                 </div>
                             </div>
                             <p class="post-content">
-                                ${newReplyData.reply}
+                                ${reply.reply}
                             </p>
                             <div class="post-content-footer">
                                 <button class="edit-button">Edit</button>

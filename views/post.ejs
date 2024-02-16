@@ -6,7 +6,7 @@
             <%= post.title %>
         </div>
         <p>
-            <br>Started by <a href="/user/id=<%= post.poster.id %>"><%= post.poster.username %></a>, <%= post.date %>
+            <br>Started by <a href="/user/<%= post.poster.id %>"><%= post.poster.username %></a>, <%= post.date %>
         </p>
     </div>
     <div class="post-section-top">
@@ -22,19 +22,19 @@
     <div class="post-section post-container-template">
         <div class="poster-info">
             <div class="poster-name">
-                <strong><a href="/user/id=<%= post.poster.id %>"><%= post.poster.username %></a></strong>
+                <strong><a href="/user/<%= post.poster.id %>"><%= post.poster.username %></a></strong>
             </div>
-            <div class="poster-role <%= post.poster.role.toLowerCase().replace(" ", "-") %>">
+            <div class="poster-role <%= post.poster.roleClass %>">
                 <%= post.poster.role %>
             </div>
             <div class="poster-icon">
                 <img src="images/jejeling.gif" alt="jejeling">
             </div>
             <div class="poster-join-date">
-                Join Date: <%= post.poster.joinDate.replace(/\d{2}, /, '') %>
+                Join Date: <%= post.poster.joinDateMonth %>
             </div>
             <div class="poster-posts">
-                Posts: <%= post.poster.posts %>
+                Posts: <%= post.poster.postCount %>
             </div>
         </div>
         <div class="post-area">
@@ -69,17 +69,17 @@
                 <div class="poster-name">
                     <strong><a href="/user/id=<%= reply.poster.id %>"><%= reply.poster.username %></a></strong>
                 </div>
-                <div class="poster-role <%= reply.poster.role.toLowerCase().replace(" ", "-") %>">
+                <div class="poster-role <%= reply.poster.roleClass %>">
                     <%= reply.poster.role %>
                 </div>
                 <div class="poster-icon">
                     <img src="images/jejeling.gif" alt="jejeling">
                 </div>
                 <div class="poster-join-date">
-                    Join Date: <%= reply.poster.joinDate.replace(/\d{2}, /, '') %>
+                    Join Date: <%= reply.poster.joinDateMonth %>
                 </div>
                 <div class="poster-posts">
-                    Posts: <%= reply.poster.posts%>
+                    Posts: <%= reply.poster.postCount %>
                 </div>
             </div>
             <div class="post-area">

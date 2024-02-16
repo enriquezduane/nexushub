@@ -36,35 +36,31 @@ const createReply = async (req, res, next) => {
         const { content, postId } = req.body;
         
         // Find the post and user by its ID
-        const initialPost = await Post.findOne({ id: postId });
-        const user = await User.findOne({ id: 1});
+        const initialPost = await Post.findById(postId);
+        const user = await User.findOne({username: "lokitrickster"}); // No session management yet, placeholder username
 
+        // Populate the post object
         const post = await populatePost(initialPost);
 
         // Create a new reply
         const initialReply = new Reply({
             _id: new mongoose.Types.ObjectId(),
-            id: post.replies.length + 1,
             title: 'Re: ' + post.title,
-            refPost: post._id,
-            poster: user._id,
-            date: getCurrentDate(),
-            reply: content
+            refPost: post.id,
+            poster: user.id,
+            reply: content,
+            createdAt: Date.now(),
+            updatedAt: Date.now() 
         });
 
-        // populate the reply object
-        let reply = await initialReply.save();
-        reply = await populateReply(reply);
+        // save the new reply
+        const reply = await initialReply.save();
 
-        // Add the new reply object id to the post's replies array
-        post.replies.push(initialReply._id);
-        post.replyCount += 1;
-        
-        // Save the updated post and reply to the database
-        await post.save();
+        // populate the new reply object
+        populatedReply = await populateReply(reply);
 
         // Send the new reply object to the client
-        res.reply = reply;
+        res.reply = populatedReply;
     } catch (err) {
         res.status(400).json({ message: err.message, request: req.body });
     }

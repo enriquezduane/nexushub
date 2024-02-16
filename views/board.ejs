@@ -18,18 +18,18 @@
         </tr>
       </thead>
       <tbody>
-        <% for (let i = board.posts.length-1; i >= 0; i-- ) { %>
+        <% for (let i = board.postCount-1; i >= 0; i-- ) { %>
           <tr>
             <td class="post-logo">
               <img src="images/book.gif" alt="icon">
             </td>
             <td>
               <a href="/post/<%= board.posts[i].title.toLowerCase() %>"><strong><%= board.posts[i].title %></strong></a>
-              <p><%= board.posts[i].date %></p>
+              <p><%= board.posts[i].createdAtSGT %></p>
             </td>
             <td class="center-table-data">
               <div class="username"><a href="/user/id=<%= board.posts[i].poster.id %>"><%= board.posts[i].poster.username %></a></div>
-              <div class="role <%= board.posts[i].poster.role.toLowerCase().replace(" ", "-") %>"><%= board.posts[i].poster.role %></div>
+              <div class="role <%= board.posts[i].poster.roleClass %>"><%= board.posts[i].poster.role %></div>
             </td>
             <td class="center-table-data"><%= board.posts[i].replyCount %></td>
             <td class="center-table-data"><%= board.posts[i].views %></td>
