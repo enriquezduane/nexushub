@@ -75,17 +75,24 @@ const createReply = async (req, res, next) => {
 const deleteReply = async (req, res, next) => {
     try {
         if (req.body.type === 'post') {
-            // Delete the post and its replies
             console.log('Deleting post:', req.body);
-            refPost = await Post.findOneAndDelete({ title: req.body.title });
-            await Reply.deleteMany({ refPost: refPost._id });
 
-            // Redirect to the homepage
+            // Find the post
+            const post = await Post.findOne({ title: req.body.title });
+
+            // Delete the post
+            await post.deleteOne();
+
             res.message = { message: 'Post deleted successfully' };
         } else {
-            // Delete the reply
             console.log('Deleting reply:', req.body);
-            await Reply.findOneAndDelete({ title: req.body.title });
+
+            // Find the reply
+            const reply = await Reply.findOne({ title: req.body.title });
+
+            // Delete the reply
+            await reply.deleteOne();
+            
             res.message = { message: 'Reply deleted successfully' };
         }
         

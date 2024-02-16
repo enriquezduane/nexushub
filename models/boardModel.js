@@ -39,8 +39,78 @@ const boardSchema = new mongoose.Schema({
   },
 });
 
+boardSchema.virtual('totalReplyCount').get(function() {
+  let totalReplies = 0;
+
+  for (const post of this.posts) {
+    totalReplies += post.replies.length;
+  }
+
+  return totalReplies;
+});
+
+boardSchema.virtual('postCount').get(function() {
+  return this.posts.length;
+});
+
+boardSchema.virtual('lastPost').get(function() { 
+  return this.posts[this.posts.length - 1];
+});
+
 boardSchema.virtual('createdAtSGT').get(function() {
   return moment(this.createdAt).tz('Asia/Singapore').format('MMM DD, YYYY hh:mm A'); // Format SGT createdAt
+});
+
+boardSchema.pre('deleteOne', async function(next) {
+  try {
+    const board = await mongoose.model('Board').findOne(this.getQuery()).populate('category').populate('posts');
+
+    // Remove the deleted board from the associated category's boards array
+    const category = await mongoose.model('Category').findById(board.category);
+
+    if (category) {
+      category.boards.pull(board._id);
+      await category.save();
+    }
+
+    // Remove the board's posts
+    if (board.posts && board.posts.length > 0) {
+      const postDeletionResult = await mongoose.model('Post').deleteMany({ _id: { $in: board.posts } });
+      console.log('Board Model Post deletion result:', postDeletionResult);
+    }
+
+    console.log('Board pre deleteOne middleware executed');
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
+
+boardSchema.pre('deleteMany', async function(next) {
+  try {
+    const boards = await mongoose.model('Board').find(this.getQuery()).populate('category').populate('posts');
+
+    for (const board of boards) {
+      // Remove the deleted board from the associated category's boards array
+      const category = await mongoose.model('Category').findById(board.category);
+
+      if (category) {
+        category.boards.pull(board._id);
+        await category.save();
+      }
+
+      // Remove the boards' posts
+      if (board.posts && board.posts.length > 0) {
+        const postDeletionResult = await mongoose.model('Post').deleteMany({ _id: { $in: board.posts } });
+        console.log('Board Model Post deletion result:', postDeletionResult);
+      }
+    }
+
+    console.log('Board pre deleteMany middleware executed');
+    next();
+  } catch (error) {
+    next(error);
+  }
 });
 
 const Board = mongoose.model('Board', boardSchema);

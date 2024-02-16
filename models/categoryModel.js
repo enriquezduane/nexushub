@@ -30,6 +30,43 @@ categorySchema.virtual('createdAtSGT').get(function() {
   return moment(this.createdAt).tz('Asia/Singapore').format('MMM DD, YYYY hh:mm A'); // Format SGT createdAt
 });
 
+categorySchema.pre('deleteOne', async function(next) {
+  try {
+    const category = await mongoose.model('Category').findOne(this.getQuery()).populate('boards');
+
+    // Remove the category's boards
+    if (category.boards && category.boards.length > 0) {
+      const boardDeletionResult = await mongoose.model('Board').deleteMany({ _id: { $in: category.boards } });
+      console.log('Category Model Board deletion result:', boardDeletionResult);
+    }
+
+    console.log('Category pre deleteOne middleware executed');
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
+
+categorySchema.pre('deleteMany', async function(next) {
+  try {
+    const categories = await mongoose.model('Category').find(this.getQuery()).populate('boards');
+
+    for (const category of categories) {
+      // Remove the category's boards
+      if (category.boards && category.boards.length > 0) {
+        const boardDeletionResult = await mongoose.model('Board').deleteMany({ _id: { $in: category.boards } });
+        console.log('Category Model Board deletion result:', boardDeletionResult);
+      }
+    }
+
+    console.log('Category pre deleteMany middleware executed');
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
+
+
 const Category = mongoose.model('Category', categorySchema);
 
 module.exports = Category;

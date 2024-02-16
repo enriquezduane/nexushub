@@ -995,7 +995,7 @@ posts = [
     },
 ]
 
-users[0].posts = [posts[1]._id, posts[6]._id, posts[7]._id];
+users[0].posts = [posts[1]._id, posts[5]._id, posts[6]._id];
 users[1].posts = [posts[2]._id];
 users[2].posts = [posts[0]._id];
 users[3].posts = [posts[3]._id];
@@ -1007,17 +1007,17 @@ users[8].posts = [posts[10]._id];
 users[9].posts = [posts[8]._id];
 users[10].posts = [posts[11]._id];
 
-users[0].replies = [replies[0]._id];
-users[1].replies = [replies[0]._id];
-users[2].replies = [replies[0]._id];
-users[3].replies = [replies[0]._id];
+users[0].replies = [];
+users[1].replies = [];
+users[2].replies = [];
+users[3].replies = [];
 users[4].replies = [replies[0]._id, replies[2]._id, replies[5]._id, replies[6]._id, replies[8]._id, replies[10]._id];
 users[5].replies = [replies[1]._id, replies[3]._id, replies[7]._id, replies[9]._id];
 users[6].replies = [replies[4]._id, replies[11]._id];
 users[7].replies = [replies[0]._id, replies[12]._id], replies[13]._id;
-users[8].replies = [replies[0]._id];
-users[9].replies = [replies[0]._id];
-users[10].replies = [replies[0]._id];
+users[8].replies = [];
+users[9].replies = [];
+users[10].replies = [];
 
 replies[0].refPost = posts[3]._id;
 replies[1].refPost = posts[3]._id;

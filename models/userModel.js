@@ -56,19 +56,57 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+userSchema.virtual('postCount').get(function() {
+  return this.posts.length;
+});
+
+userSchema.virtual('replyCount').get(function() {
+  return this.replies.length;
+});
+
 userSchema.virtual('createdAtSGT').get(function() {
   return moment(this.createdAt).tz('Asia/Singapore').format('MMM DD, YYYY hh:mm A'); // Format SGT createdAt
 });
 
-userSchema.pre('findOneAndDelete', async function(next) {
+userSchema.pre('deleteOne', async function(next) {
   try {
-      // Remove all posts created by the user
-      await this.model('Post').deleteMany({ _id: { $in: this.posts } });
-      await this.model('Reply').deleteMany({ _id: { $in: this.replies } });
-      console.log("Deleted all posts and replies by user");
-      next();
+    const user = await mongoose.model('User').findOne(this.getQuery()).populate('posts').populate('replies');
+
+    if (user.posts && user.posts.length > 0) {
+      const postDeletionResult = await mongoose.model('Post').deleteMany({ _id: { $in: user.posts } });
+      console.log('User Model Post deletion result:', postDeletionResult);
+    }
+
+    if (user.replies && user.replies.length > 0) {
+      const replyDeletionResult = await mongoose.model('Reply').deleteMany({ _id: { $in: user.replies } });
+      console.log('User Model Reply deletion result:', replyDeletionResult);
+    }
+
+    next();
   } catch (error) {
-      next(error);
+    next(error);
+  }
+});
+
+userSchema.pre('deleteMany', async function(next) {
+  try {
+    const users = await mongoose.model('User').find(this.getQuery()).populate('posts').populate('replies');
+
+    for (const user of users) {
+      if (user.posts && user.posts.length > 0) {
+        const postDeletionResult = await mongoose.model('Post').deleteMany({ _id: { $in: user.posts } });
+        console.log('User Model Post deletion result:', postDeletionResult);
+      }
+
+      if (user.replies && user.replies.length > 0) {
+        const replyDeletionResult = await mongoose.model('Reply').deleteMany({ _id: { $in: user.replies } });
+        console.log('User Model Reply deletion result:', replyDeletionResult);
+      }
+    }
+
+    next();
+  } catch (error) {
+    next(error);
   }
 });
 

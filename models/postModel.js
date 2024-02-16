@@ -44,8 +44,79 @@ const postSchema = new mongoose.Schema({
   },
 });
 
+postSchema.virtual('replyCount').get(function() {
+  return this.replies.length;
+});
+
 postSchema.virtual('createdAtSGT').get(function() {
   return moment(this.createdAt).tz('Asia/Singapore').format('MMM DD, YYYY hh:mm A'); // Format SGT createdAt
+});
+
+postSchema.pre('deleteOne', async function (next) {
+  try {
+    const post = await mongoose.model('Post').findOne(this.getQuery()).populate('refBoard').populate('poster');
+
+    // Remove the deleted post from the associated board's posts array
+    const board = await mongoose.model('Board').findById(post.refBoard);
+    if (board) {
+      board.posts.pull(post._id);
+      await board.save();
+    }
+
+    // Remove the deleted post from the poster's posts array
+    const poster = await mongoose.model('User').findById(post.poster);
+    if (poster) {
+      poster.posts.pull(post._id);
+      await poster.save();
+    }
+
+    // Remove the deleted post's replies
+    if (post.replies && post.replies.length > 0) {
+      const replyDeletionResult = await mongoose.model('Reply').deleteMany({ _id: { $in: post.replies } });
+      console.log('Post Model Reply deletion result:', replyDeletionResult);
+    }
+
+    console.log('Post pre deleteOne middleware executed');
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
+
+postSchema.pre('deleteMany', async function (next) {
+  try {
+    const posts = await mongoose.model('Post').find(this.getQuery()).populate('refBoard').populate('poster');
+
+    for (const post of posts) {
+      // Remove the deleted post from the associated board's posts array
+      const board = await mongoose.model('Board').findById(post.refBoard);
+
+      if (board) {
+        board.posts.pull(post._id);
+        await board.save();
+      }
+
+      // Remove the deleted post from the poster's posts array
+      const poster = await mongoose.model('User').findById(post.poster);
+
+      if (poster) {
+        poster.posts.pull(post._id);
+        await poster.save();
+      }
+      
+      // Remove the deleted post's replies
+      if (post.replies && post.replies.length > 0) {
+        const postDeletionResult = await mongoose.model('Reply').deleteMany({ _id: { $in: post.replies } });
+        console.log('Post Model Reply deletion result:', postDeletionResult);
+      }
+    }
+
+    console.log('Post pre deleteMany middleware executed');
+
+    next();
+  } catch (error) {
+    next(error);
+  }
 });
 
 const Post = mongoose.model('Post', postSchema);

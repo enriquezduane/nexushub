@@ -35,11 +35,11 @@
                 <p><%= board.description %></p>
               </td>
               <td><%= board.postCount %></td>
-              <td><%= board.replies %></td>
+              <td><%= board.totalReplyCount %></td>
               <td>
-                Last post: <%= board.lastPost.date %> 
+                Last post: <%= board.lastPost.createdAtSGT %> 
                 <br>in <a href="/post/<%= board.lastPost.title.toLowerCase() %>"><%= board.lastPost.title %></a>
-                <br>by <a href="/user/id=<%= board.lastPost.poster.id %>">
+                <br>by <a href="/user/<%= board.lastPost.poster.id %>">
                   <%= board.lastPost.poster.username %></a>
               </td>
             </tr>
@@ -59,13 +59,13 @@
     </div>
     <p>
       12 Topics and 14 Replies by 11 Members - Latest Member:
-      <a href="/user/id=<%= users[users.length - 1].id %>">
-        EternalWanderer
+      <a href="/user/<%= users[users.length - 1].id %>">
+        <%= users[users.length - 1].username %>
       </a>
       <br>
       Latest Post:
       <a href="/post/<%= posts[posts.length - 1].title.toLowerCase() %>">
-        "HiraniRO 5x5x5x"
+        "<%= posts[posts.length - 1].title %>"
       </a>
       (<strong>Feb 02</strong> at 07:20 PM)
     </p>
@@ -76,7 +76,7 @@
       <Strong>Online: 10 Guests, 1 User</Strong>
       - Most Online Today: <strong>16</strong> - Most Online Ever: 34 (Feb 01, 2024, 09:23 PM)
       <br>
-      Users active in past 15 minutes: <a href="/user/id=1">lokitrickster</a>
+      Users active in past 15 minutes: <a href="/user/<%= users[0].id %>"><%= users[0].username %></a>
     </p>
   </div>
 </div>
