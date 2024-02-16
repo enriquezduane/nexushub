@@ -1,52 +1,8 @@
+const mongoose = require('mongoose');
 const Post = require('../models/postModel');
-const { populatePost, populatePosts } = require('./helper');
-
-// Create a new post
-const createPost = async (req, res) => {
-    try {
-        const newPost = await Post.create(req.body);
-        res.status(201).json(newPost);
-    } catch (error) {
-        console.error('Error fetching data:', error);
-        res.status(500).json({ message: err.message });
-    }
-};
-
-// Get all posts
-const getAllPosts = async (req, res) => {
-    try {
-        const posts = await Post.find();
-        res.json(posts);
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
-};
-
-// Get post by ID
-const getPostById = async (req, res, next) => {
-    try {
-        const post = await Post.findById(req.params.id);
-        if (!post) {
-            return res.status(404).json({ message: 'Post not found' });
-        }
-        res.json(post);
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
-};
-
-// Update post by ID
-const updatePostById = async (req, res) => {
-    try {
-        const post = await Post.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        if (!post) {
-            return res.status(404).json({ message: 'Post not found' });
-        }
-        res.json(post);
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
-};
+const Reply = require('../models/replyModel');
+const User = require('../models/userModel');
+const { populatePost, populateReply, getCurrentDate } = require('./helper');
 
 // Get post by URL
 const getPostByUrl = async (req, res, next) => {
@@ -74,24 +30,76 @@ const getPostByUrl = async (req, res, next) => {
     next();
 }
 
-// Get post by query and highlight the query in the post title
-const getPostByQuery = async (req, res, next) => {
+// Create a new reply
+const createReply = async (req, res, next) => {
     try {
-        const query = req.query.query;
-        const posts = await Post.find({ title: { $regex: new RegExp(query, 'i') } });
-        res.posts = await populatePosts(posts);
-    }
-    catch (err) {
-        res.status(500).json({ message: err.message });
+        const { content, postId } = req.body;
+        
+        // Find the post and user by its ID
+        const initialPost = await Post.findOne({ id: postId });
+        const user = await User.findOne({ id: 1});
+
+        const post = await populatePost(initialPost);
+
+        // Create a new reply
+        const initialReply = new Reply({
+            _id: new mongoose.Types.ObjectId(),
+            id: post.replies.length + 1,
+            title: 'Re: ' + post.title,
+            refPost: post._id,
+            poster: user._id,
+            date: getCurrentDate(),
+            reply: content
+        });
+
+        // populate the reply object
+        let reply = await initialReply.save();
+        reply = await populateReply(reply);
+
+        // Add the new reply object id to the post's replies array
+        post.replies.push(initialReply._id);
+        post.replyCount += 1;
+        
+        // Save the updated post and reply to the database
+        await post.save();
+
+        // Send the new reply object to the client
+        res.reply = reply;
+    } catch (err) {
+        res.status(400).json({ message: err.message, request: req.body });
     }
     next();
-}
+};
+
+// Delete reply
+const deleteReply = async (req, res, next) => {
+    try {
+        if (req.body.type === 'post') {
+            // Delete the post and its replies
+            console.log('Deleting post:', req.body);
+            refPost = await Post.findOneAndDelete({ title: req.body.title });
+            await Reply.deleteMany({ refPost: refPost._id });
+
+            // Redirect to the homepage
+            res.message = { message: 'Post deleted successfully' };
+        } else {
+            // Delete the reply
+            console.log('Deleting reply:', req.body);
+            await Reply.findOneAndDelete({ title: req.body.title });
+            res.message = { message: 'Reply deleted successfully' };
+        }
+        
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ message: error.message });
+    }
+    next();
+};
+
+
 
 module.exports = { 
-    createPost, 
-    getAllPosts, 
-    getPostById, 
-    updatePostById, 
     getPostByUrl,
-    getPostByQuery,
+    createReply,
+    deleteReply,
 };

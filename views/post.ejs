@@ -1,12 +1,4 @@
-<div class="logo-container">
-    <div class="ragnarok-logo-frame">
-        <a href="/">
-            <img alt="dark-lord" src="images/dark-lord.gif">
-            <h1 id="logo">NexusHub</h1>
-            <img alt="kades" src="images/kades.gif" style="height: 180px; width: 160px;">
-        </a>
-    </div>
-</div>
+<%- include('partials/logo.ejs') %>
 
 <div class="content-container dashed-black-container container-margin">
     <div class="title-header post-container-template">
@@ -47,16 +39,27 @@
         </div>
         <div class="post-area">
             <div class="post-info">
-                <div class="post-name">
+                <div class="post-info-top">
+                    <div class="post-name">
                     <a href="/post/<%= post.title.toLowerCase() %>"><strong><%= post.title %></strong></a>
+                    </div>
+                    <div class="vote-container">
+                        <button class="upvote-btn">Upvote</button>
+                        <p class="vote-count">0</p>
+                        <button class="downvote-btn">Downvote</button>
+                    </div>
                 </div>
                 <div class="post-date">
                     <%= post.date %>
                 </div>
             </div>
-            <p class="post-content" script="">
+            <p class="post-content">
                 <%- post.content %>
             </p>
+            <div class="post-content-footer">
+                <button class="edit-button">Edit</button>
+                <button class="delete-button">Delete</button>
+            </div>
         </div>
     </div>
 
@@ -81,16 +84,27 @@
             </div>
             <div class="post-area">
                 <div class="post-info">
-                    <div class="post-name">
+                    <div class="post-info-top">
+                        <div class="post-name">
                         <a href="/post/<%= post.title.toLowerCase() %>"><strong><%= reply.title %></strong></a>
+                        </div>
+                        <div class="vote-container">
+                            <button class="upvote-btn">Upvote</button>
+                            <p class="vote-count">0</p>
+                            <button class="downvote-btn">Downvote</button>
+                        </div>
                     </div>
                     <div class="post-date">
                         <%= reply.date %>
                     </div>
                 </div>
-                <p class="post-content" script="">
+                <p class="post-content">
                     <%- reply.reply %>
                 </p>
+                <div class="post-content-footer">
+                    <button class="edit-button">Edit</button>
+                    <button class="delete-button">Delete</button>
+                  </div>
             </div>
         </div>
     <% } %>
@@ -110,7 +124,7 @@
             <input type="hidden" name="postId" value="<%= post.id %>">
             <div class="reply-area">
                 <div>
-                    <label for="reply"></label>
+                    <label for="reply-box"></label>
                     <textarea id="reply-box" name="reply" dir="ltr"></textarea>
                 </div>
                 <button type="submit" class="post-button">Post</button>
@@ -120,3 +134,6 @@
 </div>
 
 <script src="js/reply.js"></script>
+<script src="js/voteCount.js"></script>
+<script src="js/edit.js"></script>
+<script src="js/delete.js"></script>

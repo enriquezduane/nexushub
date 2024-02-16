@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Check if reply content is not empty
         if (content) {
             // Send AJAX request to add the reply
-            fetch('/post/', {
+            fetch('/post/newReply', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -46,21 +46,34 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                         <div class="post-area">
                             <div class="post-info">
-                                <div class="post-name">
+                                <div class="post-info-top">
+                                    <div class="post-name">
                                     <a href="/post/${newReplyData.title.toLowerCase()}"><strong>${newReplyData.title}</strong></a>
+                                    </div>
+                                    <div class="vote-container">
+                                        <button class="upvote-btn">Upvote</button>
+                                        <p class="vote-count">0</p>
+                                        <button class="downvote-btn">Downvote</button>
+                                    </div>
                                 </div>
                                 <div class="post-date">
                                     ${newReplyData.date}
                                 </div>
                             </div>
-                            <p class="post-content" script="">
+                            <p class="post-content">
                                 ${newReplyData.reply}
                             </p>
+                            <div class="post-content-footer">
+                                <button class="edit-button">Edit</button>
+                                <button class="delete-button">Delete</button>
+                            </div>
                         </div>
                 `;
 
                 replyBox.value = '';
                 replyContainer.insertBefore(newReplySection, repliesSectionFooter);
+
+                alert('Reply added successfully!');
             })
             .catch(error => {
                 // Handle error

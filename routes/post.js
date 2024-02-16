@@ -1,30 +1,43 @@
 const express = require('express');
 const router = express.Router();
-path = require('path');
 
 // router middlewares
 router.use(express.static('public'));
 
-// initialize database
-const populate = require('../database/initdb');
-// import controller
-const { getPostByUrl } = require('../controllers/postController');
-const { createReply } = require('../controllers/replyController');
+// import models
+const Post = require('../models/postModel');
+const Reply = require('../models/replyModel');
 
-router.get('/:title', populate, getPostByUrl, (req, res) => {
+// initialize database
+const { populateAll } = require('../controllers/helper');
+
+// import controller
+const { getPostByUrl, createReply, deleteReply } = require('../controllers/postController');
+
+router.get('/:title', populateAll, getPostByUrl, (req, res) => {
     try {
         // Render the dynamic boards pages with the fetched data
-        res.render('post', { loggedIn: true, post: res.post, users: res.users });
+        res.render('post', { loggedIn: true, title: res.post.title, post: res.post, users: res.users });
     } catch (error) {
         console.error('Error fetching data:', error);
         res.status(500).json({ message: err.message, post: res.post});
     }
 })
 
-router.post('/', createReply, (req, res) => {
+router.post('/newReply', createReply, (req, res) => {
     try {
         // Send the new reply data
         res.json(res.reply);
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ message: error.message });
+    }
+})
+
+router.delete('/', deleteReply, (req, res) => {
+    try {
+        // Send the new reply data
+        res.json(res.message);
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ message: error.message });

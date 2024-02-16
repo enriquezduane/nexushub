@@ -1,20 +1,19 @@
 const express = require('express');
 const router = express.Router();
-path = require('path');
 
 // router middlewares
 router.use(express.static('public'));
 
 // initialize database
-const populate = require('../database/initdb');
+const { populateAll } = require('../controllers/helper');
 
 // import controller
 const { getUserByUrl } = require('../controllers/userController');
 
-router.get('/:id', populate, getUserByUrl, (req, res) => {
+router.get('/:id', populateAll, getUserByUrl, (req, res) => {
     try {
         // Render the dynamic boards pages with the fetched data
-        res.render('user', { loggedIn: true, user: res.user });
+        res.render('user', { loggedIn: true, title: res.user.username, user: res.user });
     } catch (error) {
         console.error('Error fetching data:', error);
         res.status(500).json({ message: err.message });

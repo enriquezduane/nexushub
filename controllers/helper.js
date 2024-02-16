@@ -6,6 +6,184 @@ const Reply = require('../models/replyModel');
 const Board = require('../models/boardModel');
 const Category = require('../models/categoryModel');
 
+const populateAll = async (req, res, next) => {
+    const categories = await Category.find().populate(
+        {
+            path: 'boards',
+            populate: { 
+                    path: 'posts', 
+                    model: 'Post', 
+                    populate: [
+                        { 
+                            path: 'poster', 
+                            model: 'User', 
+                        },
+                        {
+                            path: 'replies',
+                            model: 'Reply',
+                            populate: [
+                                {
+                                    path: 'refPost',
+                                    model: 'Post'
+                                },
+                                {
+                                    path: 'poster',
+                                    model: 'User'
+                                }
+                            ]
+                        },
+                        {
+                            path: 'refBoard',
+                            model: 'Board',
+                        }
+                    ]
+                },
+        });
+
+    const boards = await Board.find().populate(
+        { 
+            path: 'posts', 
+            model: 'Post', 
+            populate: [
+                { 
+                    path: 'poster', 
+                    model: 'User', 
+                },
+                {
+                    path: 'replies',
+                    model: 'Reply',
+                    populate: [
+                        {
+                            path: 'refPost',
+                            model: 'Post'
+                        },
+                        {
+                            path: 'poster',
+                            model: 'User'
+                        }
+                    ]
+                }
+            ]
+        }).populate('category');
+    const posts = await Post.find().populate(
+    { 
+        path: 'poster', 
+        model: 'User', 
+    }).populate(
+    {
+        path: 'replies',
+        model: 'Reply',
+        populate: [
+            {
+                path: 'refPost',
+                model: 'Post',
+                populate: [
+                    { 
+                        path: 'poster', 
+                        model: 'User', 
+                    },
+                    {
+                        path: 'replies',
+                        model: 'Reply',
+                        populate: [
+                            {
+                                path: 'refPost',
+                                model: 'Post'
+                            },
+                            {
+                                path: 'poster',
+                                model: 'User'
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                path: 'poster',
+                model: 'User'
+            }
+        ]
+    
+    }).populate('refBoard');
+
+    const replies = await Reply.find().populate('poster').populate('refPost');
+    const users = await User.find().populate(
+        { 
+            path: 'posts', 
+            model: 'Post', 
+            populate: [
+                { 
+                    path: 'poster', 
+                    model: 'User', 
+                },
+                {
+                    path: 'replies',
+                    model: 'Reply',
+                    populate: [
+                        {
+                            path: 'refPost',
+                            model: 'Post'
+                        },
+                        {
+                            path: 'poster',
+                            model: 'User'
+                        }
+                    ]
+                },
+                {
+                    path: 'refBoard',
+                    model: 'Board',
+                }
+            ]
+        }).populate(
+            {
+                path: 'replies',
+                model: 'Reply',
+                populate: [
+                    {
+                        path: 'refPost',
+                        model: 'Post',
+                        populate: [
+                            { 
+                                path: 'poster', 
+                                model: 'User', 
+                            },
+                            {
+                                path: 'replies',
+                                model: 'Reply',
+                                populate: [
+                                    {
+                                        path: 'refPost',
+                                        model: 'Post'
+                                    },
+                                    {
+                                        path: 'poster',
+                                        model: 'User'
+                                    }
+                                ]
+                            },
+                            {
+                                path: 'refBoard',
+                                model: 'Board',
+                            }
+                        ]
+                    },
+                    {
+                        path: 'poster',
+                        model: 'User'
+                    }
+                ]
+            });
+
+    res.categories = categories;
+    res.boards = boards;
+    res.posts = posts;
+    res.replies = replies;
+    res.users = users;
+
+    next();
+}
+
 const populateCategories = async (categories) => {
     for (let i = 0; i < categories.length; i++) {
         categories[i] = await populatePost(categories[i]);
@@ -224,7 +402,16 @@ const getCurrentDate = () => {
     return formattedDateTime;
 }
 
+const highlightSubstring = (content, searchText) => {
+    // Split the content into parts where the search query occurs
+    const parts = content.split(new RegExp(`(${searchText})`, 'gi'));
+
+    // Rebuild the content with styled HTML
+    return parts.map(part => part.toLowerCase() === searchText.toLowerCase() ? `<strong style="color: #ff9200;">${part}</strong>` : part).join('');
+}
+
 module.exports = {
+    populateAll,
     populateCategories,
     populateCategory,
     populateBoards,
@@ -233,5 +420,6 @@ module.exports = {
     populatePost,
     populateReplies,   
     populateReply,
-    getCurrentDate
+    getCurrentDate,
+    highlightSubstring
 }

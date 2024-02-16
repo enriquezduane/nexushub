@@ -1,15 +1,19 @@
 // require important modules
 const express = require('express');
 const dotenv = require('dotenv').config();
-const database = require('./database/database');
+const connectDatabase = require('./models/database/database');
 const expressLayouts = require('express-ejs-layouts');
+const bodyParser = require('body-parser');
 
 // config 
 const app = express();
 const port = process.env.PORT;
 
-// middlewares
+// static file serving
 app.use(express.static('public'));
+
+// middlewares
+app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -19,30 +23,17 @@ app.use(expressLayouts);
 app.set('layout', './layouts/default')
 
 // connect to database
-database();
+connectDatabase();
 
 // import routers
+const indexRouter = require('./routes/index');
 const forumRouter = require('./routes/forum');
 const postRouter = require('./routes/post');
 const userRouter = require('./routes/user');
 const searchRouter = require('./routes/search');
 
-// initialize database
-const populate = require('./database/initdb');
-
-// render homepage
-app.get('/', populate, (req, res) => {
-      try {
-            // Render the homepage with the fetched data
-            res.render('index', { loggedIn: true, categories: res.categories, 
-                  boards: res.boards, posts: res.posts, users: res.users });
-      } catch (error) {
-            console.error('Error fetching data:', error);
-            res.status(500).json({ message: err.message });
-      }
-})
-
-// use routes
+// use routes to handle requests
+app.use('/', indexRouter)
 app.use('/forum', forumRouter);
 app.use('/post', postRouter);
 app.use('/user', userRouter);
