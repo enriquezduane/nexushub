@@ -56,18 +56,20 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-userSchema.post('find', function(docs, next) {
-  // Convert dates in the documents to Singaporean Standard Time
-  docs.forEach(doc => {
-      if (doc.createdAt instanceof Date) {
-          doc.createdAt = moment(doc.createdAt).format(); // Convert createdAt date
-      }
-      if (doc.updatedAt instanceof Date) {
-          doc.updatedAt = moment(doc.updatedAt).format(); // Convert updatedAt date
-      }
-      // Convert other date fields if needed
-  });
-  next();
+userSchema.virtual('createdAtSGT').get(function() {
+  return moment(this.createdAt).tz('Asia/Singapore').format('MMM DD, YYYY hh:mm A'); // Format SGT createdAt
+});
+
+userSchema.pre('findOneAndDelete', async function(next) {
+  try {
+      // Remove all posts created by the user
+      await this.model('Post').deleteMany({ _id: { $in: this.posts } });
+      await this.model('Reply').deleteMany({ _id: { $in: this.replies } });
+      console.log("Deleted all posts and replies by user");
+      next();
+  } catch (error) {
+      next(error);
+  }
 });
 
 const User = mongoose.model('User', userSchema);

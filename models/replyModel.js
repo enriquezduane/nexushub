@@ -34,22 +34,8 @@ const replySchema = new mongoose.Schema({
   },
 });
 
-replySchema.post('find', function(docs, next) {
-  // Convert dates in the documents to Singaporean Standard Time
-  docs.forEach(doc => {
-      if (doc.createdAt instanceof Date) {
-          // Convert createdAt to Singaporean Standard Time
-          doc.createdAt = moment(doc.createdAt).tz('Asia/Singapore').toDate(); // Convert to Date object
-          console.log('createdAt: ', doc.createdAt);
-      }
-      if (doc.updatedAt instanceof Date) {
-          // Convert updatedAt to Singaporean Standard Time
-          doc.updatedAt = moment(doc.updatedAt).tz('Asia/Singapore').toDate(); // Convert to Date object
-          console.log('updatedAt: ', doc.updatedAt);
-      }
-      // Convert other date fields if needed
-  });
-  next();
+replySchema.virtual('createdAtSGT').get(function() {
+  return moment(this.createdAt).tz('Asia/Singapore').format('MMM DD, YYYY hh:mm A'); // Format SGT createdAt
 });
 
 const Reply = mongoose.model('Reply', replySchema);

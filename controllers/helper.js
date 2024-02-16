@@ -410,6 +410,8 @@ const highlightSubstring = (content, searchText) => {
     return parts.map(part => part.toLowerCase() === searchText.toLowerCase() ? `<strong style="color: #ff9200;">${part}</strong>` : part).join('');
 }
 
+
+
 module.exports = {
     populateAll,
     populateCategories,

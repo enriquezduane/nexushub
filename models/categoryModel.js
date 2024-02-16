@@ -26,18 +26,8 @@ const categorySchema = new mongoose.Schema({
   },
 });
 
-categorySchema.post('find', function(docs, next) {
-  // Convert dates in the documents to Singaporean Standard Time
-  docs.forEach(doc => {
-      if (doc.createdAt instanceof Date) {
-          doc.createdAt = moment(doc.createdAt).format(); // Convert createdAt date
-      }
-      if (doc.updatedAt instanceof Date) {
-          doc.updatedAt = moment(doc.updatedAt).format(); // Convert updatedAt date
-      }
-      // Convert other date fields if needed
-  });
-  next();
+categorySchema.virtual('createdAtSGT').get(function() {
+  return moment(this.createdAt).tz('Asia/Singapore').format('MMM DD, YYYY hh:mm A'); // Format SGT createdAt
 });
 
 const Category = mongoose.model('Category', categorySchema);

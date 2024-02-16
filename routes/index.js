@@ -11,8 +11,9 @@ router.get('/', populateAll, (req, res) => {
     try {
           // Render the homepage with the fetched data
           //res.render('index', { loggedIn: true, title: "NexusHub", categories: res.categories, 
-      //     boards: res.boards, posts: res.posts, users: res.users });'
-      res.send(res.replies[0].createdAt);
+      //     boards: res.boards, posts: res.posts, users: res.users });
+
+      res.send( );
     } catch (error) {
           console.error('Error fetching data:', error);
           res.status(500).json({ message: err.message });

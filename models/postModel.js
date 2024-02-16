@@ -44,18 +44,8 @@ const postSchema = new mongoose.Schema({
   },
 });
 
-postSchema.post('find', function(docs, next) {
-  // Convert dates in the documents to Singaporean Standard Time
-  docs.forEach(doc => {
-      if (doc.createdAt instanceof Date) {
-          doc.createdAt = moment(doc.createdAt).format(); // Convert createdAt date
-      }
-      if (doc.updatedAt instanceof Date) {
-          doc.updatedAt = moment(doc.updatedAt).format(); // Convert updatedAt date
-      }
-      // Convert other date fields if needed
-  });
-  next();
+postSchema.virtual('createdAtSGT').get(function() {
+  return moment(this.createdAt).tz('Asia/Singapore').format('MMM DD, YYYY hh:mm A'); // Format SGT createdAt
 });
 
 const Post = mongoose.model('Post', postSchema);
