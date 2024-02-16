@@ -36,12 +36,16 @@
               </td>
               <td><%= board.postCount %></td>
               <td><%= board.totalReplyCount %></td>
+              <% if (!board.lastPost) { %>
+                <td style="text-align: center; font-weight: bold; font-size: 20px; color: white;">None</td>
+              <% } else { %>
               <td>
                 Last post: <%= board.lastPost.createdAtSGT %> 
                 <br>in <a href="/post/<%= board.lastPost.title.toLowerCase() %>"><%= board.lastPost.title %></a>
                 <br>by <a href="/user/<%= board.lastPost.poster.id %>">
                   <%= board.lastPost.poster.username %></a>
               </td>
+              <% } %>
             </tr>
           <% }); %>
         <% }); %>

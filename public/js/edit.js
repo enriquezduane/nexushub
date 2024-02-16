@@ -12,7 +12,6 @@ document.addEventListener('click', (event) => {
             textarea = document.createElement('textarea');
             textarea.className = 'edit-post-textarea';
             postContent.innerHTML = postContent.innerHTML.replace(/<(?!br>)(?!\/br>)/g, '[').replace(/(?<!<br)(?<!<\/br)>/g, ']');
-            console.log(postContent.innerHTML.trim());
             textarea.value = postContent.innerText.trim(); // Use innerText to preserve newline characters
             setDimensions(textarea, postContent);
 
@@ -41,15 +40,46 @@ document.addEventListener('click', (event) => {
             postArea.insertBefore(buttonsDiv, postContent.nextSibling);
 
             // Event listener for the save button
-            saveButton.addEventListener('click', () => {
-                postContent.innerHTML = textarea.value.replace(/\n/g, '<br>').replace(/\[/g, '<').replace(/\]/g, '>'); // Convert newline characters to <br> tags
-                postContent.style.display = ''; // Show original post content
-                textarea.remove();
-                buttonsDiv.remove();
+            saveButton.addEventListener('click', async () => {
+                // Get the closest post or reply container
+                const postContainer = clickedElement.closest('.post-section');
+
+                // Get the updated content
+                const updatedContent = textarea.value.replace(/\n/g, '<br>').replace(/\[/g, '<').replace(/\]/g, '>');
+
+                // Determine if the container is a post or a reply
+                const isReply = postContainer.classList.contains('reply-section');
+
+                // Get the post title
+                const postTitle = postContainer.querySelector('.post-name').textContent.trim();
+                
+                try {
+                    const response = await fetch(`/post/${postTitle}`, {
+                        method: 'PATCH', // or 'PUT' depending on backend API
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ type: (isReply ? 'reply' : 'post'), content: updatedContent, title: postTitle})
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Failed to update post');
+                    }
+
+                    postContent.innerHTML = updatedContent; // Convert newline characters to <br> tags
+                    postContent.style.display = ''; // Show original post content
+                    textarea.remove();
+                    buttonsDiv.remove();
+
+                    alert('Edited ' + (isReply ? 'reply' : 'post') + ' successfully');
+                } catch (error) {
+                    console.error('Error:', error.message);
+                }
             });
 
             // Event listener for the cancel button
             cancelButton.addEventListener('click', () => {
+                postContent.innerHTML = postContent.innerHTML.replace(/\[/g, '<').replace(/\]/g, '>'); // Convert newline characters to <br> tags
                 postContent.style.display = ''; // Show original post content
                 textarea.remove();
                 buttonsDiv.remove();

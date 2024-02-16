@@ -18,7 +18,7 @@ document.addEventListener('click', (event) => {
         const postTitle = postContainer.querySelector('.post-name').textContent.trim();
 
         // Send a delete request to the server
-        fetch('/post/', {
+        fetch(`/post/${postTitle}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'

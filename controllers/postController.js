@@ -68,10 +68,9 @@ const createReply = async (req, res, next) => {
 };
 
 // Delete reply
-const deleteReply = async (req, res, next) => {
+const deleteContent = async (req, res, next) => {
     try {
         if (req.body.type === 'post') {
-            console.log('Deleting post:', req.body);
 
             // Find the post
             const post = await Post.findOne({ title: req.body.title });
@@ -81,7 +80,6 @@ const deleteReply = async (req, res, next) => {
 
             res.message = { message: 'Post deleted successfully' };
         } else {
-            console.log('Deleting reply:', req.body);
 
             // Find the reply
             const reply = await Reply.findOne({ title: req.body.title });
@@ -99,10 +97,44 @@ const deleteReply = async (req, res, next) => {
     next();
 };
 
+const updateContent = async (req, res, next) => {
+    try {
+        const { type, title, content } = req.body;
+
+        if (type === 'post') {
+
+            // Find the post
+            const post = await Post.findOne({ title: title });
+
+            // Update the post
+            post.content = content;
+            post.updatedAt = Date.now();
+            await post.save();
+        } else {
+
+            // Find the reply
+            const reply = await Reply.findOne({ title: title });
+
+            // Update the reply
+            reply.reply = content;
+            reply.updatedAt = Date.now();
+            await reply.save();
+        }
+
+        // Send a success response
+        res.status(200).json({ message: 'Content updated successfully' });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ message: error.message });
+    }
+    next();
+};
+
 
 
 module.exports = { 
     getPostByUrl,
     createReply,
-    deleteReply,
+    deleteContent,
+    updateContent,
 };

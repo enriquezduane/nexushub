@@ -57,8 +57,8 @@ replySchema.pre('save', async function(next) {
         poster.replies.push(this._id);
         await poster.save();
       }
-    }
-
+    } 
+    
     console.log('Reply pre-save middleware executed');
     next();
   } catch (error) {
