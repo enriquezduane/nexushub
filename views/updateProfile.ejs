@@ -1,0 +1,29 @@
+<%- include('partials/logo.ejs') %>
+
+</div>
+  <div class="content-container dashed-black-container container-margin">
+    <div class="profile-container post-container-template">
+      <div class="profile-header topic-header">
+        Update Profile
+      </div>
+      <form class="edit-profile-form" data-id="<%= userId%>">
+        <div class="form-group">
+          <label for="user-age">Age:</label>
+          <input type="text" id="user-age" name="user-age" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="user-description">Short Description:</label>
+          <input type="text" id="user-description" name="user-description" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="user-password">New Password:</label>
+          <input type="password" id="user-password" name="user-password" class="form-control">
+        </div>
+        <div class="form-group">
+          <button type="submit" class="update-profile-btn">Update Profile</button>
+        </div>
+      </form>
+    </div>
+</div>
+
+<script src="js/updateProfile.js"></script>

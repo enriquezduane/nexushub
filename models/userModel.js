@@ -24,6 +24,10 @@ const userSchema = new mongoose.Schema({
     type: String, 
     required: true 
   },
+  description: {
+    type: String,
+    default: "No description."
+  },
   posts: [
     { 
       type: mongoose.Schema.Types.ObjectId, 

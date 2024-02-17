@@ -20,7 +20,7 @@
       </div>
       <div class="profile-right">
         <div class="edit-profile-container">
-          <button class="edit-profile-button"><a href="edit-profile.html">Edit Profile</a></button>
+          <a href="/user/update-<%= user.id %>"><button class="edit-profile-button">Update Profile</button></a>
         </div>
         <div>
           <dl class="profile-info">
@@ -29,21 +29,21 @@
           </dl>
           <dl class="profile-info">
             <dt>Age:</dt>
-            <dd>20</dd>
+            <dd><%= user.age %></dd>
           </dl>
         </div>
         <div>
           <dl class="profile-info">
             <dt>Join Date:</dt>
-            <dd>January 19, 2024</dd>
+            <dd><%= user.joinDateMonth %></dd>
           </dl>
           <dl class="profile-info">
             <dt>Current Server:</dt>
-            <dd>None</dd>
+            <dd><%= user.currentServer %></dd>
           </dl>
           <dl class="profile-info">
             <dt>Short Description:</dt>
-            <dd>hello :)</dd>
+            <dd><%= user.description %></dd>
           </dl>
         </div>
       </div>

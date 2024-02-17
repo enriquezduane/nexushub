@@ -8,7 +8,17 @@ router.use(express.static('public'));
 const { populateAll } = require('../controllers/helper');
 
 // import controller
-const { getUserByUrl } = require('../controllers/userController');
+const { getUserByUrl, updateUser } = require('../controllers/userController');
+
+router.get('/update-:id', (req, res) => {
+    try {
+        // Render the edit profile page
+        res.render('updateProfile', { loggedIn: true, title: 'Update Profile', userId: req.params.id});
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({ message: err.message });
+    }
+})
 
 router.get('/:id', populateAll, getUserByUrl, (req, res) => {
     try {
@@ -19,5 +29,7 @@ router.get('/:id', populateAll, getUserByUrl, (req, res) => {
         res.status(500).json({ message: err.message });
     }
 })
+
+router.patch('/', updateUser);
 
 module.exports = router;

@@ -1631,3 +1631,56 @@ tbody td:nth-child(5) {
 .edit-profile-button:hover {
   background-color: #8F3E97;
 }
+
+.edit-profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  /* Smaller gap for a more compact form */
+  padding: 1rem;
+  align-items: center;
+  /* Center align form elements */
+}
+
+.edit-profile-form .form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.edit-profile-form .form-control {
+  padding: 0.4rem;
+  /* More compact padding */
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #FFF;
+  font-family: 'Press Start 2P', cursive;
+  /* Ensure consistent font */
+  font-size: 0.8rem;
+  /* Smaller font size for compactness */
+  width: 80%;
+  /* Adjust width as needed for compactness */
+}
+
+.edit-profile-form .update-profile-btn {
+  background-color: #000033;
+  color: #ffffff;
+  padding: 8px 16px;
+  /* Adjusted for a more compact button */
+  text-transform: uppercase;
+  cursor: pointer;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.7em;
+  /* Smaller font size for the button */
+  outline: none;
+  border: 1px solid #8F3E97;
+  transition: background-color 0.3s ease;
+  /* Smooth transition for hover effect */
+  width: auto;
+  /* Adjust to content width */
+}
+
+.edit-profile-form .update-profile-btn:hover {
+  color: #ffffff;
+  background-color: #8F3E97;
+}
