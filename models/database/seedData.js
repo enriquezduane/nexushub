@@ -1094,7 +1094,7 @@ boards = [
         title: "Job Discussion", 
         description: "Delve into the specifics of the different Ragnarok Online jobs.",
         innerDescription: "Discuss the many different jobs in Ragnarok Online!",
-        posts: [posts[5].id_, posts[9]._id],
+        posts: [posts[5]._id, posts[9]._id],
         createdAt: new Date("Jan 19, 2024, 12:00 AM"),
     },
 
@@ -1107,6 +1107,7 @@ boards = [
         createdAt: new Date("Jan 19, 2024, 12:00 AM"),
     },
 ]
+
 
 posts[0].refBoard = boards[0]._id;
 posts[1].refBoard = boards[0]._id;

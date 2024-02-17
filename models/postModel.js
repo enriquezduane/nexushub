@@ -66,31 +66,32 @@ postSchema.virtual('updatedAtSGT').get(function() {
   return moment(this.updatedAt).tz('Asia/Singapore').format('MMM DD, YYYY hh:mm A'); // Format SGT updatedAt
 });
 
-postSchema.post('save', async function(post) {
+postSchema.pre('save', async function(next) {
   try {
-    // Update Board's Posts
-    const board = await mongoose.model('Board').findById(post.refBoard);
+    // Check if the document is new (i.e., being created)
+    if (this.isNew) {
+      // Add the new post object id to the board's posts array
+      const board = await mongoose.model('Board').findById(this.refBoard);
 
-    console.log('Board:', board)
+      if (board) {
+        board.posts.push(this._id);
+        await board.save();
+      }
 
-    if(board) {
-      board.posts.push(post._id);
-      await board.save();
+      // Add the new post object id to the poster's posts array
+      const poster = await mongoose.model('User').findById(this.poster);
+
+      if (poster) {
+        poster.posts.push(this._id);
+        await poster.save();
+      }
     }
 
-    // Update User's Posts
-    const user = await mongoose.model('User').findById(post.poster);
+    console.log('Post pre save middleware executed');
 
-    console.log('User:', user)
-
-    if(user) {
-      user.posts.push(post._id);
-      await user.save();
-    }
-
-    console.log('Post post save middleware executed')
+    next();
   } catch (error) {
-    console.error('Error updating related documents:', error);
+    next(error);
   }
 });
 

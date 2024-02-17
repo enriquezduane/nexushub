@@ -70,9 +70,8 @@ replySchema.pre('save', async function(next) {
         await poster.save();
       }
 
-      console.log('Reply pre-save middleware executed');
+      console.log('Reply pre save middleware executed');
     } 
-  
     next();
   } catch (error) {
     next(error);
