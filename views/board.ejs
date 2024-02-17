@@ -8,35 +8,48 @@
           <td colspan="5"><%= board.title %></td>
         </tr>
         <tr>
-          <td colspan="5" class="index-subheading"><%= board.innerDescription %></td>
+          <td colspan="5" class="index-subheading">
+            <%= board.innerDescription %>
+          </td>
         </tr>
         <tr class="topics">
           <th colspan="2">Subject</th>
           <th>Started By</th>
-          <th style="width: 10%;">Replies</th>
-          <th style="width: 10%;">Views</th>
+          <th style="width: 10%">Replies</th>
+          <th style="width: 10%">Views</th>
         </tr>
       </thead>
       <tbody>
         <% for (let i = board.postCount-1; i >= 0; i-- ) { %>
-          <tr>
-            <td class="post-logo">
-              <img src="images/book.gif" alt="icon">
-            </td>
-            <td>
-              <a href="/post/<%= board.posts[i].title.toLowerCase() %>"><strong><%= board.posts[i].title %></strong></a>
-              <p><%= board.posts[i].createdAtSGT %></p>
-            </td>
-            <td class="center-table-data">
-              <div class="username"><a href="/user/id=<%= board.posts[i].poster.id %>"><%= board.posts[i].poster.username %></a></div>
-              <div class="role <%= board.posts[i].poster.roleClass %>"><%= board.posts[i].poster.role %></div>
-            </td>
-            <td class="center-table-data"><%= board.posts[i].replyCount %></td>
-            <td class="center-table-data"><%= board.posts[i].views %></td>
-          </tr>
+        <tr>
+          <td class="post-logo">
+            <img src="images/book.gif" alt="icon" />
+          </td>
+          <td>
+            <a href="/post/<%= board.posts[i].title.toLowerCase() %>"
+              ><strong><%= board.posts[i].title %></strong></a
+            >
+            <p><%= board.posts[i].createdAtSGT %></p>
+          </td>
+          <td class="center-table-data">
+            <div class="username">
+              <a href="/user/id=<%= board.posts[i].poster.id %>"
+                ><%= board.posts[i].poster.username %></a
+              >
+            </div>
+            <div class="role <%= board.posts[i].poster.roleClass %>">
+              <%= board.posts[i].poster.role %>
+            </div>
+          </td>
+          <td class="center-table-data"><%= board.posts[i].replyCount %></td>
+          <td class="center-table-data"><%= board.posts[i].views %></td>
+        </tr>
         <% } %>
       </tbody>
     </table>
+    <div class="create-post-button-container">
+      <a href="#" class="create-post-button">Create Post</a>
+    </div>
     <div class="navigation-buttons">
       <button class="prev-button">Previous</button>
       <button class="next-button">Next</button>
