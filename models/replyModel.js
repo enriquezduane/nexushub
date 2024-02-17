@@ -38,6 +38,10 @@ const replySchema = new mongoose.Schema({
   },
 });
 
+replySchema.virtual('edited').get(function() {
+  return this.updatedAt.getTime() !== this.createdAt.getTime();
+});
+
 replySchema.virtual('createdAtSGT').get(function() {
   return moment(this.createdAt).tz('Asia/Singapore').format('MMM DD, YYYY hh:mm A'); // Format SGT createdAt
 });
@@ -65,9 +69,10 @@ replySchema.pre('save', async function(next) {
         poster.replies.push(this._id);
         await poster.save();
       }
+
+      console.log('Reply pre-save middleware executed');
     } 
-    
-    console.log('Reply pre-save middleware executed');
+  
     next();
   } catch (error) {
     next(error);

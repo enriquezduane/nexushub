@@ -111,6 +111,8 @@ const updateContent = async (req, res, next) => {
             post.content = content;
             post.updatedAt = Date.now();
             await post.save();
+
+            res.status(200).json({ updatedAt: post.updatedAtSGT });
         } else {
 
             // Find the reply
@@ -120,10 +122,9 @@ const updateContent = async (req, res, next) => {
             reply.reply = content;
             reply.updatedAt = Date.now();
             await reply.save();
-        }
 
-        // Send a success response
-        res.status(200).json({ message: 'Content updated successfully' });
+            res.status(200).json({ updatedAt: reply.updatedAtSGT });
+        }
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ message: error.message });

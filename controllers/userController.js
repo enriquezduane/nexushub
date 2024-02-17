@@ -8,11 +8,10 @@ const getUserByUrl = async (req, res, next) => {
       const lastPart = parts[parts.length - 1];
 
       // Remove id= text
-      const idText = lastPart.replace("id=", '');
-      const idValue = parseInt(idText);
+      const id = lastPart.replace("id=", '');
 
       // Find the board in the database
-      const user = await User.findOne({ id: idValue });  
+      const user = await User.findById(id);  
 
       if (!user) {
           return res.status(404).json({ message: 'User not found' });

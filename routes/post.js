@@ -28,7 +28,8 @@ router.post('/reply', createReply, (req, res) => {
     try {
         // Send the new reply data
         const reply = {
-            id: res.reply._id,
+            id: res.reply.id,
+            userId: res.reply.poster.id,
             title: res.reply.title,
             reply: res.reply.reply,
             date: res.reply.createdAtSGT,
@@ -37,6 +38,8 @@ router.post('/reply', createReply, (req, res) => {
             role: res.reply.poster.role,
             roleClass: res.reply.poster.roleClass,
             postCount: res.reply.poster.postCount,
+            edited: res.reply.edited,
+            updatedAtSGT: res.reply.updatedAtSGT
         }
         res.json(reply);
     } catch (error) {

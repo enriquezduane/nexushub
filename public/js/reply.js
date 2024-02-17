@@ -25,11 +25,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 const replyBox = document.querySelector('#reply-box');
 
                 newReplySection.classList.add('reply-section', 'post-section', 'post-container-template');
-
+                newReplySection.dataset.id = reply.id;
                 newReplySection.innerHTML = `
                         <div class="poster-info">
                             <div class="poster-name">
-                                <strong><a href="/user/${reply.id}">${reply.username}</a></strong>
+                                <strong><a href="/user/${reply.userId}">${reply.username}</a></strong>
                             </div>
                             <div class="poster-role ${reply.roleClass}">
                                 ${reply.role}
@@ -56,8 +56,13 @@ document.addEventListener('DOMContentLoaded', function() {
                                         <button class="downvote-btn">Downvote</button>
                                     </div>
                                 </div>
-                                <div class="post-date">
-                                    ${reply.date}
+                                <div class="post-info-bottom">
+                                    <div class="post-date">
+                                        ${reply.date}
+                                    </div>
+                                    <div class="post-edited">
+                                    ${reply.edited ? `Last Edit: ${reply.updatedAtSGT}` : ''}
+                                    </div>
                                 </div>
                             </div>
                             <p class="post-content">

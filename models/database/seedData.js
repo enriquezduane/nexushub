@@ -1161,6 +1161,27 @@ boards[6].category = categories[2]._id;
 boards[7].category = categories[3]._id;
 
 
+users.forEach(user => {
+    user.updatedAt = user.createdAt;
+});
+
+replies.forEach(reply => {
+    reply.updatedAt = reply.createdAt;
+});
+
+posts.forEach(post => {
+    post.updatedAt = post.createdAt;
+});
+
+boards.forEach(board => {
+    board.updatedAt = board.createdAt;
+});
+
+categories.forEach(category => {
+    category.updatedAt = category.createdAt;
+});
+
+
 module.exports = {
     users,
     posts,

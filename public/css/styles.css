@@ -1259,6 +1259,7 @@ tbody {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  font-size: 18px;
 }
 
 .profile-info {
@@ -1547,7 +1548,6 @@ tbody td:nth-child(5) {
 }
 
 .edit-post-textarea {
-  height: auto;
   /* Let it expand vertically */
   resize: vertical;
   /* Allow vertical resizing */
@@ -1604,4 +1604,30 @@ tbody td:nth-child(5) {
 .create-post-form .post-submit-btn:hover {
   color: #ffffff;
   background-color: #8f3e97;
+}
+
+.edit-profile-container {
+  text-align: center;
+}
+
+.edit-profile-button {
+  background-color: #000033;
+  color: #ffffff;
+  padding: 5px 15px;
+  border: 1px solid #8F3E97;
+  cursor: pointer;
+  font-size: 0.8em;
+  text-transform: uppercase;
+  transition: background-color 0.3s;
+  display: inline-block;
+  font-family: 'Press Start 2P', cursive;
+  text-decoration: none;
+}
+
+.edit-profile-button a {
+  text-decoration: none;
+}
+
+.edit-profile-button:hover {
+  background-color: #8F3E97;
 }

@@ -11,8 +11,18 @@ document.addEventListener('click', (event) => {
             // Create a new textarea if it doesn't exist
             textarea = document.createElement('textarea');
             textarea.className = 'edit-post-textarea';
+
+            // replace all < and > with [ and ] except for <br> and </br> tags
             postContent.innerHTML = postContent.innerHTML.replace(/<(?!br>)(?!\/br>)/g, '[').replace(/(?<!<br)(?<!<\/br)>/g, ']');
             textarea.value = postContent.innerText.trim(); // Use innerText to preserve newline characters
+
+            // Resize textarea to fit content dynamically
+            textarea.addEventListener('input', () => {
+                textarea.style.height = 'auto'; // Reset height
+                textarea.style.height = (textarea.scrollHeight) + 'px'; // Set new height
+            });
+            
+            // Set textarea dimensions to match the post content
             setDimensions(textarea, postContent);
 
             // Create save button
@@ -36,13 +46,20 @@ document.addEventListener('click', (event) => {
 
             // Insert textarea before the post content
             postArea.insertBefore(textarea, postContent);
+
             // Insert buttons below the textarea
             postArea.insertBefore(buttonsDiv, postContent.nextSibling);
+
+            // set text area height to show all text 
+            textarea.style.height = (textarea.scrollHeight) + 'px'; // Set new height
 
             // Event listener for the save button
             saveButton.addEventListener('click', async () => {
                 // Get the closest post or reply container
                 const postContainer = clickedElement.closest('.post-section');
+
+                // Get the edited container
+                const editedContainer = postContainer.querySelector('.post-edited');
 
                 // Get the updated content
                 const updatedContent = textarea.value.replace(/\n/g, '<br>').replace(/\[/g, '<').replace(/\]/g, '>');
@@ -72,6 +89,11 @@ document.addEventListener('click', (event) => {
                     buttonsDiv.remove();
 
                     alert('Edited ' + (isReply ? 'reply' : 'post') + ' successfully');
+
+                    // Update the edited container
+                    const responseData = await response.json(); // Parse JSON response
+                    editedContainer.textContent = `Last Edit: ${responseData.updatedAt}`;
+                    
                 } catch (error) {
                     console.error('Error:', error.message);
                 }

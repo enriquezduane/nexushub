@@ -54,7 +54,7 @@
                         <%= post.createdAtSGT %>
                     </div>
                     <div class="post-edited">
-                        <% if (post.updatedAtSGT != post.createdAtSGT) { %>
+                        <% if (post.edited) { %>
                         Last Edit: <%= post.updatedAtSGT %>
                         <% } %>
                     </div>
@@ -74,7 +74,7 @@
         <div class="reply-section post-section post-container-template" data-id="<%= reply.id %>">
             <div class="poster-info">
                 <div class="poster-name">
-                    <strong><a href="/user/id=<%= reply.poster.id %>"><%= reply.poster.username %></a></strong>
+                    <strong><a href="/user/<%= reply.poster.id %>"><%= reply.poster.username %></a></strong>
                 </div>
                 <div class="poster-role <%= reply.poster.roleClass %>">
                     <%= reply.poster.role %>
@@ -106,7 +106,7 @@
                             <%= reply.createdAtSGT %>
                         </div>
                         <div class="post-edited">
-                            <% if (reply.updatedAtSGT != reply.createdAtSGT) { %>
+                            <% if (reply.edited) { %>
                             Last Edit: <%= reply.updatedAtSGT %>
                             <% } %>
                         </div>

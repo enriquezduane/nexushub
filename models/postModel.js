@@ -49,6 +49,10 @@ const postSchema = new mongoose.Schema({
   },
 });
 
+postSchema.virtual('edited').get(function() {
+  return this.updatedAt.getTime() !== this.createdAt.getTime();
+});
+
 postSchema.virtual('replyCount').get(function() {
   return this.replies.length;
 });
