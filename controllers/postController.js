@@ -26,6 +26,32 @@ const getPostByUrl = async (req, res, next) => {
     next();
 }
 
+const createPost = async (req, res, next) => {
+    try {
+        const { title, content, boardId } = req.body;
+        const user = await User.findOne({username: "lokitrickster"}); // No session management yet, placeholder username
+
+        // Create a new post
+        const initialPost = new Post({
+            _id: new mongoose.Types.ObjectId(),
+            title: title,
+            refBoard: boardId,
+            content: content,
+            poster: user.id,
+            createdAt: Date.now(),
+            updatedAt: Date.now()
+        });
+
+        // Save the new post
+        const post = await initialPost.save();
+
+        // send the post id to the client
+        res.status(200).json({ id: post.id });
+    } catch (err) {
+        res.status(400).json({ message: err.message, request: req.body });
+    }
+}
+
 
 // Create a new reply
 const createReply = async (req, res, next) => {
@@ -160,6 +186,7 @@ const upvote = async (req, res, next) => {
 
 module.exports = { 
     getPostByUrl,
+    createPost,
     createReply,
     deleteContent,
     updateContent,

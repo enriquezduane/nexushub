@@ -20,7 +20,7 @@
         </tr>
       </thead>
       <tbody>
-        <% for (let i = board.postCount-1; i >= 0; i-- ) { %>
+        <% for (let i = board.postCount-1; i >= 0; i--) { %>
         <tr>
           <td class="post-logo">
             <img src="images/book.gif" alt="icon" />
@@ -48,7 +48,7 @@
       </tbody>
     </table>
     <div class="create-post-button-container">
-      <a href="#" class="create-post-button">Create Post</a>
+      <a href="/post/create-<%= board.id %>" class="create-post-button">Create Post</a>
     </div>
     <div class="navigation-buttons">
       <button class="prev-button">Previous</button>

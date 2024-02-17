@@ -32,7 +32,8 @@ const postSchema = new mongoose.Schema({
   replies: [
     { 
       type: mongoose.Schema.Types.ObjectId, 
-      ref: 'Reply' 
+      ref: 'Reply',
+      default: []
     }
   ],
   views: { 
@@ -63,6 +64,34 @@ postSchema.virtual('createdAtSGT').get(function() {
 
 postSchema.virtual('updatedAtSGT').get(function() { 
   return moment(this.updatedAt).tz('Asia/Singapore').format('MMM DD, YYYY hh:mm A'); // Format SGT updatedAt
+});
+
+postSchema.post('save', async function(post) {
+  try {
+    // Update Board's Posts
+    const board = await mongoose.model('Board').findById(post.refBoard);
+
+    console.log('Board:', board)
+
+    if(board) {
+      board.posts.push(post._id);
+      await board.save();
+    }
+
+    // Update User's Posts
+    const user = await mongoose.model('User').findById(post.poster);
+
+    console.log('User:', user)
+
+    if(user) {
+      user.posts.push(post._id);
+      await user.save();
+    }
+
+    console.log('Post post save middleware executed')
+  } catch (error) {
+    console.error('Error updating related documents:', error);
+  }
 });
 
 postSchema.pre('deleteOne', async function (next) {

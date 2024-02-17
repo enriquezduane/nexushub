@@ -12,7 +12,17 @@ const Reply = require('../models/replyModel');
 const { populateAll } = require('../controllers/helper');
 
 // import controller
-const { getPostByUrl, createReply, deleteContent, updateContent, upvote } = require('../controllers/postController');
+const { getPostByUrl, createPost, createReply, deleteContent, updateContent, upvote } = require('../controllers/postController');
+
+router.get('/create-:id', (req, res) => {
+    try {
+        // Render the create post page
+        res.render('createPost', { loggedIn: true, title: 'Create Post' });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ message: error.message });
+    }
+})
 
 router.get('/:id', populateAll, getPostByUrl, (req, res) => {
     try {
@@ -22,6 +32,9 @@ router.get('/:id', populateAll, getPostByUrl, (req, res) => {
         console.error('Error fetching data:', error);
         res.status(500).json({ message: err.message, post: res.post});
     }
+})
+
+router.post('/post', createPost, (req, res) => {
 })
 
 router.post('/reply', createReply, (req, res) => {
