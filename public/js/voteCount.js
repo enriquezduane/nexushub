@@ -5,6 +5,15 @@ function handleUpvote(event) {
     let currentCount = parseInt(voteCount.textContent);
     let downvoted = downvoteButton.classList.contains('active');
 
+    // Get the closest post or reply container
+    const postContainer = event.target.closest('.post-section');
+
+    // Determine if the container is a post or a reply
+    const isReply = postContainer.classList.contains('reply-section');
+
+    // Get the id of the post or reply
+    const id = postContainer.dataset.id;
+
     // If the upvote button is not active and the downvote button is not active, increase the count by 1 and mark upvote as active
     if (!event.target.classList.contains('active') && !downvoted) {
         currentCount++;
@@ -19,8 +28,26 @@ function handleUpvote(event) {
         event.target.classList.add('active');
         downvoteButton.classList.remove('active');
     }
-    
-    voteCount.textContent = currentCount;
+
+    fetch('/post/upvote', {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ type: (isReply ? 'reply' : 'post'), id: id, count: currentCount }),
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to upvote post');
+        }
+        return response.json();
+    })
+    .then(data => {
+        voteCount.textContent = currentCount;
+    })
+    .catch(error => {
+        console.error('Error upvoting post:', error);
+    })
 }
 
 // Function to handle downvote button click
@@ -29,6 +56,15 @@ function handleDownvote(event) {
     const upvoteButton = event.target.previousElementSibling.previousElementSibling;
     let currentCount = parseInt(voteCount.textContent);
     let upvoted = upvoteButton.classList.contains('active');
+
+    // Get the closest post or reply container
+    const postContainer = event.target.closest('.post-section');
+
+    // Determine if the container is a post or a reply
+    const isReply = postContainer.classList.contains('reply-section');
+
+    // Get the id of the post or reply
+    const id = postContainer.dataset.id;
 
     // If the downvote button is not active and the upvote button is not active, decrease the count by 1 and mark downvote as active
     if (!event.target.classList.contains('active') && !upvoted) {
@@ -44,8 +80,26 @@ function handleDownvote(event) {
         event.target.classList.add('active');
         upvoteButton.classList.remove('active');
     }
-    
-    voteCount.textContent = currentCount;
+
+    fetch('/post/upvote', {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ type: (isReply ? 'reply' : 'post'), id: id, count: currentCount }),
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to upvote post');
+        }
+        return response.json();
+    })
+    .then(data => {
+        voteCount.textContent = currentCount;
+    })
+    .catch(error => {
+        console.error('Error upvoting post:', error.message);
+    })
 }
 
 // Event listener for upvote and downvote buttons

@@ -24,6 +24,10 @@ const replySchema = new mongoose.Schema({
     type: String, 
     required: true 
   },
+  upvotes: {
+    type: Number,
+    default: 0,
+  },
   createdAt: { 
     type: Date, 
     default: () => Date.now(),
@@ -36,6 +40,10 @@ const replySchema = new mongoose.Schema({
 
 replySchema.virtual('createdAtSGT').get(function() {
   return moment(this.createdAt).tz('Asia/Singapore').format('MMM DD, YYYY hh:mm A'); // Format SGT createdAt
+});
+
+replySchema.virtual('updatedAtSGT').get(function() {
+  return moment(this.updatedAt).tz('Asia/Singapore').format('MMM DD, YYYY hh:mm A'); // Format SGT updatedAt
 });
 
 replySchema.pre('save', async function(next) {

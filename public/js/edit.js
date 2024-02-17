@@ -50,16 +50,16 @@ document.addEventListener('click', (event) => {
                 // Determine if the container is a post or a reply
                 const isReply = postContainer.classList.contains('reply-section');
 
-                // Get the post title
-                const postTitle = postContainer.querySelector('.post-name').textContent.trim();
+                // Get the id of the post or reply
+                const id = postContainer.dataset.id;
                 
                 try {
-                    const response = await fetch(`/post/${postTitle}`, {
+                    const response = await fetch('/post/edit', {
                         method: 'PATCH', // or 'PUT' depending on backend API
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({ type: (isReply ? 'reply' : 'post'), content: updatedContent, title: postTitle})
+                        body: JSON.stringify({ type: (isReply ? 'reply' : 'post'), content: updatedContent, id: id})
                     });
 
                     if (!response.ok) {

@@ -1442,6 +1442,12 @@ tbody td:nth-child(5) {
   align-items: center;
 }
 
+.post-info-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .vote-container {
   margin-bottom: 8px;
   display: flex;

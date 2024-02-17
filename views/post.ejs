@@ -19,7 +19,7 @@
             <a href="#bot" class="reply-button" style="text-decoration: none;">Reply</a>
         </div>
     </div>
-    <div class="post-section post-container-template">
+    <div class="post-section post-container-template" data-id="<%= post.id %>">
         <div class="poster-info">
             <div class="poster-name">
                 <strong><a href="/user/<%= post.poster.id %>"><%= post.poster.username %></a></strong>
@@ -45,12 +45,19 @@
                     </div>
                     <div class="vote-container">
                         <button class="upvote-btn">Upvote</button>
-                        <p class="vote-count">0</p>
+                        <p class="vote-count"><%= post.upvotes %></p>
                         <button class="downvote-btn">Downvote</button>
                     </div>
                 </div>
-                <div class="post-date">
-                    <%= post.createdAtSGT %>
+                <div class="post-info-bottom">
+                    <div class="post-date">
+                        <%= post.createdAtSGT %>
+                    </div>
+                    <div class="post-edited">
+                        <% if (post.updatedAtSGT != post.createdAtSGT) { %>
+                        Last Edit: <%= post.updatedAtSGT %>
+                        <% } %>
+                    </div>
                 </div>
             </div>
             <p class="post-content">
@@ -64,7 +71,7 @@
     </div>
 
     <% for(const reply of post.replies) { %>
-        <div class="reply-section post-section post-container-template">
+        <div class="reply-section post-section post-container-template" data-id="<%= reply.id %>">
             <div class="poster-info">
                 <div class="poster-name">
                     <strong><a href="/user/id=<%= reply.poster.id %>"><%= reply.poster.username %></a></strong>
@@ -90,12 +97,19 @@
                         </div>
                         <div class="vote-container">
                             <button class="upvote-btn">Upvote</button>
-                            <p class="vote-count">0</p>
+                            <p class="vote-count"><%= reply.upvotes %></p>
                             <button class="downvote-btn">Downvote</button>
                         </div>
                     </div>
-                    <div class="post-date">
-                        <%= reply.createdAtSGT %>
+                    <div class="post-info-bottom">
+                        <div class="post-date">
+                            <%= reply.createdAtSGT %>
+                        </div>
+                        <div class="post-edited">
+                            <% if (reply.updatedAtSGT != reply.createdAtSGT) { %>
+                            Last Edit: <%= reply.updatedAtSGT %>
+                            <% } %>
+                        </div>
                     </div>
                 </div>
                 <p class="post-content">

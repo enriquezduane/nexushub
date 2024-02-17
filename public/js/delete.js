@@ -15,15 +15,16 @@ document.addEventListener('click', (event) => {
             return; // If the user cancels, do nothing
         }
 
-        const postTitle = postContainer.querySelector('.post-name').textContent.trim();
+        // Get the id of the post or reply
+        const id = postContainer.dataset.id;
 
         // Send a delete request to the server
-        fetch(`/post/${postTitle}`, {
+        fetch('/post/delete', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ type: (isReply ? 'reply' : 'post'), title: postTitle }),
+            body: JSON.stringify({ type: (isReply ? 'reply' : 'post'), id: id }),
         })
         .then(response => {
             if (!response.ok) {

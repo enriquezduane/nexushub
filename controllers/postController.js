@@ -70,41 +70,42 @@ const createReply = async (req, res, next) => {
 // Delete reply
 const deleteContent = async (req, res, next) => {
     try {
-        if (req.body.type === 'post') {
+        const { type, id } = req.body;
+
+        if (type === 'post') {
 
             // Find the post
-            const post = await Post.findOne({ title: req.body.title });
+            const post = await Post.findById(id);
 
             // Delete the post
             await post.deleteOne();
 
-            res.message = { message: 'Post deleted successfully' };
+            res.status(200).json({ message: 'Post deleted successfully' });
         } else {
 
             // Find the reply
-            const reply = await Reply.findOne({ title: req.body.title });
+            const reply = await Reply.findById(id);
 
             // Delete the reply
             await reply.deleteOne();
             
-            res.message = { message: 'Reply deleted successfully' };
+            res.status(200).json({ message: 'Reply deleted successfully' });
         }
         
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ message: error.message });
     }
-    next();
 };
 
 const updateContent = async (req, res, next) => {
     try {
-        const { type, title, content } = req.body;
+        const { type, id, content } = req.body;
 
         if (type === 'post') {
 
             // Find the post
-            const post = await Post.findOne({ title: title });
+            const post = await Post.findById(id);
 
             // Update the post
             post.content = content;
@@ -113,7 +114,7 @@ const updateContent = async (req, res, next) => {
         } else {
 
             // Find the reply
-            const reply = await Reply.findOne({ title: title });
+            const reply = await Reply.findById(id);
 
             // Update the reply
             reply.reply = content;
@@ -127,14 +128,42 @@ const updateContent = async (req, res, next) => {
         console.error('Error:', error);
         res.status(500).json({ message: error.message });
     }
-    next();
 };
 
+const upvote = async (req, res, next) => {
+    try {
+        const { type, id, count } = req.body;
 
+        if (type === 'post') {
+            console.log('Upvoting post')
+            // Find the post
+            const post = await Post.findById(id);
+
+            // Update the post
+            post.upvotes = count;
+            await post.save();
+        } else {
+            console.log('Upvoting reply')
+            // Find the reply
+            const reply = await Reply.findById(id);
+
+            // Update the reply
+            reply.upvotes = count;
+            await reply.save();
+        }
+
+        // Send a success response
+        res.status(200).json({ message: 'Upvoted successfully' });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ message: error.message });
+    }
+};
 
 module.exports = { 
     getPostByUrl,
     createReply,
     deleteContent,
     updateContent,
+    upvote,
 };

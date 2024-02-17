@@ -12,7 +12,7 @@ const Reply = require('../models/replyModel');
 const { populateAll } = require('../controllers/helper');
 
 // import controller
-const { getPostByUrl, createReply, deleteContent, updateContent } = require('../controllers/postController');
+const { getPostByUrl, createReply, deleteContent, updateContent, upvote } = require('../controllers/postController');
 
 router.get('/:title', populateAll, getPostByUrl, (req, res) => {
     try {
@@ -24,7 +24,7 @@ router.get('/:title', populateAll, getPostByUrl, (req, res) => {
     }
 })
 
-router.post('/newReply', createReply, (req, res) => {
+router.post('/reply', createReply, (req, res) => {
     try {
         // Send the new reply data
         const reply = {
@@ -45,16 +45,10 @@ router.post('/newReply', createReply, (req, res) => {
     }
 })
 
-router.patch('/:id', updateContent);
+router.patch('/upvote', upvote);
 
-router.delete('/:id', deleteContent, (req, res) => {
-    try {
-        // Send the new reply data
-        res.json(res.message);
-    } catch (error) {
-        console.error('Error:', error);
-        res.status(500).json({ message: error.message });
-    }
-})
+router.patch('/edit', updateContent);
+
+router.delete('/delete', deleteContent);
 
 module.exports = router;

@@ -8,7 +8,8 @@ const postSchema = new mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
   title: { 
     type: String, 
-    required: true 
+    required: true, 
+    unique: true
   },
   refBoard: { 
     type: mongoose.Schema.Types.ObjectId, 
@@ -23,6 +24,10 @@ const postSchema = new mongoose.Schema({
   content: { 
     type: String, 
     required: true 
+  },
+  upvotes: {
+    type: Number,
+    default: 0,
   },
   replies: [
     { 
@@ -50,6 +55,10 @@ postSchema.virtual('replyCount').get(function() {
 
 postSchema.virtual('createdAtSGT').get(function() {
   return moment(this.createdAt).tz('Asia/Singapore').format('MMM DD, YYYY hh:mm A'); // Format SGT createdAt
+});
+
+postSchema.virtual('updatedAtSGT').get(function() { 
+  return moment(this.updatedAt).tz('Asia/Singapore').format('MMM DD, YYYY hh:mm A'); // Format SGT updatedAt
 });
 
 postSchema.pre('deleteOne', async function (next) {
