@@ -14,7 +14,7 @@ const { populateAll } = require('../controllers/helper');
 // import controller
 const { getPostByUrl, createReply, deleteContent, updateContent, upvote } = require('../controllers/postController');
 
-router.get('/:title', populateAll, getPostByUrl, (req, res) => {
+router.get('/:id', populateAll, getPostByUrl, (req, res) => {
     try {
         // Render the dynamic boards pages with the fetched data
         res.render('post', { loggedIn: true, title: res.post.title, post: res.post, users: res.users });

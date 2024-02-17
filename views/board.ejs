@@ -26,14 +26,14 @@
             <img src="images/book.gif" alt="icon" />
           </td>
           <td>
-            <a href="/post/<%= board.posts[i].title.toLowerCase() %>"
+            <a href="/post/<%= board.posts[i].id %>"
               ><strong><%= board.posts[i].title %></strong></a
             >
             <p><%= board.posts[i].createdAtSGT %></p>
           </td>
           <td class="center-table-data">
             <div class="username">
-              <a href="/user/id=<%= board.posts[i].poster.id %>"
+              <a href="/user/<%= board.posts[i].poster.id %>"
                 ><%= board.posts[i].poster.username %></a
               >
             </div>

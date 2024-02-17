@@ -12,23 +12,20 @@ const getPostByUrl = async (req, res, next) => {
         const parts = url.split('/');
         const lastPart = parts[parts.length - 1];
 
-        // Replace "%20" with spaces
-        const title = decodeURIComponent(lastPart.replace(/\+/g, ' '));
-
-        // Find the board in the database
-        const post = await Post.findOne({ title: { $regex: new RegExp(title, 'i') } });  
+        // Find the board in the database using a case-insensitive regex
+        const post = await Post.findById(lastPart);
 
         if (!post) {
             return res.status(404).json({ message: 'Post not found', post: post });
         } else {
             res.post = await populatePost(post);
         }
-    }
-    catch (err) {
+    } catch (err) {
         res.status(500).json({ message: err.message });
     }
     next();
 }
+
 
 // Create a new reply
 const createReply = async (req, res, next) => {

@@ -41,7 +41,7 @@
               <% } else { %>
               <td>
                 Last post: <%= board.lastPost.createdAtSGT %> 
-                <br>in <a href="/post/<%= board.lastPost.title.toLowerCase() %>"><%= board.lastPost.title %></a>
+                <br>in <a href="/post/<%= board.lastPost.id %>"><%= board.lastPost.title %></a>
                 <br>by <a href="/user/<%= board.lastPost.poster.id %>">
                   <%= board.lastPost.poster.username %></a>
               </td>
@@ -68,7 +68,7 @@
       </a>
       <br>
       Latest Post:
-      <a href="/post/<%= posts[posts.length - 1].title.toLowerCase() %>">
+      <a href="/post/<%= posts[posts.length - 1].id %>">
         "<%= posts[posts.length - 1].title %>"
       </a>
       (<strong>Feb 02</strong> at 07:20 PM)
