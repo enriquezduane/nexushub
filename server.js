@@ -31,6 +31,7 @@ const forumRouter = require('./routes/forum');
 const postRouter = require('./routes/post');
 const userRouter = require('./routes/user');
 const searchRouter = require('./routes/search');
+const adminRouter = require('./routes/admin');
 
 // use routes to handle requests
 app.use('/', indexRouter)
@@ -38,6 +39,7 @@ app.use('/forum', forumRouter);
 app.use('/post', postRouter);
 app.use('/user', userRouter);
 app.use('/search', searchRouter);
+app.use('/admin', adminRouter);
 
 // server listener
 app.listen(port, () => {

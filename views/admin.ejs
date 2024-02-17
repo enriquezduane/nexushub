@@ -1,0 +1,212 @@
+<%- include('partials/logo.ejs') %>
+
+<div class="content-container dashed-black-container container-margin">
+    <div class="admin-container topic-header">
+        <div class="admin-header">
+            <img id="torch-gif" src="/images/torch.gif" alt="icon">
+            <span class="header-text">Forum Master Area</span>
+            <img id="torch-gif" src="/images/torch.gif" alt="icon">
+        </div>
+    </div>
+
+    <%- include('partials/admin-nav.ejs') %>
+
+    <% if (action === 'categories') { %>
+    <div class="content-header">
+        <div class="search-bar">
+            <input type="text" class="search-input" placeholder="Search.." name="search">
+            <button class="nav-button" type="submit">Search</button>
+        </div>
+        <button class="nav-button">Create Category</button>
+    </div>
+
+    <% categories.forEach( (category, index) => { %>
+        <div class="category-container admin-container">
+            <div class="category-actions">
+                <button class="category-button">&#x25B6;</button>
+                <div>
+                    <button class="category-button">Edit</button>
+                    <button class="category-button">Delete</button>  
+                </div>
+            </div>
+            <ul>
+                <li style="color: #fff; margin-bottom: 30px;">#<%= index + 1 %></li>
+                <li>title : <span><%= category.title %></span></li>
+                <li>boards : <span><%= category.boardCount %></span> <ul> <% category.boards.forEach( (board, index) => { %>
+                    <li><%= index + 1 %> : <%= board.title %></li>
+                <% }) %></ul>
+                </li>
+                <li>Created At : <span><%= category.createdAt %></span></li>
+                <li>Updated At : <span><%= category.updatedAt %></span></li>
+            </ul>
+        </div>
+    <% }) %>
+    <% } %>
+
+    <% if (action === 'boards') { %>
+        <div class="content-header">
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="Search.." name="search">
+                <button class="nav-button" type="submit">Search</button>
+            </div>
+            <button class="nav-button">Create Board</button>
+        </div>
+
+        <% boards.forEach( (board, index) => { %>
+            <div class="category-container admin-container">
+                <div class="category-actions">
+                    <button class="category-button">&#x25B6;</button>
+                    <div>
+                        <button class="category-button">Edit</button>
+                        <button class="category-button">Delete</button>  
+                    </div>
+                </div>
+                <ul>
+                    <li style="color: #fff; margin-bottom: 30px;">#<%= index + 1 %></li>
+                    <li>Title : <span><%= board.title %></span></li>
+                    <li>Description (Home Page) : <span style="font-size: 13px;">"<%= board.description %>"</span></li>
+                    <li>InnerDescription (Board Page) : <span style="font-size: 13px;">"<%= board.innerDescription %>"</span></li>
+                    <li>Category : <span><%= board.category.title %></span></li>
+                    <li>Last Post : <span><%= board.lastPost.title %></span></li>
+                    <li>Boards : <span><%= board.postCount %></span> <ul><% board.posts.forEach( (post, index) => { %>
+                        <li><%= index + 1 %> : <%= post.title %></li>
+                    <% }) %></ul>
+                    </li>
+                    <li>Created At : <span><%= board.createdAt %></span></li>
+                    <li>Updated At : <span><%= board.updatedAt %></span></li>
+                </ul>
+            </div>
+        <% }) %>
+    <% } %>
+
+    <% if (action === 'users') { %>
+        <div class="content-header">
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="Search.." name="search">
+                <button class="nav-button" type="submit">Search</button>
+            </div>
+            <button class="nav-button">Create User</button>
+        </div>
+    
+        <% users.forEach( (user, index) => { %>
+            <div class="category-container admin-container">
+                <div class="category-actions">
+                    <button class="category-button">&#x25B6;</button>
+                    <div>
+                        <button class="category-button">Edit</button>
+                        <button class="category-button">Delete</button>  
+                    </div>
+                </div>
+                <ul>
+                    <li style="color: #fff; margin-bottom: 30px;">#<%= index + 1 %></li>
+                    <li>Username : <span><%= user.username %></span></li>
+                    <li>password : <span><%= user.password %></span></li>
+                    <li>Email : <span><%= user.email %></span></li>
+                    <li>Role : <span><%= user.role %></span></li>
+                    <li>Posts : <span><%= user.postCount %></span> <ul> <% user.posts.forEach( (post, index) => { %>
+                        <li><%= index + 1 %> : <%= post.title %></li>
+                    <% }) %></ul>
+                    <li>Replies : <span><%= user.replyCount %></span><ul><% user.replies.forEach( (reply, index) => { %>
+                        <li><%= index + 1 %> : <%= reply.title %></li>
+                    <% }) %></ul>
+                    </li>
+                    <li>Age : <span><%= user.age %></span></li>
+                    <li>Current Server : <span><%= user.currentServer %></span></li>
+                    <li>Created At : <span><%= user.createdAt %></span></li>
+                    <li>Updated At : <span><%= user.updatedAt %></span></li>
+                </ul>
+            </div>
+        <% }) %>
+    <% } %>
+
+    <% if (action === 'posts') { %>
+        <div class="content-header">
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="Search.." name="search">
+                <button class="nav-button" type="submit">Search</button>
+            </div>
+            <button class="nav-button">Create Post</button>
+        </div>
+    
+        <% posts.forEach( (post, index) => { %>
+            <div class="category-container admin-container">
+                <div class="category-actions">
+                    <button class="category-button">&#x25B6;</button>
+                    <div>
+                        <button class="category-button">Edit</button>
+                        <button class="category-button">Delete</button>  
+                    </div>
+                </div>
+                <ul>
+                    <li style="color: #fff; margin-bottom: 30px;">#<%= index + 1 %></li>
+                    <li>Title : <span><%= post.title %></span></li>
+                    <li>Board : <span><%= post.refBoard.title %></span></li>
+                    <li>Poster : <span><%= post.poster.username %></span></li>
+                    <li>Content : <br>
+                        <span style="color: #faa;">"
+                        <% if (post.content.length > 90) { %>
+                            <%= post.content.substring(0, 90) + "..." %>
+                          <% } else { %>
+                            <%= post.content %>
+                          <% } %>
+                        "</span>
+                    </li>
+                    <li>Replies : <span><%= post.replyCount %></span> <ul><% post.replies.forEach( (reply, index) => { %>
+                        <li><%= index + 1 %> : <%= reply.poster.username %> - "
+                            <% if (reply.reply.length > 80) { %>
+                                <%= reply.reply.substring(0, 80) + "..." %>
+                              <% } else { %>
+                                <%= reply.reply %>
+                              <% } %>
+                            "</li>
+                    <% }) %></ul>
+                    </li>
+                    <li>Views : <span><%= post.views %></span></li>
+                    <li>Created At : <span><%= post.createdAt %></span></li>
+                    <li>Updated At : <span><%= post.updatedAt %></span></li>
+                </ul>
+            </div>
+        <% }) %>
+    <% } %>
+
+    <% if (action === 'replies') { %>
+        <div class="content-header">
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="Search.." name="search">
+                <button class="nav-button" type="submit">Search</button>
+            </div>
+            <button class="nav-button">Create Reply</button>
+        </div>
+    
+        <% replies.forEach( (reply, index) => { %>
+            <div class="category-container admin-container">
+                <div class="category-actions">
+                    <button class="category-button">&#x25B6;</button>
+                    <div>
+                        <button class="category-button">Edit</button>
+                        <button class="category-button">Delete</button>  
+                    </div>
+                </div>
+                <ul>
+                    <li style="color: #fff; margin-bottom: 30px;">#<%= index + 1 %></li>
+                    <li>Title : <span><%= reply.title %></span></li>
+                    <li>Poster : <span><%= reply.poster.username %></span></li>
+                    <li>Content : <br>
+                        <span style="color: #faa;">"
+                        <% if (reply.reply.length > 90) { %>
+                            <%= reply.reply.substring(0, 90) + "..." %>
+                          <% } else { %>
+                            <%= reply.reply %>
+                          <% } %>
+                        "</span>
+                    </li>
+                    <li>upvotes : <span><%= reply.upvotes %></span></li>
+                    <li>Created At : <span><%= reply.createdAt %></span></li>
+                    <li>Updated At : <span><%= reply.updatedAt %></span></li>
+                </ul>
+            </div>
+        <% }) %>
+    <% } %>
+</div>
+
+<script src="/js/adminCreate.js"></script>

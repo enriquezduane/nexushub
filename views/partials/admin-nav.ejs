@@ -1,0 +1,31 @@
+<nav class="admin-nav">
+    <% if (action === 'categories') { %>
+    <a href="/admin?action=categories"><button class="nav-button active">Categories</button></a>
+    <% } else { %>
+    <a href="/admin?action=categories"><button class="nav-button">Categories</button></a>
+    <% } %>
+
+    <% if (action === 'boards') { %>
+        <a href="/admin?action=boards"><button class="nav-button active">Boards</button></a>
+    <% } else { %>
+        <a href="/admin?action=boards"><button class="nav-button">Boards</button></a>
+    <% } %>
+
+    <% if (action === 'users') { %>
+        <a href="/admin?action=users"><button class="nav-button active">Users</button></a>
+    <% } else { %>
+        <a href="/admin?action=users"><button class="nav-button">Users</button></a>
+    <% } %>
+
+    <% if (action === 'posts') { %>
+        <a href="/admin?action=posts"><button class="nav-button active">Posts</button></a>
+    <% } else { %>
+        <a href="/admin?action=posts"><button class="nav-button">Posts</button></a>
+    <% } %>
+
+    <% if (action === 'replies') { %>
+        <a href="/admin?action=replies"><button class="nav-button active">Replies</button></a>
+    <% } else { %>
+        <a href="/admin?action=replies"><button class="nav-button">Replies</button></a>
+    <% } %>
+</nav>

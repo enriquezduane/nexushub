@@ -1061,7 +1061,9 @@ tbody {
 .delete-button,
 .save-button,
 .create-post-button,
-.cancel-button {
+.cancel-button,
+.nav-button,
+.category-button {
   background-color: #000033;
   /* Dark blue color to match your theme */
   color: #ffffff;
@@ -1084,7 +1086,9 @@ tbody {
 .edit-button:hover,
 .delete-button:hover,
 .save-button:hover,
-.cancel-button:hover {
+.cancel-button:hover,
+.nav-button:hover,
+.category-button:hover {
   color: #ffffff;
   background-color: #8f3e97;
   /* Purple color for hover effect */
@@ -1683,4 +1687,121 @@ tbody td:nth-child(5) {
 .edit-profile-form .update-profile-btn:hover {
   color: #ffffff;
   background-color: #8F3E97;
+}
+
+.admin-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #000033;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+  border: 1px solid #c45aeb;
+}
+
+.admin-header {
+  font-family: 'Press Start 2P', cursive;
+  color: #fff;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 30px;
+  text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+  gap: 10px;
+}
+
+.header-text {
+  animation: neon-flicker-purple  1s infinite alternate;
+}
+
+#torch-gif {
+  width: 100px;
+  height: 100px;
+}
+
+.admin-nav {
+  display: flex;
+  align-items: center;
+  padding: 20px 0
+}
+
+.nav-button {
+  margin: 0;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+}
+
+.nav-button.active {
+  transform: translateY(2px); /* Move the button down */
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+.admin-content-header {
+  border-radius: 5px;
+}
+
+.content-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 20px;
+}
+
+.category-container {
+  margin: 20px 0;
+  border: 2px solid #6b4dba;
+  border-radius: 10px;
+  padding: 20px;
+  line-height: 1.2rem;
+}
+
+.category-actions {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.category-container ul {
+  list-style: none;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.category-container li {
+  font-family: 'Press Start 2P', cursive;
+  color: #895ff1;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.category-container li span {
+  color: #da96f5;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.category-container li ul {
+  margin-top: 10px;
+}
+
+.category-container li ul li {
+  color: #fff;
+  font-size: 13px;
+  margin-left: 40px;
+}
+
+.search-bar input {
+  background-color: #000033;
+  border: 1px solid rgb(160, 160, 160);
+  border-radius: 5px;
+  margin-right: 5px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+}
+
+.category-button {
+  background-color: #895ff1;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin-right: 5px;
 }

@@ -30,6 +30,10 @@ categorySchema.virtual('createdAtSGT').get(function() {
   return moment(this.createdAt).tz('Asia/Singapore').format('MMM DD, YYYY hh:mm A'); // Format SGT createdAt
 });
 
+categorySchema.virtual('boardCount').get(function() {
+  return this.boards.length;
+});
+
 categorySchema.pre('deleteOne', async function(next) {
   try {
     const category = await mongoose.model('Category').findOne(this.getQuery()).populate('boards');
