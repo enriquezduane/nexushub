@@ -54,14 +54,6 @@ window.addEventListener('click', function(event) {
     }
 });
 
-// registration form submit
-const registerButton = document.querySelector('#register-button');
-
-registerButton.addEventListener('click', function() {
-    alert("You have successfully registered!");
-    modal3.classList.remove('show');
-});
-
 // search bar modal
 const modal4 = document.querySelector('.modal4');
 const openModalButton3 = document.querySelector('#search');

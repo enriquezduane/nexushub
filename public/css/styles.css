@@ -591,9 +591,9 @@ footer {
 
 .agreement-frame {
   width: 750px;
-  border: 1px solid #00ff00;
+  border: 1px solid #b4b9b4;
   /* Neon green, reminiscent of old computer screens */
-  box-shadow: 0 0 10px #00ff00;
+  box-shadow: 0 0 10px #b4b9b4;
   /* Glowing effect */
 }
 
@@ -648,9 +648,9 @@ footer {
 
 .registration-form-frame {
   width: 450px;
-  border: 1px solid #00ff00;
+  border: 1px solid #b4b9b4;
   /* Neon green, reminiscent of old computer screens */
-  box-shadow: 0 0 10px #00ff00;
+  box-shadow: 0 0 10px #b4b9b4;
   /* Glowing effect */
 }
 

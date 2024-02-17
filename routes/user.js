@@ -8,7 +8,7 @@ router.use(express.static('public'));
 const { populateAll } = require('../controllers/helper');
 
 // import controller
-const { getUserByUrl, updateUser } = require('../controllers/userController');
+const { getUserByUrl, updateUser, createUser } = require('../controllers/userController');
 
 router.get('/update-:id', (req, res) => {
     try {
@@ -29,6 +29,8 @@ router.get('/:id', populateAll, getUserByUrl, (req, res) => {
         res.status(500).json({ message: err.message });
     }
 })
+
+router.post('/new', createUser);
 
 router.patch('/', updateUser);
 

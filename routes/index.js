@@ -6,12 +6,11 @@ router.use(express.static('public'));
 
 // initialize database
 const { populateAll } = require('../controllers/helper');
-const Category = require('../models/categoryModel');
 
 router.get('/', populateAll, (req, res) => {
     try {
           // Render the homepage with the fetched data
-           res.render('index', { loggedIn: true, title: "NexusHub", categories: res.categories, 
+           res.render('index', { loggedIn: false, title: "NexusHub", categories: res.categories, 
            boards: res.boards, posts: res.posts, users: res.users });
     } catch (error) {
           console.error('Error fetching data:', error);

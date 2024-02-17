@@ -22,6 +22,7 @@ const userSchema = new mongoose.Schema({
   },
   role: { 
     type: String, 
+    default: "Novice Adventurer",
     required: true 
   },
   description: {

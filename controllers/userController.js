@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const User = require('../models/userModel');
 
 const getUserByUrl = async (req, res, next) => {
@@ -20,6 +21,40 @@ const getUserByUrl = async (req, res, next) => {
       res.status(500).json({ message: err.message });
   }
   next();
+}
+
+const createUser = async (req, res) => {
+  try {
+    // Get the username and password from the request body
+    const { registerUsername, registerPassword } = req.body;
+
+    // Check if the username already exists
+    const existing = await User.findOne({ username: registerUsername });
+
+    if (existing) {
+      return res.status(409).json({ message: 'Username already exists' });
+    }
+
+    // Create a new user
+    const user = new User({ 
+      _id: new mongoose.Types.ObjectId(),
+      username: registerUsername, 
+      password: registerPassword,
+      createdAt: Date.now(),
+      UpdatedAt: Date.now(),
+    });
+
+    // Save the user to the database
+    user1 = await user.save();  
+
+    console.log('User created successfully:', user1)
+
+    // Send a success message
+    res.status(201).json({ message: 'User created successfully' });
+  }
+  catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 }
 
 const updateUser = async (req, res) => {
@@ -50,5 +85,6 @@ const updateUser = async (req, res) => {
 
 module.exports = {
   getUserByUrl,
+  createUser,
   updateUser,
 }

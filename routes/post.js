@@ -4,10 +4,6 @@ const router = express.Router();
 // router middlewares
 router.use(express.static('public'));
 
-// import models
-const Post = require('../models/postModel');
-const Reply = require('../models/replyModel');
-
 // initialize database
 const { populateAll } = require('../controllers/helper');
 
@@ -34,8 +30,7 @@ router.get('/:id', populateAll, getPostByUrl, (req, res) => {
     }
 })
 
-router.post('/post', createPost, (req, res) => {
-})
+router.post('/post', createPost);
 
 router.post('/reply', createReply, (req, res) => {
     try {
