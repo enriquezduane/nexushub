@@ -3,7 +3,7 @@
         <form class="search-admin-form" action="/admin" method="GET">
             <input type="hidden" name="action" value="categories">
             <div class="search-bar">
-                <input type="text" class="search-input" placeholder="Search.." name="search">
+                <input type="text" class="search-input" placeholder="Search Title..." name="search">
                 <button class="nav-button" type="submit">Search</button>
             </div>
         </form>
@@ -22,7 +22,7 @@
                 </div>
                 <ul>
                     <li style="color: #fff; margin-bottom: 30px;">#<%= index + 1 %></li>
-                    <li>title : <span><%= category.title %></span></li>
+                    <li>title : <span><%- highlightSubstring(category.title, query) %></span></li>
                     <li>boards : <span><%= category.boardCount %></span> 
                         <% if (category.boards.length > 0) { %>
                             <ul> 

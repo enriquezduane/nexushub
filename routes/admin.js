@@ -23,7 +23,8 @@ router.get('/', populateAll, searchFilter, (req, res) => {
             users: res.users, 
             posts: res.posts, 
             replies: res.replies,
-            filteredData: res.filteredData || [] // Include filtered data or an empty array
+            filteredData: res.filteredData || [], // Include filtered data or an empty array
+            highlightSubstring
         });   
     } catch (error) {
           console.error('Error fetching data:', error);

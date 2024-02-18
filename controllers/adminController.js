@@ -163,26 +163,30 @@ const searchFilter = async (req, res, next) => {
     const { action, search } = req.query;
 
     if (action && search) {
-        // Define an array to store filtered data
-        const filteredData = [];
-
         // Determine which mongoose model to search based on the action
         let modelToSearch;
+        let populateFields = [];
+
         switch (action) {
             case 'categories':
                 modelToSearch = Category;
+                populateFields = ['boards']; // Fields to populate for categories
                 break;
             case 'boards':
                 modelToSearch = Board;
+                populateFields = ['posts']; // Fields to populate for boards
                 break;
             case 'users':
                 modelToSearch = User;
+                populateFields = ['posts', 'replies']; // Fields to populate for users
                 break;
             case 'posts':
                 modelToSearch = Post;
+                populateFields = ['refBoard', 'poster', 'replies']; // Fields to populate for posts
                 break;
             case 'replies':
                 modelToSearch = Reply;
+                populateFields = ['refPost', 'poster']; // Fields to populate for replies
                 break;
             default:
                 // If the action is not recognized, proceed to the next middleware
@@ -190,26 +194,25 @@ const searchFilter = async (req, res, next) => {
         }
 
         try {
-            // Construct the regular expression search query for each property
-            const regexQuery = Object.keys(modelToSearch.schema.obj).reduce((acc, key) => {
-                acc[key] = { $regex: new RegExp(search, 'i') };
-                return acc;
-            }, {});
+            // Construct the search query for title or username properties
+            const query = {
+                $or: [
+                    { title: { $regex: new RegExp(search, 'i') } }, // Search for title property
+                    { username: { $regex: new RegExp(search, 'i') } } // Search for username property for users
+                ]
+            };
 
-            // Perform the text search query
-            const textSearchResults = await modelToSearch.find(
-                { $text: { $search: search } }
-            );
+            // Perform the search query and dynamically populate fields
+            let searchResults = modelToSearch.find(query);
+            populateFields.forEach(field => {
+                searchResults = searchResults.populate(field);
+            });
 
-            // Perform the regular expression search query
-            const regexSearchResults = await modelToSearch.find(regexQuery);
+            // Execute the query
+            searchResults = await searchResults.exec();
 
-            // Combine the results from both queries
-            const data = [...textSearchResults, ...regexSearchResults];
-
-            // Store the filtered data
-            filteredData.push(...data);
-            res.filteredData = filteredData;
+            // Assign the search results to res.filteredData
+            res.filteredData = searchResults;
             next();
         } catch (error) {
             // Handle errors
@@ -221,6 +224,8 @@ const searchFilter = async (req, res, next) => {
         next();
     }
 };
+
+
 
 
 module.exports = {
