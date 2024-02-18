@@ -2,13 +2,13 @@
     <div class="content-header">
         <div class="search-bar">
             <input type="text" class="search-input" placeholder="Search.." name="search">
-            <button id="openCategoryModalBtn" class="nav-button" type="button">Search</button>
+            <button class="nav-button" type="button">Search</button>
         </div>
-        <button class="nav-button">Create Category</button>
+        <button id="openCategoryModalBtn" class="nav-button">Create Category</button>
     </div>
 
     <% categories.forEach( (category, index) => { %>
-        <div class="category-container admin-container">
+        <div class="category-container admin-container" data-index="<%= index + 1 %>">
             <div class="category-actions">
                 <button class="category-button">&#x25B6;</button>
                 <div>
@@ -19,9 +19,14 @@
             <ul>
                 <li style="color: #fff; margin-bottom: 30px;">#<%= index + 1 %></li>
                 <li>title : <span><%= category.title %></span></li>
-                <li>boards : <span><%= category.boardCount %></span> <ul> <% category.boards.forEach( (board, index) => { %>
-                    <li><%= index + 1 %> : <%= board.title %></li>
-                <% }) %></ul>
+                <li>boards : <span><%= category.boardCount %></span> 
+                    <% if (category.boards.length > 0) { %>
+                        <ul> 
+                            <% category.boards.forEach( (board, index) => { %>
+                            <li><%= index + 1 %> : <%= board.title %></li>
+                            <% }) %>
+                        </ul>
+                    <% } %>
                 </li>
                 <li>Created At : <span><%= category.createdAt %></span></li>
                 <li>Updated At : <span><%= category.updatedAt %></span></li>
@@ -29,13 +34,15 @@
         </div>
     <% }) %>
 
-    <dialog id="createCategoryModal">
-        <form id="createCategoryForm">
-        <button id="closeCategoryModalBtn" class="close" type="button">&times;</button>
-        <h2>Create Category</h2>
-        <label for="categoryTitle">Category Title:</label>
-        <input type="text" id="categoryTitle" name="categoryTitle" required>
-        <button type="submit">Create</button>
-        </form>
-    </dialog>
+    <div id="createCategoryModal" class="modal5">
+        <div class="category-modal-frame">
+            <form id="createCategoryForm">
+                <button id="closeCategoryModalBtn" class="close" type="button">&times;</button>
+                <h2>Create Category</h2>
+                <label for="categoryTitle">Category Title:</label>
+                <input type="text" id="categoryTitle" name="categoryTitle" required>
+                <button type="submit">Create</button>
+            </form>
+        </div>
+    </div>
 <% } %>

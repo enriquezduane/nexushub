@@ -7,6 +7,9 @@ router.use(express.static('public'));
 // initialize database
 const { populateAll } = require('../controllers/helper');
 
+// import controller
+const { createCategory } = require('../controllers/adminController');
+
 router.get('/', populateAll, (req, res) => {
     try {
           // Render the homepage with the fetched data
@@ -27,5 +30,7 @@ router.get('/', populateAll, (req, res) => {
           res.status(500).json({ message: err.message });
     }
 })
+
+router.post('/category', createCategory);
 
 module.exports = router;

@@ -73,7 +73,6 @@ searchButton.addEventListener('click', function() {
     modal4.classList.remove('show');
 });
 
-
 // music functions
 const soundButton = document.querySelector('.music-button');
 const soundEffect = document.querySelector('.sound-effect');
