@@ -1,4 +1,5 @@
 // import mongoose and models
+const moment = require('moment-timezone');
 const mongoose = require('mongoose');
 const Post = require('../models/postModel');
 const User = require('../models/userModel');
@@ -553,6 +554,10 @@ const highlightSubstring = (content, searchText) => {
     return parts.map(part => part.toLowerCase() === searchText.toLowerCase() ? `<strong style="color: #ff9200;">${part}</strong>` : part).join('');
 }
 
+const formatLatestPostDate = (post) => {
+    return moment(post.createdAt).tz('Asia/Singapore').format('MMM DD [at] hh:mm A');
+}
+
 module.exports = {
     populateAll,
     populateCategories,
@@ -564,4 +569,5 @@ module.exports = {
     populateReplies,   
     populateReply,
     highlightSubstring,
+    formatLatestPostDate,
 }

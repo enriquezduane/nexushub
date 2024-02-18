@@ -71,14 +71,14 @@
       <a href="/post/<%= posts[posts.length - 1].id %>">
         "<%= posts[posts.length - 1].title %>"
       </a>
-      (<strong>Feb 02</strong> at 07:20 PM)
+      (<span style="color: #fff"><%= formatLatestPostDate(posts[posts.length-1]) %></span>)
     </p>
     <div>
       Users Online
     </div>
     <p>
-      <Strong>Online: 10 Guests, 1 User</Strong>
-      - Most Online Today: <strong>16</strong> - Most Online Ever: 34 (Feb 01, 2024, 09:23 PM)
+      <span style="color: #fff">Online: 10 Guests, 1 User</span>
+      - Most Online Today: <span style="color: #fff">16</span> - Most Online Ever: <span style="color: #fff">34</span> (<span style="color: #fff">Feb 01, 2024 09:23 PM</span>)
       <br>
       Users active in past 15 minutes: <a href="/user/<%= users[0].id %>"><%= users[0].username %></a>
     </p>
