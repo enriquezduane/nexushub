@@ -27,6 +27,17 @@ Dive into the retro universe of **NexusHub**, a Ragnarok forums site that catapu
 - **Pure HTML, CSS, and JS**: Built using the foundational web technologies, ensuring that every pixel on NexusHub feels like it's been handcrafted for the ultimate retro experience. 🛠️🎨
 - **Work in Progress**: NexusHub is an evolving platform. While we bask in the nostalgia, we're also gearing up for future tech, planning to integrate a robust backend with the MEN stack for a seamless user experience. 🚧🔧
 
+## 🌟 How to Run
+
+Requirements
+- MongoDB Installed
+- Node.js Installed
+
+1. Redirect your terminal to the path NexusHub/models/database.
+  - ("cd models" > "cd database")
+2. run "node seed.js" to initialize the MongoDB Database locally with seed (initial) data.
+3. run "npm run devStart" to run the server on localhost:8000 
+
 ## 🌟 Join the NexusHub Odyssey
 
 Whether you're here to relive your best Ragnarok moments or to carve new ones, NexusHub is your go-to retro haven. Connect with fellow Ragnarok enthusiasts, share your stories, and maybe even unlock the secrets to ascending the ranks to Forum Master. 
@@ -36,3 +47,4 @@ Whether you're here to relive your best Ragnarok moments or to carve new ones, N
 ---
 
 Note: NexusHub is currently in development as part of a school project for a major course. It's a work in progress, blending academic goals with the engaging world of Ragnarok. Your participation and feedback are invaluable as we continue to develop NexusHub! 🚀📚
+
