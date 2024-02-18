@@ -22,12 +22,12 @@
                 </div>
                 <ul>
                     <li style="color: #fff; margin-bottom: 30px;">#<%= index + 1 %></li>
-                    <li>Title : <span><%- highlightSubstring(reply.title, query)  %></span></li>
+                    <li>Title : <a href="/post/<%= reply.refPost.id %>"><span style="color: #fff;"><%- highlightSubstring(reply.title, query)  %></span></li></a>
                     <li>Poster : <span><%= reply.poster.username %></span></li>
                     <li>Content : <br>
                         <span style="color: #faa;">"
-                        <% if (reply.reply.length > 90) { %>
-                            <%= reply.reply.substring(0, 90) + "..." %>
+                        <% if (reply.reply.length > 135) { %>
+                            <%= reply.reply.substring(0, 135) + "..." %>
                           <% } else { %>
                             <%= reply.reply %>
                           <% } %>
@@ -51,12 +51,12 @@
                 </div>
                 <ul>
                     <li style="color: #fff; margin-bottom: 30px;">#<%= index + 1 %></li>
-                    <li>Title : <span><%= reply.title %></span></li>
+                    <li>Title : <a href="/post/<%= reply.refPost.id %>"><span style="color: #fff;"><%= reply.title %></span></li></a>
                     <li>Poster : <span><%= reply.poster.username %></span></li>
                     <li>Content : <br>
                         <span style="color: #faa;">"
-                        <% if (reply.reply.length > 90) { %>
-                            <%= reply.reply.substring(0, 90) + "..." %>
+                        <% if (reply.reply.length > 135) { %>
+                            <%= reply.reply.substring(0, 135) + "..." %>
                         <% } else { %>
                             <%= reply.reply %>
                         <% } %>

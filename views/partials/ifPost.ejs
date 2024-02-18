@@ -22,7 +22,7 @@
                 </div>
                 <ul>
                     <li style="color: #fff; margin-bottom: 30px;">#<%= index + 1 %></li>
-                    <li>Title : <span><%- highlightSubstring(post.title, query) %></span></li>
+                    <li>Title : <span style="color: #fff;"><%- highlightSubstring(post.title, query) %></span></li>
                     <li>Board : <span><%= post.refBoard.title %></span></li>
                     <li>Poster : <span><%= post.poster.username %></span></li>
                     <li>Content : <br>
@@ -65,13 +65,13 @@
                 </div>
                 <ul>
                     <li style="color: #fff; margin-bottom: 30px;">#<%= index + 1 %></li>
-                    <li>Title : <span><%= post.title %></span></li>
+                    <li>Title : <span style="color: #fff;"><%= post.title %></span></li>
                     <li>Board : <span><%= post.refBoard.title %></span></li>
                     <li>Poster : <span><%= post.poster.username %></span></li>
                     <li>Content : <br>
                         <span style="color: #faa;">"
-                            <% if (post.content.length > 90) { %>
-                                <%= post.content.substring(0, 90) + "..." %>
+                            <% if (post.content.length > 135) { %>
+                                <%= post.content.substring(0, 135) + "..." %>
                             <% } else { %>
                                 <%= post.content %>
                             <% } %>
@@ -81,8 +81,8 @@
                         <ul>
                             <% post.replies.forEach((reply, index) => { %>
                                 <li><%= index + 1 %> : <%= reply.poster.username %> - "
-                                    <% if (reply.reply.length > 80) { %>
-                                        <%= reply.reply.substring(0, 80) + "..." %>
+                                    <% if (reply.reply.length > 135) { %>
+                                        <%= reply.reply.substring(0, 135) + "..." %>
                                     <% } else { %>
                                         <%= reply.reply %>
                                     <% } %>

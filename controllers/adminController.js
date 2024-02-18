@@ -174,7 +174,7 @@ const searchFilter = async (req, res, next) => {
                 break;
             case 'boards':
                 modelToSearch = Board;
-                populateFields = ['posts']; // Fields to populate for boards
+                populateFields = ['category', 'posts']; // Fields to populate for boards
                 break;
             case 'users':
                 modelToSearch = User;

@@ -159,7 +159,8 @@ header div {
 
 /* Dropdown Button */
 .cyberpunk-nav .dropbtn {
-  background-color: #000; /* Dark gray */
+  background-color: #000;
+  /* Dark gray */
   color: #fff;
   padding: 16px;
   font-size: 17px;
@@ -181,7 +182,8 @@ header div {
 .cyberpunk-nav .dropdown-content {
   display: none;
   position: absolute;
-  background-color: #000; /* Dark gray */
+  background-color: #000;
+  /* Dark gray */
   min-width: 170px;
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
   z-index: 1;
@@ -202,8 +204,10 @@ header div {
 }
 
 .cyberpunk-nav .dropdown-content a:hover {
-  background-color: #711c91; /* Neon purple */
-  transform: scale(1.1); /* Scale up effect on hover */
+  background-color: #711c91;
+  /* Neon purple */
+  transform: scale(1.1);
+  /* Scale up effect on hover */
 }
 
 /* Show the dropdown menu on hover */
@@ -459,8 +463,10 @@ footer {
   /* Neon purplish-pink text color */
   text-shadow:
     0 0 5px #f975f7,
-    /* Lighter neon purplish-pink glow */ 0 0 10px #c45aeb,
-    /* Neon purplish-pink glow */ 0 0 20px #c45aeb;
+    /* Lighter neon purplish-pink glow */
+    0 0 10px #c45aeb,
+    /* Neon purplish-pink glow */
+    0 0 20px #c45aeb;
   /* Enhanced neon glow for depth */
   font-family: "Press Start 2P", cursive;
   /* Ensure font consistency */
@@ -486,8 +492,10 @@ footer {
   outline: none;
   text-shadow:
     0 0 5px #f975f7,
-    /* Lighter neon purplish-pink glow */ 0 0 10px #c45aeb,
-    /* Neon purplish-pink glow */ 0 0 20px #c45aeb;
+    /* Lighter neon purplish-pink glow */
+    0 0 10px #c45aeb,
+    /* Neon purplish-pink glow */
+    0 0 20px #c45aeb;
   /* Enhanced neon glow for depth */
 }
 
@@ -744,6 +752,7 @@ footer {
 }
 
 @keyframes neon-flicker {
+
   0%,
   19%,
   21%,
@@ -798,6 +807,7 @@ footer {
 }
 
 @keyframes pulsing-glow {
+
   0%,
   100% {
     text-shadow:
@@ -818,6 +828,7 @@ footer {
 }
 
 @keyframes float {
+
   0%,
   100% {
     transform: translateY(0);
@@ -829,6 +840,7 @@ footer {
 }
 
 @keyframes flicker {
+
   0%,
   100% {
     opacity: 1;
@@ -875,6 +887,7 @@ footer {
 }
 
 @keyframes sparkle {
+
   0%,
   100% {
     opacity: 0;
@@ -996,6 +1009,7 @@ tbody {
 }
 
 @keyframes clash {
+
   0%,
   100% {
     transform: rotate(0);
@@ -1347,7 +1361,7 @@ tbody {
   border-radius: 0 5px 5px 0;
 }
 
-.search-box + p {
+.search-box+p {
   font-size: 18px;
 }
 
@@ -1369,6 +1383,7 @@ tbody {
 }
 
 @keyframes neon-flicker-purple {
+
   0%,
   19%,
   21%,
@@ -1379,13 +1394,20 @@ tbody {
   100% {
     text-shadow:
       0 0 6px #b892ff,
-      /* Very light purple for a brighter glow */ 0 0 12px #ab7bff,
-      /* Light purple */ 0 0 18px #9a4dff,
-      /* Medium purple */ 0 0 24px #8a2be2,
-      /* Deeper purple */ 0 0 30px #8a2be2,
-      /* Deeper purple for more intense glow */ 0 0 36px #7a0fec,
-      /* Even deeper purple */ 0 0 42px #7a0fec,
-      /* Intensify the glow */ 0 0 48px #6900ff;
+      /* Very light purple for a brighter glow */
+      0 0 12px #ab7bff,
+      /* Light purple */
+      0 0 18px #9a4dff,
+      /* Medium purple */
+      0 0 24px #8a2be2,
+      /* Deeper purple */
+      0 0 30px #8a2be2,
+      /* Deeper purple for more intense glow */
+      0 0 36px #7a0fec,
+      /* Even deeper purple */
+      0 0 42px #7a0fec,
+      /* Intensify the glow */
+      0 0 48px #6900ff;
     /* Deep purple for maximum brightness and glow */
   }
 
@@ -1614,6 +1636,7 @@ tbody td:nth-child(5) {
   flex-direction: column;
   align-items: flex-end;
 }
+
 .create-post-form .post-submit-btn:hover {
   color: #ffffff;
   background-color: #8f3e97;
@@ -1740,7 +1763,8 @@ tbody td:nth-child(5) {
 }
 
 .nav-button.active {
-  transform: translateY(4px); /* Move the button down */
+  transform: translateY(4px);
+  /* Move the button down */
   box-shadow: 0 0 10px rgba(215, 55, 255, 1);
 }
 
@@ -1779,14 +1803,14 @@ tbody td:nth-child(5) {
 .category-container li {
   /* font-family: "Press Start 2P", cursive; */
   font-family: "basiic";
-  color: #895ff1;
+  color: #a07aff;
   font-size: 21px;
   margin-bottom: 10px;
 }
 
 .category-container li span {
-  color: #da96f5;
-  font-size: 19px;
+  color: #24d1f0;
+  font-size: 21px;
   margin-bottom: 5px;
 }
 
@@ -1796,7 +1820,7 @@ tbody td:nth-child(5) {
 
 .category-container li ul li {
   color: #fff;
-  font-size: 13px;
+  font-size: 18px;
   margin-left: 40px;
 }
 
@@ -1817,11 +1841,17 @@ tbody td:nth-child(5) {
 }
 
 /* Style for the modal content frame */
-.category-modal-frame {
-  background-color: #b257ee;
+.category-modal-frame,
+.board-modal-frame,
+.user-modal-frame,
+.post-modal-frame,
+.reply-modal-frame {
+  background-color: #000032;
   padding: 20px;
+  border: 2px solid #a361aa;
   border-radius: 5px;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2); /* Shadow effect */
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  /* Shadow effect */
   min-width: 400px;
 }
 
@@ -1831,14 +1861,29 @@ tbody td:nth-child(5) {
   top: 10px;
   right: 10px;
   font-size: 1.5rem;
+  color: #a361aa;
   background: none;
   border: none;
 }
 
 /* Style for the modal title */
-.category-modal-frame h2 {
+.category-modal-frame h2,
+.board-modal-frame h2,
+.user-modal-frame h2,
+.post-modal-frame h2,
+.reply-modal-frame h2 {
+  font-family: "Yoster", sans-serif;
   font-size: 1.5rem;
   margin-bottom: 15px;
+  color: #ffffff;
+  /* White text color */
+  text-shadow:
+    0 0 3px #9b30ff,
+    /* Innermost shadow with a soft glow */
+    0 0 6px #9b30ff,
+    /* Middle shadow with moderate glow */
+    0 0 9px #9b30ff;
+  /* Outer shadow for a subtle glow */
 }
 
 /* Style for the form labels */
@@ -1854,32 +1899,39 @@ tbody td:nth-child(5) {
   margin-bottom: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  box-sizing: border-box; /* Ensure padding and border are included in width */
+  box-sizing: border-box;
+  /* Ensure padding and border are included in width */
 }
 
 /* Style for the submit button */
-.category-modal-frame button[type="submit"] {
-  background-color: #4caf50; /* Green */
-  color: white;
+.category-modal-frame button[type="submit"],
+.board-modal-frame button[type="submit"],
+.user-modal-frame button[type="submit"],
+.post-modal-frame button[type="submit"],
+.reply-modal-frame button[type="submit"] {
+  background-color: #000033;
+  /* Dark blue color to match your theme */
+  color: #ffffff;
   padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
+  margin: 0 5px;
+  text-transform: uppercase;
   cursor: pointer;
+  font-family: "Press Start 2P", cursive;
+  /* Retro font from your theme */
+  font-size: 0.8em;
+  outline: none;
+  border: 1px solid #8f3e97;
+  transition: 0s;
 }
 
 /* Change submit button color on hover */
-.category-modal-frame button[type="submit"]:hover {
-  background-color: #45a049; /* Darker green */
-}
-
-/* Style for the board modal frame */
-.board-modal-frame {
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  min-width: 400px;
-  margin: 0 auto;
+.category-modal-frame button[type="submit"]:hover,
+.board-modal-frame button[type="submit"]:hover,
+.user-modal-frame button[type="submit"]:hover,
+.post-modal-frame button[type="submit"]:hover,
+.reply-modal-frame button[type="submit"]:hover {
+  color: #ffffff;
+  background-color: #8f3e97;
 }
 
 /* Style for the board modal title */
@@ -1930,7 +1982,7 @@ tbody td:nth-child(5) {
   border: none;
   padding: 0;
   background: none;
-  color: #000;
+  color: #a361aa;
 }
 
 .board-modal-frame button:hover {
@@ -1939,7 +1991,7 @@ tbody td:nth-child(5) {
 
 /* Style for the user modal frame */
 .user-modal-frame {
-  background-color: #fff;
+  /* background-color: #fff; */
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 20px;
@@ -1961,6 +2013,7 @@ tbody td:nth-child(5) {
 
 /* Style for the user modal labels */
 .user-modal-frame label {
+  margin-top: 5px;
   font-weight: bold;
   margin-bottom: 5px;
 }
@@ -2005,13 +2058,6 @@ tbody td:nth-child(5) {
 }
 
 /* Style for the post modal frame */
-.post-modal-frame {
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  min-width: 400px;
-}
 
 /* Style for the post modal title */
 .post-modal-frame h2 {
@@ -2040,7 +2086,8 @@ tbody td:nth-child(5) {
   border: 1px solid #ccc;
   border-radius: 4px;
   width: 100%;
-  box-sizing: border-box; /* Ensure the padding and border are included in the width */
+  box-sizing: border-box;
+  /* Ensure the padding and border are included in the width */
 }
 
 /* Style for the post modal button */
@@ -2073,13 +2120,6 @@ tbody td:nth-child(5) {
 }
 
 /* Style for the reply modal frame */
-.reply-modal-frame {
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  min-width: 400px;
-}
 
 /* Style for the reply modal title */
 .reply-modal-frame h2 {
@@ -2108,7 +2148,8 @@ tbody td:nth-child(5) {
   border: 1px solid #ccc;
   border-radius: 4px;
   width: 100%;
-  box-sizing: border-box; /* Ensure the padding and border are included in the width */
+  box-sizing: border-box;
+  /* Ensure the padding and border are included in the width */
 }
 
 /* Style for the reply modal button */
