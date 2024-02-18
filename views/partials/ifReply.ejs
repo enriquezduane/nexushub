@@ -4,7 +4,7 @@
             <input type="text" class="search-input" placeholder="Search.." name="search">
             <button class="nav-button" type="submit">Search</button>
         </div>
-        <button class="nav-button">Create Reply</button>
+        <button id="openReplyModalBtn"class="nav-button">Create Reply</button>
     </div>
 
     <% replies.forEach( (reply, index) => { %>
@@ -35,4 +35,37 @@
             </ul>
         </div>
     <% }) %>
+
+    <div id="createReplyModal" class="modal9">
+        <div class="reply-modal-frame">
+            <form id="createReplyForm">
+                <h2>Create Reply</h2>
+                <label for="refPost">Reference Post:</label>
+                <select id="refPost" name="refPost" required>
+                    <option value="">Select Reference Post</option>
+                    <% posts.forEach(function(post) { %>
+                        <option value="<%= post.id %>"><%= post.title %></option>
+                    <% }); %>
+                </select>
+    
+                <label for="poster">Poster:</label>
+                <select id="replyPoster" name="replyPoster" required>
+                    <option value="">Select Poster</option>
+                    <% users.forEach(function(user) { %>
+                        <option value="<%= user.id %>"><%= user.username %></option>
+                    <% }); %>
+                </select>
+    
+                <input type="hidden" id="reply" name="reply" value="true">
+    
+                <label for="replyContent">Content:</label>
+                <textarea id="replyContent" name="replyContent" required></textarea>
+    
+                <button type="submit">Create</button>
+            </form>
+        </div>
+    </div>
+    
 <% } %>
+
+<script src="/js/adminCreateReply.js"></script>

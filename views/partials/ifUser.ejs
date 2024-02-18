@@ -4,7 +4,7 @@
             <input type="text" class="search-input" placeholder="Search.." name="search">
             <button class="nav-button" type="submit">Search</button>
         </div>
-        <button class="nav-button">Create User</button>
+        <button id="openUserModalBtn"class="nav-button">Create User</button>
     </div>
 
     <% users.forEach( (user, index) => { %>
@@ -36,4 +36,47 @@
             </ul>
         </div>
     <% }) %>
+
+    <div id="createUserModal" class="modal7">
+        <div class="user-modal-frame">
+            <form id="createUserForm">
+                <h2>Create User</h2>
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+    
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password">
+    
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email">
+    
+                <label for="role">Role:</label>
+                <select id="role" name="role" required>
+                    <option value="">Select Role</option>
+                    <option value="Forum Master">Forum Master (Admin Rank)</option>
+                    <option value="Novice Adventurer">Novice Adventurer (New Member)</option>
+                    <option value="Initiate Acolyte">Initiate Acolyte (10 Posts)</option>
+                    <option value="Rookie Blacksmith">Rookie Blacksmith (25 Posts)</option>
+                    <option value="Journeyman Wizard">Journeyman Wizard (50 Posts)</option>
+                    <option value="Veteran Archer">Veteran Archer (100 Posts)</option>
+                    <option value="Elite Knight">Elite Knight (200 Posts)</option>
+                    <option value="Master Assassin">Master Assassin (500 Posts)</option>
+                    <option value="Grandmaster Scholar">Grandmaster Scholar (1000 Posts)</option>
+                </select>
+    
+                <label for="description">Description:</label>
+                <textarea id="description" name="description"></textarea>
+    
+                <label for="age">Age:</label>
+                <input type="number" id="age" name="age" value="18">
+    
+                <label for="currentServer">Current Server:</label>
+                <input type="text" id="currentServer" name="currentServer">
+    
+                <button type="submit">Create</button>
+            </form>
+        </div>
+    </div>
 <% } %>
+
+<script src="/js/adminCreateUser.js"></script>

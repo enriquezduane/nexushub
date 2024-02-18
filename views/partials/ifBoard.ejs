@@ -2,9 +2,9 @@
     <div class="content-header">
         <div class="search-bar">
             <input type="text" class="search-input" placeholder="Search.." name="search">
-            <button class="nav-button" type="submit">Search</button>
+            <button class="nav-button" type="button">Search</button>
         </div>
-        <button class="nav-button">Create Board</button>
+        <button id="openBoardModalBtn" class="nav-button">Create Board</button>
     </div>
 
     <% boards.forEach( (board, index) => { %>
@@ -22,14 +22,44 @@
                 <li>Description (Home Page) : <span style="font-size: 13px;">"<%= board.description %>"</span></li>
                 <li>InnerDescription (Board Page) : <span style="font-size: 13px;">"<%= board.innerDescription %>"</span></li>
                 <li>Category : <span><%= board.category.title %></span></li>
-                <li>Last Post : <span><%= board.lastPost.title %></span></li>
-                <li>Boards : <span><%= board.postCount %></span> <ul><% board.posts.forEach( (post, index) => { %>
-                    <li><%= index + 1 %> : <%= post.title %></li>
-                <% }) %></ul>
+                <li>Last Post : <span><%= board.lastPost ? board.lastPost.title : 'No posts yet.' %></span></li>
+                <li>Posts : <span><%= board.postCount %></span> 
+                    <% if (board.posts.length > 0) { %>
+                        <ul>
+                            <% board.posts.forEach((post, index) => { %>
+                                <li><%= index + 1 %> : <%= post.title %></li>
+                            <% }) %>
+                        </ul>
+                    <% } %>
                 </li>
                 <li>Created At : <span><%= board.createdAt %></span></li>
                 <li>Updated At : <span><%= board.updatedAt %></span></li>
             </ul>
         </div>
     <% }) %>
+
+    <div id="createBoardModal" class="modal6">
+        <div class="board-modal-frame">
+            <form id="createBoardForm">
+                <button id="closeBoardModalBtn" class="close" type="button">&times;</button>
+                <h2>Create Board</h2>
+                <label for="boardTitle">Board Title:</label>
+                <input type="text" id="boardTitle" name="boardTitle" required>
+                <label for="boardDescription">Description:</label>
+                <textarea id="boardDescription" name="boardDescription" required></textarea>
+                <label for="innerDescription">Inner Description:</label>
+                <textarea id="innerDescription" name="innerDescription" required></textarea>
+                <label for="category">Category:</label>
+                <select id="category" name="category" required>
+                    <option value="">Select Category</option>
+                    <% categories.forEach(function(category) { %>
+                        <option value="<%= category.id %>"><%= category.title %></option>
+                    <% }); %>
+                </select>
+                <button type="submit">Create</button>
+            </form>
+        </div>
+    </div>
 <% } %>
+
+<script src="/js/adminCreateBoard.js"></script>

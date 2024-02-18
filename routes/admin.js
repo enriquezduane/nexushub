@@ -8,23 +8,13 @@ router.use(express.static('public'));
 const { populateAll } = require('../controllers/helper');
 
 // import controller
-const { createCategory } = require('../controllers/adminController');
+const { createCategory, createBoard, createUser, createPost, createReply } = require('../controllers/adminController');
 
 router.get('/', populateAll, (req, res) => {
     try {
           // Render the homepage with the fetched data
-          if (req.query.action === 'boards')
-          {
-            res.render('admin', { loggedIn: true, title: "Forum Master Page", action: "boards", boards: res.boards});
-          } else if (req.query.action === 'users') {
-            res.render('admin', { loggedIn: true, title: "Forum Master Page", action: "users", users: res.users});
-          } else if (req.query.action === 'posts') {
-            res.render('admin', { loggedIn: true, title: "Forum Master Page", action: "posts", posts: res.posts});
-          } else if (req.query.action === 'replies') {
-            res.render('admin', { loggedIn: true, title: "Forum Master Page", action: "replies", replies: res.replies});
-          } else {
-            res.render('admin', { loggedIn: true, title: "Forum Master Page", action: "categories", categories: res.categories});
-          }    
+          res.render('admin', { loggedIn: true, title: "Forum Master Page", action: req.query.action, boards: res.boards, categories: res.categories, users: res.users, 
+          posts: res.posts, replies: res.replies});
     } catch (error) {
           console.error('Error fetching data:', error);
           res.status(500).json({ message: err.message });
@@ -32,5 +22,13 @@ router.get('/', populateAll, (req, res) => {
 })
 
 router.post('/category', createCategory);
+
+router.post('/board', createBoard);
+
+router.post('/user', createUser);
+
+router.post('/post', createPost);
+
+router.post('/reply', createReply);
 
 module.exports = router;

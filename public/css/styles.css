@@ -393,7 +393,11 @@ footer {
 .modal2,
 .modal3,
 .modal4,
-.modal5 {
+.modal5,
+.modal6,
+.modal7,
+.modal8,
+.modal9 {
   visibility: hidden;
   position: fixed;
   z-index: 1;
@@ -430,7 +434,11 @@ footer {
 .agreement-frame,
 .registration-form-frame,
 .search-container,
-.category-modal-frame {
+.category-modal-frame,
+.board-modal-frame,
+.user-modal-frame,
+.post-modal-frame,
+.reply-modal-frame {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -1732,8 +1740,8 @@ tbody td:nth-child(5) {
 }
 
 .nav-button.active {
-  transform: translateY(2px); /* Move the button down */
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+  transform: translateY(4px); /* Move the button down */
+  box-shadow: 0 0 10px rgba(215, 55, 255, 1);
 }
 
 .admin-content-header {
@@ -1805,4 +1813,315 @@ tbody td:nth-child(5) {
   border-radius: 5px;
   padding: 5px 10px;
   margin-right: 5px;
+}
+
+/* Style for the modal content frame */
+.category-modal-frame {
+  background-color: #b257ee; 
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2); /* Shadow effect */
+  min-width: 400px;
+}
+
+/* Style for the modal close button */
+#closeCategoryModalBtn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+}
+
+/* Style for the modal title */
+.category-modal-frame h2 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+/* Style for the form labels */
+.category-modal-frame label {
+  font-weight: bold;
+}
+
+/* Style for the input fields */
+.category-modal-frame input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box; /* Ensure padding and border are included in width */
+}
+
+/* Style for the submit button */
+.category-modal-frame button[type="submit"] {
+  background-color: #4CAF50; /* Green */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Change submit button color on hover */
+.category-modal-frame button[type="submit"]:hover {
+  background-color: #45a049; /* Darker green */
+}
+
+/* Style for the board modal frame */
+.board-modal-frame {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  min-width: 400px;
+  margin: 0 auto;
+}
+
+/* Style for the board modal title */
+.board-modal-frame h2 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+/* Style for the board modal form */
+.board-modal-frame form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Style for the board modal labels */
+.board-modal-frame label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* Style for the board modal inputs */
+.board-modal-frame input[type="text"],
+.board-modal-frame textarea,
+.board-modal-frame select {
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Style for the board modal button */
+.board-modal-frame button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#closeBoardModalBtn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  padding: 0;
+  background: none;
+  color: #000;
+}
+
+.board-modal-frame button:hover {
+  background-color: #0056b3;
+}
+
+/* Style for the user modal frame */
+.user-modal-frame {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  min-width: 400px;
+  margin: 0 auto;
+}
+
+/* Style for the user modal title */
+.user-modal-frame h2 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+/* Style for the user modal form */
+.user-modal-frame form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Style for the user modal labels */
+.user-modal-frame label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* Style for the user modal inputs */
+.user-modal-frame input[type="text"],
+.user-modal-frame input[type="password"],
+.user-modal-frame input[type="email"],
+.user-modal-frame select,
+.user-modal-frame textarea {
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Style for the user modal button */
+.user-modal-frame button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.user-modal-frame button:hover {
+  background-color: #0056b3;
+}
+
+/* Style for the close button */
+#closeUserModalBtn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* Style for the post modal frame */
+.post-modal-frame {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  min-width: 400px;
+}
+
+/* Style for the post modal title */
+.post-modal-frame h2 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+/* Style for the post modal form */
+.post-modal-frame form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Style for the post modal labels */
+.post-modal-frame label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* Style for the post modal inputs */
+.post-modal-frame input,
+.post-modal-frame select,
+.post-modal-frame textarea {
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box; /* Ensure the padding and border are included in the width */
+}
+
+/* Style for the post modal button */
+.post-modal-frame button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+}
+
+.post-modal-frame button:hover {
+  background-color: #0056b3;
+}
+
+/* Style for the close button */
+#closePostModalBtn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  padding: 0;
+  background: none;
+  color: #000;
+}
+
+/* Style for the reply modal frame */
+.reply-modal-frame {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  min-width: 400px;
+}
+
+/* Style for the reply modal title */
+.reply-modal-frame h2 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+/* Style for the reply modal form */
+.reply-modal-frame form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Style for the reply modal labels */
+.reply-modal-frame label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* Style for the reply modal inputs */
+.reply-modal-frame select,
+.reply-modal-frame textarea,
+.reply-modal-frame input[type="text"] {
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box; /* Ensure the padding and border are included in the width */
+}
+
+/* Style for the reply modal button */
+.reply-modal-frame button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+}
+
+.reply-modal-frame button:hover {
+  background-color: #0056b3;
 }

@@ -61,6 +61,26 @@ boardSchema.virtual('createdAtSGT').get(function() {
   return moment(this.createdAt).tz('Asia/Singapore').format('MMM DD, YYYY hh:mm A'); // Format SGT createdAt
 });
 
+boardSchema.pre('save', async function(next) {
+  try {
+    if (this.isNew) {
+      // Add the board to the associated category's boards array
+      const category = await mongoose.model('Category').findById(this.category);
+
+      if (category) {
+        category.boards.push(this._id);
+        await category.save();
+      }
+    } 
+
+    console.log('Board pre save middleware executed');
+    
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
+
 boardSchema.pre('deleteOne', async function(next) {
   try {
     const board = await mongoose.model('Board').findOne(this.getQuery()).populate('category').populate('posts');
