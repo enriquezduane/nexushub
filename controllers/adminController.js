@@ -158,6 +158,70 @@ const createReply = async (req, res) => {
     }
 }
 
+const searchFilter = async (req, res, next) => {
+    // Extract the action and query from the request query string
+    const { action, search } = req.query;
+
+    if (action && search) {
+        // Define an array to store filtered data
+        const filteredData = [];
+
+        // Determine which mongoose model to search based on the action
+        let modelToSearch;
+        switch (action) {
+            case 'categories':
+                modelToSearch = Category;
+                break;
+            case 'boards':
+                modelToSearch = Board;
+                break;
+            case 'users':
+                modelToSearch = User;
+                break;
+            case 'posts':
+                modelToSearch = Post;
+                break;
+            case 'replies':
+                modelToSearch = Reply;
+                break;
+            default:
+                // If the action is not recognized, proceed to the next middleware
+                return next();
+        }
+
+        try {
+            // Construct the regular expression search query for each property
+            const regexQuery = Object.keys(modelToSearch.schema.obj).reduce((acc, key) => {
+                acc[key] = { $regex: new RegExp(search, 'i') };
+                return acc;
+            }, {});
+
+            // Perform the text search query
+            const textSearchResults = await modelToSearch.find(
+                { $text: { $search: search } }
+            );
+
+            // Perform the regular expression search query
+            const regexSearchResults = await modelToSearch.find(regexQuery);
+
+            // Combine the results from both queries
+            const data = [...textSearchResults, ...regexSearchResults];
+
+            // Store the filtered data
+            filteredData.push(...data);
+            res.filteredData = filteredData;
+            next();
+        } catch (error) {
+            // Handle errors
+            console.error('Error filtering data:', error);
+            res.status(500).json({ message: 'Internal server error' });
+        }
+    } else {
+        // If action or query is missing, proceed to the next middleware
+        next();
+    }
+};
+
 
 module.exports = {
     createCategory,
@@ -165,4 +229,5 @@ module.exports = {
     createUser,
     createPost,
     createReply,
+    searchFilter,
 }
