@@ -1,4 +1,4 @@
-<% if (action === 'categories') { %>
+<% if (action === 'categories' || !action) { %>
     <div class="content-header">
         <form class="search-admin-form" action="/admin" method="GET">
             <input type="hidden" name="action" value="categories">

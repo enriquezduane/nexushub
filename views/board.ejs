@@ -26,14 +26,14 @@
             <img src="images/book.gif" alt="icon" />
           </td>
           <td>
-            <a href="/post/<%= board.posts[i].id %>"
+            <a href="<%= board.posts[i].href %>"
               ><strong><%= board.posts[i].title %></strong></a
             >
             <p><%= board.posts[i].createdAtSGT %></p>
           </td>
           <td class="center-table-data">
             <div class="username">
-              <a href="/user/<%= board.posts[i].poster.id %>"
+              <a href="<%= board.posts[i].poster.href %>"
                 ><%= board.posts[i].poster.username %></a
               >
             </div>
@@ -48,7 +48,7 @@
       </tbody>
     </table>
     <div class="create-post-button-container">
-      <a href="/post/create-<%= board.id %>" class="create-post-button">Create Post</a>
+      <a href="<%= board.href %>/create" class="create-post-button">Create Post</a>
     </div>
     <div class="navigation-buttons">
       <button class="prev-button">Previous</button>

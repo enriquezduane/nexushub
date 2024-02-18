@@ -5,21 +5,11 @@ const router = express.Router();
 router.use(express.static('public'));
 
 // initialize database
-const { populateAll } = require('../controllers/helper');
+const { populateAll, headerFooterData } = require('../controllers/helper');
 
 // import controller
-const { getPostByQuery } = require('../controllers/searchController');
-const { highlightSubstring } = require('../controllers/helper');
+const { renderSearch, getPostByQuery } = require('../controllers/searchController');
 
-router.get('/', populateAll, getPostByQuery, (req, res) => {
-    try {
-        // Render the dynamic boards pages with the fetched data
-        res.render('search', { loggedIn: true, title: "Search Results", posts: res.posts, 
-        query: req.query.query, highlightSubstring});
-    } catch (error) {
-        console.error('Error fetching data:', error);
-        res.status(500).json({ message: err.message });
-    }
-})
+router.get('/', populateAll, getPostByQuery, headerFooterData, renderSearch);
 
 module.exports = router;

@@ -81,6 +81,10 @@ userSchema.virtual('joinDateMonth').get(function() {
   return moment(this.createdAt).tz('Asia/Singapore').format('MMM YYYY'); // Format SGT createdAt
 });
 
+userSchema.virtual('href').get(function() {
+  return `/user/${this._id}`;
+});
+
 userSchema.pre('deleteOne', async function(next) {
   try {
     const user = await mongoose.model('User').findOne(this.getQuery()).populate('posts').populate('replies');

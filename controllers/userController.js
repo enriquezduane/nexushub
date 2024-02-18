@@ -1,6 +1,26 @@
 const mongoose = require('mongoose');
 const User = require('../models/userModel');
 
+const renderUpdateProfile = (req, res) => {
+  try {
+    // Render the edit profile page
+    res.render('updateProfile', { loggedIn: true, title: 'Update Profile', userId: req.params.id, forumRules: res.forumRules, userLoggedIn: res.userLoggedIn});
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    res.status(500).json({ message: err.message });
+  }
+}
+
+const renderUser = (req, res) => {
+  try {
+    // Render the users page
+    res.render('user', { loggedIn: true, title: res.user.username, user: res.user, forumRules: res.forumRules, userLoggedIn: res.userLoggedIn });
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    res.status(500).json({ message: err.message });
+  }
+}
+
 const getUserByUrl = async (req, res, next) => {
   try {
       // Split the URL by slashes and get the last part
@@ -84,6 +104,8 @@ const updateUser = async (req, res) => {
 }
 
 module.exports = {
+  renderUpdateProfile,
+  renderUser,
   getUserByUrl,
   createUser,
   updateUser,

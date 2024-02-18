@@ -29,7 +29,7 @@ function handleUpvote(event) {
         downvoteButton.classList.remove('active');
     }
 
-    fetch('/post/upvote', {
+    fetch('upvote', {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json'
@@ -81,7 +81,7 @@ function handleDownvote(event) {
         upvoteButton.classList.remove('active');
     }
 
-    fetch('/post/upvote', {
+    fetch('upvote', {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json'

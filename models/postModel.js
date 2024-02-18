@@ -66,6 +66,10 @@ postSchema.virtual('updatedAtSGT').get(function() {
   return moment(this.updatedAt).tz('Asia/Singapore').format('MMM DD, YYYY hh:mm A'); // Format SGT updatedAt
 });
 
+postSchema.virtual('href').get(function() {
+  return `${this.refBoard.href}/${this._id}`;
+});
+
 postSchema.pre('save', async function(next) {
   try {
     // Check if the document is new (i.e., being created)

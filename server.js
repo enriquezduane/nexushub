@@ -36,7 +36,7 @@ const adminRouter = require('./routes/admin');
 // use routes to handle requests
 app.use('/', indexRouter)
 app.use('/forum', forumRouter);
-app.use('/post', postRouter);
+app.use('/forum/:id', postRouter);
 app.use('/user', userRouter);
 app.use('/search', searchRouter);
 app.use('/admin', adminRouter);

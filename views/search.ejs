@@ -16,7 +16,7 @@
       <% posts.forEach( (post, index) => { %>
           <div class="search-result-container post-section post-container-template">
               <div class="search-result-content">
-                  <a href="/post/<%= post.title.toLowerCase() %>">
+                  <a href="<%= post.href %>">
                       <%- highlightSubstring(post.title, query) %>
                   </a>
                   <span>
@@ -24,7 +24,7 @@
                   </span>
               </div>
               <p>
-                  <span style="font-size: 15px;"><%= post.date %></span> by <a href="/user/id=<%= post.poster.id %>"><%= post.poster.username %></a>
+                  <span style="font-size: 15px;"><%= post.date %></span> by <a href="<%= post.poster.href %>"><%= post.poster.username %></a>
               </p>
           </div>
       <% }) %>

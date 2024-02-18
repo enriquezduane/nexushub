@@ -6,7 +6,7 @@
             <%= post.title %>
         </div>
         <p>
-            <br>Started by <a href="/user/<%= post.poster.id %>"><%= post.poster.username %></a>, <%= post.createdAtSGT %>
+            <br>Started by <a href="<%= post.poster.href %>"><%= post.poster.username %></a>, <%= post.createdAtSGT %>
         </p>
     </div>
     <div class="post-section-top">
@@ -22,7 +22,7 @@
     <div class="post-section post-container-template" data-id="<%= post.id %>">
         <div class="poster-info">
             <div class="poster-name">
-                <strong><a href="/user/<%= post.poster.id %>"><%= post.poster.username %></a></strong>
+                <strong><a href="<%= post.poster.href %>"><%= post.poster.username %></a></strong>
             </div>
             <div class="poster-role <%= post.poster.roleClass %>">
                 <%= post.poster.role %>
@@ -41,7 +41,7 @@
             <div class="post-info">
                 <div class="post-info-top">
                     <div class="post-name">
-                    <a href="/post/<%= post.title.toLowerCase() %>"><strong><%= post.title %></strong></a>
+                    <a href="<%= post.href %>"><strong><%= post.title %></strong></a>
                     </div>
                     <div class="vote-container">
                         <button class="upvote-btn">Upvote</button>
@@ -74,7 +74,7 @@
         <div class="reply-section post-section post-container-template" data-id="<%= reply.id %>">
             <div class="poster-info">
                 <div class="poster-name">
-                    <strong><a href="/user/<%= reply.poster.id %>"><%= reply.poster.username %></a></strong>
+                    <strong><a href="<%= reply.poster.href %>"><%= reply.poster.username %></a></strong>
                 </div>
                 <div class="poster-role <%= reply.poster.roleClass %>">
                     <%= reply.poster.role %>
@@ -93,7 +93,7 @@
                 <div class="post-info">
                     <div class="post-info-top">
                         <div class="post-name">
-                        <a href="/post/<%= post.title.toLowerCase() %>"><strong><%= reply.title %></strong></a>
+                        <a href="<%= post.href %>"><strong><%= reply.title %></strong></a>
                         </div>
                         <div class="vote-container">
                             <button class="upvote-btn">Upvote</button>

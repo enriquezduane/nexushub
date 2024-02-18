@@ -17,13 +17,10 @@ document.querySelector('.create-post-form').addEventListener('submit', async fun
     // get form data
     const title = document.querySelector('#post-subject').value;
     const content = document.querySelector('#post-content').value;
-    const url = window.location.pathname.split('/')[2];
-
-    // remove create- from the boardId
-    const boardId = url.split('-')[1];
+    const boardId = window.location.pathname.split('/')[2];
   
     try {
-      const response = await fetch('/post/post', {
+      const response = await fetch('/forum/:id/post', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -35,7 +32,7 @@ document.querySelector('.create-post-form').addEventListener('submit', async fun
   
       if (response.ok) {
         alert('Post created successfully! Redirecting to post...');
-        window.location.href = `/post/${data.id}`;
+        window.location.href = `/forum/${boardId}/${data.id}`;
       } else {
         throw new Error(data.message);
       }

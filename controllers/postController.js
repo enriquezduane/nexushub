@@ -2,7 +2,27 @@ const mongoose = require('mongoose');
 const Post = require('../models/postModel');
 const Reply = require('../models/replyModel');
 const User = require('../models/userModel');
-const { populatePost, populateReply, getCurrentDate } = require('./helper');
+const { populatePost, populateReply } = require('./helper');
+
+const renderCreatePost = (req, res) => {
+    try {
+        // Render the create post page
+        res.render('createPost', { loggedIn: true, title: 'Create Post', forumRules: res.forumRules, userLoggedIn: res.userLoggedIn });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ message: error.message });
+    }
+}
+
+const renderPost = (req, res) => {
+    try {
+        // Render the dynamic boards pages with the fetched data
+        res.render('post', { loggedIn: true, title: res.post.title, post: res.post, users: res.users, forumRules: res.forumRules, userLoggedIn: res.userLoggedIn });
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({ message: err.message, post: res.post});
+    }
+}
 
 // Get post by URL
 const getPostByUrl = async (req, res, next) => {
@@ -82,12 +102,26 @@ const createReply = async (req, res, next) => {
         // populate the new reply object
         populatedReply = await populateReply(reply);
 
+        replyMsg = {
+            id: populatedReply.id,
+            userId: populatedReply.poster.id,
+            title: populatedReply.title,
+            reply: populatedReply.reply,
+            date: populatedReply.createdAtSGT,
+            username: populatedReply.poster.username,
+            joinDate: populatedReply.poster.joinDateMonth,
+            role: populatedReply.poster.role,
+            roleClass: populatedReply.poster.roleClass,
+            postCount: populatedReply.poster.postCount,
+            edited: populatedReply.edited,
+            updatedAtSGT: populatedReply.updatedAtSGT
+        }
+
         // Send the new reply object to the client
-        res.reply = populatedReply;
+        res.status(200).json(replyMsg);
     } catch (err) {
         res.status(400).json({ message: err.message, request: req.body });
     }
-    next();
 };
 
 // Delete reply
@@ -185,6 +219,8 @@ const upvote = async (req, res, next) => {
 };
 
 module.exports = { 
+    renderCreatePost,
+    renderPost,
     getPostByUrl,
     createPost,
     createReply,

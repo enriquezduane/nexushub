@@ -61,6 +61,10 @@ boardSchema.virtual('createdAtSGT').get(function() {
   return moment(this.createdAt).tz('Asia/Singapore').format('MMM DD, YYYY hh:mm A'); // Format SGT createdAt
 });
 
+boardSchema.virtual('href').get(function() {
+  return `/forum/${this._id}`;
+});
+
 boardSchema.pre('save', async function(next) {
   try {
     if (this.isNew) {

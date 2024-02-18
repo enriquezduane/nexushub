@@ -558,6 +558,16 @@ const formatLatestPostDate = (post) => {
     return moment(post.createdAt).tz('Asia/Singapore').format('MMM DD [at] hh:mm A');
 }
 
+const headerFooterData = async (req, res, next) => {
+    const forumRules = await Post.findOne({ title: 'Forum Rules' }).populate('refBoard');
+    const userLoggedIn = await User.findOne({ username: 'lokitrickster' });
+
+    res.forumRules = forumRules;
+    res.userLoggedIn = userLoggedIn; // placeHolder because of no session management yet
+
+    next();
+}
+
 module.exports = {
     populateAll,
     populateCategories,
@@ -570,4 +580,5 @@ module.exports = {
     populateReply,
     highlightSubstring,
     formatLatestPostDate,
+    headerFooterData,
 }

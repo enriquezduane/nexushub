@@ -71,7 +71,7 @@ document.addEventListener('click', (event) => {
                 const id = postContainer.dataset.id;
                 
                 try {
-                    const response = await fetch('/post/edit', {
+                    const response = await fetch('edit', {
                         method: 'PATCH', // or 'PUT' depending on backend API
                         headers: {
                             'Content-Type': 'application/json'

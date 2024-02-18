@@ -1,5 +1,5 @@
 <nav class="admin-nav">
-    <% if (action === 'categories') { %>
+    <% if (action === 'categories' || !action) { %>
     <a href="/admin?action=categories"><button class="nav-button active">Categories</button></a>
     <% } else { %>
     <a href="/admin?action=categories"><button class="nav-button">Categories</button></a>

@@ -1,24 +1,28 @@
 const Board = require('../models/boardModel');
 const { populateBoard } = require('./helper');
 
+const renderBoard = (req, res) => {
+    try {
+        // Render the dynamic boards pages with the fetched data
+        res.render('board', { loggedIn: true, title: res.board.title, board: res.board, posts: res.posts, users: res.users, 
+            forumRules: res.forumRules, userLoggedIn: res.userLoggedIn});
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({ message: err.message });
+    }
+}
+
 const getBoardByUrl = async (req, res, next) => {
     try {
-        // Split the URL by slashes and get the last part
-        const url = req.originalUrl;
-        const parts = url.split('/');
-        const lastPart = parts[parts.length - 1];
-
-        // Replace "%20" with spaces
-        const title = decodeURIComponent(lastPart.replace(/\+/g, ' '));
-
-        // Find the board in the database
-        const board = await Board.findOne({ title: { $regex: new RegExp(title, 'i') } });  
+        let board = await Board.findById(req.params.id);
 
         if (!board) {
             return res.status(404).json({ message: 'Board not found' });
         } else {
-            res.board = await populateBoard(board);
+            board = await populateBoard(board);
         }
+
+        res.board = board;
     }
     catch (err) {
         res.status(500).json({ message: err.message });
@@ -27,5 +31,6 @@ const getBoardByUrl = async (req, res, next) => {
 }
 
 module.exports = {
+    renderBoard,
     getBoardByUrl
 }

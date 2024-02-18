@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Check if reply content is not empty
         if (content) {
             // Send AJAX request to add the reply
-            fetch('/post/reply', {
+            fetch('reply', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

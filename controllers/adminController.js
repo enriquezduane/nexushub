@@ -6,6 +6,19 @@ const User = require('../models/userModel');
 const Post = require('../models/postModel');
 const Reply = require('../models/replyModel');
 
+const { highlightSubstring } = require('./helper');
+
+const renderAdmin = (req, res) => {
+    try {
+        res.render('admin', { loggedIn: true, title: "Forum Master Page", action: req.query.action, query: req.query.search, 
+        categories: res.categories, boards: res.boards, users: res.users, posts: res.posts, replies: res.replies, 
+        filteredData: res.filteredData || [], highlightSubstring, forumRules: res.forumRules, userLoggedIn: res.userLoggedIn });
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({ message: error.message });
+    }
+}
+
 const createCategory = async (req, res) => {
     try {
         const {title} = req.body;
@@ -428,6 +441,7 @@ const deleteReply = async (req, res) => {
 }
 
 module.exports = {
+    renderAdmin,
     createCategory,
     createBoard,
     createUser,

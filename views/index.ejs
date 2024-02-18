@@ -31,7 +31,7 @@
                 <img src="images/jejeling.gif" alt="icon">
               </td>
               <td>
-                <a href="/forum/<%= board.title.toLowerCase() %>"><strong><%= board.title %></strong></a>
+                <a href="<%= board.href %>"><strong><%= board.title %></strong></a>
                 <p><%= board.description %></p>
               </td>
               <td><%= board.postCount %></td>
@@ -41,8 +41,8 @@
               <% } else { %>
               <td>
                 Last post: <%= board.lastPost.createdAtSGT %> 
-                <br>in <a href="/post/<%= board.lastPost.id %>"><%= board.lastPost.title %></a>
-                <br>by <a href="/user/<%= board.lastPost.poster.id %>">
+                <br>in <a href="<%= board.lastPost.href %>"><%= board.lastPost.title %></a>
+                <br>by <a href="<%= board.lastPost.poster.href %>">
                   <%= board.lastPost.poster.username %></a>
               </td>
               <% } %>
@@ -63,12 +63,12 @@
     </div>
     <p>
       12 Topics and 14 Replies by 11 Members - Latest Member:
-      <a href="/user/<%= users[users.length - 1].id %>">
+      <a href="<%= users[users.length - 1].href %>">
         <%= users[users.length - 1].username %>
       </a>
       <br>
       Latest Post:
-      <a href="/post/<%= posts[posts.length - 1].id %>">
+      <a href="<%= posts[posts.length - 1].href %>">
         "<%= posts[posts.length - 1].title %>"
       </a>
       (<span style="color: #fff"><%= formatLatestPostDate(posts[posts.length-1]) %></span>)
@@ -80,7 +80,7 @@
       <span style="color: #fff">Online: 10 Guests, 1 User</span>
       - Most Online Today: <span style="color: #fff">16</span> - Most Online Ever: <span style="color: #fff">34</span> (<span style="color: #fff">Feb 01, 2024 09:23 PM</span>)
       <br>
-      Users active in past 15 minutes: <a href="/user/<%= users[0].id %>"><%= users[0].username %></a>
+      Users active in past 15 minutes: <a href="<%= users[0].href %>"><%= users[0].username %></a>
     </p>
   </div>
 </div>

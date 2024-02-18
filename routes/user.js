@@ -5,30 +5,14 @@ const router = express.Router();
 router.use(express.static('public'));
 
 // initialize database
-const { populateAll } = require('../controllers/helper');
+const { populateAll, headerFooterData } = require('../controllers/helper');
 
 // import controller
-const { getUserByUrl, updateUser, createUser } = require('../controllers/userController');
+const { renderUpdateProfile, renderUser, getUserByUrl, updateUser, createUser } = require('../controllers/userController');
 
-router.get('/update-:id', (req, res) => {
-    try {
-        // Render the edit profile page
-        res.render('updateProfile', { loggedIn: true, title: 'Update Profile', userId: req.params.id});
-    } catch (error) {
-        console.error('Error fetching data:', error);
-        res.status(500).json({ message: err.message });
-    }
-})
+router.get('/update=:id', headerFooterData, renderUpdateProfile);
 
-router.get('/:id', populateAll, getUserByUrl, (req, res) => {
-    try {
-        // Render the dynamic boards pages with the fetched data
-        res.render('user', { loggedIn: true, title: res.user.username, user: res.user });
-    } catch (error) {
-        console.error('Error fetching data:', error);
-        res.status(500).json({ message: err.message });
-    }
-})
+router.get('/:id', populateAll, getUserByUrl, headerFooterData, renderUser);
 
 router.post('/new', createUser);
 

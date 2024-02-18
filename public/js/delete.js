@@ -19,7 +19,7 @@ document.addEventListener('click', (event) => {
         const id = postContainer.dataset.id;
 
         // Send a delete request to the server
-        fetch('/post/delete', {
+        fetch('delete', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'

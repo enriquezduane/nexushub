@@ -5,9 +5,9 @@
       <li class="nav-item dropdown">
         <a href="#" class="nav-link dropbtn">Menu ▼</a>
         <div class="dropdown-content">
-          <a href="#">Profile</a>
-          <a href="#">Account Settings</a>
-          <a href="#">Log out</a>
+          <a href="<%= userLoggedIn.href %>">Profile</a>
+          <a href="/user/update=<%= userLoggedIn.id %>">Account Settings</a>
+          <a href="/">Log out</a>
         </div>
       </li>
     </ul>

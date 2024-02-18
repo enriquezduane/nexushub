@@ -5,36 +5,16 @@ const router = express.Router();
 router.use(express.static('public'));
 
 // initialize database
-const { populateAll, highlightSubstring } = require('../controllers/helper');
+const { populateAll, headerFooterData } = require('../controllers/helper');
 
 // import controller
 const { 
-    createCategory, searchFilter, createBoard, createUser, createPost, createReply, 
+    renderAdmin, createCategory, searchFilter, createBoard, createUser, createPost, createReply, 
     editCategory, editBoard, editUser, editPost, editReply,
     deleteCategory, deleteBoard, deleteUser, deletePost, deleteReply 
     } = require('../controllers/adminController');
 
-router.get('/', populateAll, searchFilter, (req, res) => {
-    try {
-          // Render the homepage with the fetched data
-          res.render('admin', { 
-            loggedIn: true, 
-            title: "Forum Master Page", 
-            action: req.query.action, 
-            query: req.query.search, 
-            categories: res.categories, 
-            boards: res.boards, 
-            users: res.users, 
-            posts: res.posts, 
-            replies: res.replies,
-            filteredData: res.filteredData || [], // Include filtered data or an empty array
-            highlightSubstring
-        });   
-    } catch (error) {
-          console.error('Error fetching data:', error);
-          res.status(500).json({ message: err.message });
-    }
-})
+router.get('/', populateAll, searchFilter, headerFooterData, renderAdmin);
 
 router.route('/category')
     .post(createCategory)
