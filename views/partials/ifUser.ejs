@@ -13,13 +13,13 @@
                 <button class="category-button">&#x25B6;</button>
                 <div>
                     <button class="category-button">Edit</button>
-                    <button class="category-button">Delete</button>  
+                    <button class="category-button">Delete</button>
                 </div>
             </div>
             <ul>
                 <li style="color: #fff; margin-bottom: 30px;">#<%= index + 1 %></li>
                 <li>Username : <span><%= user.username %></span></li>
-                <li>password : <span><%= user.password %></span></li>
+                <li>Password : <span><%= user.password %></span></li>
                 <li>Email : <span><%= user.email %></span></li>
                 <li>Role : <span><%= user.role %></span></li>
                 <li>Posts : <span><%= user.postCount %></span> <ul> <% user.posts.forEach( (post, index) => { %>
@@ -43,13 +43,13 @@
                 <h2>Create User</h2>
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" required>
-    
+
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password">
-    
+
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email">
-    
+
                 <label for="role">Role:</label>
                 <select id="role" name="role" required>
                     <option value="">Select Role</option>
@@ -63,16 +63,16 @@
                     <option value="Master Assassin">Master Assassin (500 Posts)</option>
                     <option value="Grandmaster Scholar">Grandmaster Scholar (1000 Posts)</option>
                 </select>
-    
+
                 <label for="description">Description:</label>
                 <textarea id="description" name="description"></textarea>
-    
+
                 <label for="age">Age:</label>
                 <input type="number" id="age" name="age" value="18">
-    
+
                 <label for="currentServer">Current Server:</label>
                 <input type="text" id="currentServer" name="currentServer">
-    
+
                 <button type="submit">Create</button>
             </form>
         </div>

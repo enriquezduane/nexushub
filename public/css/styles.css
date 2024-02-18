@@ -1627,13 +1627,13 @@ tbody td:nth-child(5) {
   background-color: #000033;
   color: #ffffff;
   padding: 5px 15px;
-  border: 1px solid #8F3E97;
+  border: 1px solid #8f3e97;
   cursor: pointer;
   font-size: 0.8em;
   text-transform: uppercase;
   transition: background-color 0.3s;
   display: inline-block;
-  font-family: 'Press Start 2P', cursive;
+  font-family: "Press Start 2P", cursive;
   text-decoration: none;
 }
 
@@ -1642,7 +1642,7 @@ tbody td:nth-child(5) {
 }
 
 .edit-profile-button:hover {
-  background-color: #8F3E97;
+  background-color: #8f3e97;
 }
 
 .edit-profile-form {
@@ -1666,8 +1666,8 @@ tbody td:nth-child(5) {
   /* More compact padding */
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.3);
-  color: #FFF;
-  font-family: 'Press Start 2P', cursive;
+  color: #fff;
+  font-family: "Press Start 2P", cursive;
   /* Ensure consistent font */
   font-size: 0.8rem;
   /* Smaller font size for compactness */
@@ -1682,11 +1682,11 @@ tbody td:nth-child(5) {
   /* Adjusted for a more compact button */
   text-transform: uppercase;
   cursor: pointer;
-  font-family: 'Press Start 2P', cursive;
+  font-family: "Press Start 2P", cursive;
   font-size: 0.7em;
   /* Smaller font size for the button */
   outline: none;
-  border: 1px solid #8F3E97;
+  border: 1px solid #8f3e97;
   transition: background-color 0.3s ease;
   /* Smooth transition for hover effect */
   width: auto;
@@ -1695,7 +1695,7 @@ tbody td:nth-child(5) {
 
 .edit-profile-form .update-profile-btn:hover {
   color: #ffffff;
-  background-color: #8F3E97;
+  background-color: #8f3e97;
 }
 
 .admin-container {
@@ -1709,18 +1709,18 @@ tbody td:nth-child(5) {
 }
 
 .admin-header {
-  font-family: 'Press Start 2P', cursive;
+  font-family: "Yoster";
   color: #fff;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  font-size: 30px;
+  font-size: 50px;
   text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
   gap: 10px;
 }
 
 .header-text {
-  animation: neon-flicker-purple  1s infinite alternate;
+  animation: neon-flicker-purple 1s infinite alternate;
 }
 
 #torch-gif {
@@ -1731,7 +1731,7 @@ tbody td:nth-child(5) {
 .admin-nav {
   display: flex;
   align-items: center;
-  padding: 20px 0
+  padding: 20px 0;
 }
 
 .nav-button {
@@ -1777,15 +1777,16 @@ tbody td:nth-child(5) {
 }
 
 .category-container li {
-  font-family: 'Press Start 2P', cursive;
+  /* font-family: "Press Start 2P", cursive; */
+  font-family: "basiic";
   color: #895ff1;
-  font-size: 18px;
+  font-size: 21px;
   margin-bottom: 10px;
 }
 
 .category-container li span {
   color: #da96f5;
-  font-size: 16px;
+  font-size: 19px;
   margin-bottom: 5px;
 }
 
@@ -1817,7 +1818,7 @@ tbody td:nth-child(5) {
 
 /* Style for the modal content frame */
 .category-modal-frame {
-  background-color: #b257ee; 
+  background-color: #b257ee;
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2); /* Shadow effect */
@@ -1858,7 +1859,7 @@ tbody td:nth-child(5) {
 
 /* Style for the submit button */
 .category-modal-frame button[type="submit"] {
-  background-color: #4CAF50; /* Green */
+  background-color: #4caf50; /* Green */
   color: white;
   padding: 10px 20px;
   border: none;
