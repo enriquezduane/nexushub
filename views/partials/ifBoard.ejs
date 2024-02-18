@@ -14,7 +14,7 @@
         <% filteredData.forEach( (board, index) => { %>
             <div class="category-container admin-container">
                 <div class="category-actions">
-                    <button class="category-button">&#x25B6;</button>
+                    <button class="category-button collapse-button"></button>
                     <div>
                         <button class="category-button">Edit</button>
                         <button class="category-button">Delete</button>  
@@ -29,7 +29,7 @@
                     <li>Last Post : <span><%= board.lastPost ? board.lastPost.title : 'No posts yet.' %></span></li>
                     <li>Posts : <span><%= board.postCount %></span> 
                         <% if (board.posts.length > 0) { %>
-                            <ul>
+                            <ul class="board-list" style="display: none;"> 
                                 <% board.posts.forEach((post, index) => { %>
                                     <li><%= index + 1 %> : <%= post.title %></li>
                                 <% }) %>
@@ -45,7 +45,7 @@
         <% boards.forEach( (board, index) => { %>
             <div class="category-container admin-container">
                 <div class="category-actions">
-                    <button class="category-button">&#x25B6;</button>
+                    <button class="category-button collapse-button"></button>
                     <div>
                         <button class="category-button">Edit</button>
                         <button class="category-button">Delete</button>  
@@ -60,7 +60,7 @@
                     <li>Last Post : <span><%= board.lastPost ? board.lastPost.title : 'No posts yet.' %></span></li>
                     <li>Posts : <span><%= board.postCount %></span> 
                         <% if (board.posts.length > 0) { %>
-                            <ul>
+                            <ul class="board-list" style="display: none;"> 
                                 <% board.posts.forEach((post, index) => { %>
                                     <li><%= index + 1 %> : <%= post.title %></li>
                                 <% }) %>

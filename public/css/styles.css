@@ -2167,3 +2167,32 @@ tbody td:nth-child(5) {
 .reply-modal-frame button:hover {
   background-color: #0056b3;
 }
+
+.category-actions .category-button {
+  display: none;
+}
+
+.category-container:hover .collapse-button {
+  display: flex !important;
+}
+
+.category-container:hover .category-button {
+  display: inline-block; /* or any other desired display property */
+}
+
+.collapse-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 13px;
+}
+.collapse-button::before {
+  content: '\25B6'; 
+  transition: transform 0.1s ease; 
+  position: absolute; 
+  left: 0.5rem; 
+}
+
+.collapse-button.active::before {
+  transform: rotate(90deg); /* Rotate the pseudo-element when button is active */
+}

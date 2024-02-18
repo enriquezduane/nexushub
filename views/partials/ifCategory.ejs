@@ -14,7 +14,7 @@
         <% filteredData.forEach((category, index) => { %>
             <div class="category-container admin-container" data-index="<%= index + 1 %>">
                 <div class="category-actions">
-                    <button class="category-button">&#x25B6;</button>
+                    <button class="category-button collapse-button"></button>
                     <div>
                         <button class="category-button">Edit</button>
                         <button class="category-button">Delete</button>  
@@ -25,7 +25,7 @@
                     <li>title : <span style="color: #fff;"><%- highlightSubstring(category.title, query) %></span></li>
                     <li>boards : <span><%= category.boardCount %></span> 
                         <% if (category.boards.length > 0) { %>
-                            <ul> 
+                            <ul class="board-list" style="display: none;"> 
                                 <% category.boards.forEach( (board, index) => { %>
                                     <li><%= index + 1 %> : <%= board.title %></li>
                                 <% }) %>
@@ -41,7 +41,7 @@
         <% categories.forEach( (category, index) => { %>
             <div class="category-container admin-container" data-index="<%= index + 1 %>">
                 <div class="category-actions">
-                    <button class="category-button">&#x25B6;</button>
+                    <button class="category-button collapse-button"></button>
                     <div>
                         <button class="category-button">Edit</button>
                         <button class="category-button">Delete</button>  
@@ -52,7 +52,7 @@
                     <li>title : <span style="color: #fff;"><%= category.title %></span></li>
                     <li>boards : <span><%= category.boardCount %></span> 
                         <% if (category.boards.length > 0) { %>
-                            <ul> 
+                            <ul class="board-list" style="display: none;"> 
                                 <% category.boards.forEach( (board, index) => { %>
                                 <li><%= index + 1 %> : <%= board.title %></li>
                                 <% }) %>
