@@ -27,7 +27,7 @@
                     <li>InnerDescription (Board Page) : <span>"<%= board.innerDescription %>"</span></li>
                     <li>Category : <span><%= board.category.title %></span></li>
                     <li>Last Post : <span><%= board.lastPost ? board.lastPost.title : 'No posts yet.' %></span></li>
-                    <li>Posts : <span><%= board.postCount %></span> 
+                    <li>- Posts : <span><%= board.postCount %></span> 
                         <% if (board.posts.length > 0) { %>
                             <ul class="board-list" style="display: none;"> 
                                 <% board.posts.forEach((post, index) => { %>
@@ -58,7 +58,7 @@
                     <li>InnerDescription (Board Page) : <span>"<%= board.innerDescription %>"</span></li>
                     <li>Category : <span><%= board.category.title %></span></li>
                     <li>Last Post : <span><%= board.lastPost ? board.lastPost.title : 'No posts yet.' %></span></li>
-                    <li>Posts : <span><%= board.postCount %></span> 
+                    <li>- Posts : <span><%= board.postCount %></span> 
                         <% if (board.posts.length > 0) { %>
                             <ul class="board-list" style="display: none;"> 
                                 <% board.posts.forEach((post, index) => { %>

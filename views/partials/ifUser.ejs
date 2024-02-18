@@ -26,10 +26,10 @@
                     <li>Password : <span><%= user.password %></span></li>
                     <li>Email : <span><%= user.email %></span></li>
                     <li>Role : <span><%= user.role %></span></li>
-                    <li>Posts : <span><%= user.postCount %></span> <ul class="board-list" style="display: none;"> <% user.posts.forEach( (post, index) => { %>
+                    <li>- Posts : <span><%= user.postCount %></span> <ul class="board-list" style="display: none;"> <% user.posts.forEach( (post, index) => { %>
                         <li><%= index + 1 %> : <%= post.title %></li>
                     <% }) %></ul>
-                    <li>Replies : <span><%= user.replyCount %></span><ul class="board-list" style="display: none;"> <% user.replies.forEach( (reply, index) => { %>
+                    <li>- Replies : <span><%= user.replyCount %></span><ul class="board-list" style="display: none;"> <% user.replies.forEach( (reply, index) => { %>
                         <li><%= index + 1 %> : <%= reply.title %></li>
                     <% }) %></ul>
                     </li>
@@ -56,10 +56,10 @@
                     <li>Password : <span><%= user.password %></span></li>
                     <li>Email : <span><%= user.email %></span></li>
                     <li>Role : <span><%= user.role %></span></li>
-                    <li>Posts : <span><%= user.postCount %></span> <ul class="board-list" style="display: none;">  <% user.posts.forEach( (post, index) => { %>
+                    <li>- Posts : <span><%= user.postCount %></span> <ul class="board-list" style="display: none;">  <% user.posts.forEach( (post, index) => { %>
                         <li><%= index + 1 %> : <%= post.title %></li>
                     <% }) %></ul>
-                    <li>Replies : <span><%= user.replyCount %></span> <ul class="board-list" style="display: none;">  <% user.replies.forEach( (reply, index) => { %>
+                    <li>- Replies : <span><%= user.replyCount %></span> <ul class="board-list" style="display: none;">  <% user.replies.forEach( (reply, index) => { %>
                         <li><%= index + 1 %> : <%= reply.title %></li>
                     <% }) %></ul>
                     </li>

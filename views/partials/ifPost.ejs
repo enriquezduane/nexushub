@@ -34,8 +34,8 @@
                             <% } %>
                         "</span>
                     </li>
-                    <li>Replies : <span><%= post.replies.length %></span> 
-                        <ul>
+                    <li>- Replies : <span><%= post.replies.length %></span> 
+                        <ul class="board-list" style="display: none;">
                             <% post.replies.forEach((reply, index) => { %>
                                 <li><%= index + 1 %> : <%= reply.poster.username %> - "
                                     <% if (reply.reply.length > 80) { %>
@@ -77,8 +77,8 @@
                             <% } %>
                         "</span>
                     </li>
-                    <li>Replies : <span><%= post.replies.length %></span> 
-                        <ul>
+                    <li>- Replies : <span><%= post.replies.length %></span> 
+                        <ul class="board-list" style="display: none;">
                             <% post.replies.forEach((reply, index) => { %>
                                 <li><%= index + 1 %> : <%= reply.poster.username %> - "
                                     <% if (reply.reply.length > 135) { %>

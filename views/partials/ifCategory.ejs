@@ -23,7 +23,7 @@
                 <ul>
                     <li style="color: #fff; margin-bottom: 30px;">#<%= index + 1 %></li>
                     <li>title : <span style="color: #fff;"><%- highlightSubstring(category.title, query) %></span></li>
-                    <li>boards : <span><%= category.boardCount %></span> 
+                    <li>- boards : <span><%= category.boardCount %></span> 
                         <% if (category.boards.length > 0) { %>
                             <ul class="board-list" style="display: none;"> 
                                 <% category.boards.forEach( (board, index) => { %>
@@ -50,7 +50,7 @@
                 <ul>
                     <li style="color: #fff; margin-bottom: 30px;">#<%= index + 1 %></li>
                     <li>title : <span style="color: #fff;"><%= category.title %></span></li>
-                    <li>boards : <span><%= category.boardCount %></span> 
+                    <li>- boards : <span><%= category.boardCount %></span> 
                         <% if (category.boards.length > 0) { %>
                             <ul class="board-list" style="display: none;"> 
                                 <% category.boards.forEach( (board, index) => { %>
