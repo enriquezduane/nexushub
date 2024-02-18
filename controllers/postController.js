@@ -59,6 +59,26 @@ const getPostByUrl = async (req, res, next) => {
     next();
 }
 
+// Increment views
+const incrementViews = async (req, res, next) => {
+    try {
+        // get the post id from response
+        const postId = res.post.id
+
+        // Find the post and increment the views
+        const post = await Post.findById(postId);
+
+        // Increment the views
+        post.views += 1;
+
+        // Save the updated post
+        await post.save();
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+    next();
+}
+
 const createPost = async (req, res, next) => {
     try {
         const { title, content, boardId } = req.body;
@@ -235,6 +255,7 @@ module.exports = {
     renderCreatePost,
     renderPost,
     getPostByUrl,
+    incrementViews,
     createPost,
     createReply,
     deleteContent,

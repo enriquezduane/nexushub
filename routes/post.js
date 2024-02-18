@@ -8,12 +8,12 @@ router.use(express.static('public'));
 const { populateAll, headerFooterData } = require('../controllers/helper');
 
 // import controller
-const { renderCreatePost, renderPost, getPostByUrl, 
+const { renderCreatePost, renderPost, getPostByUrl, incrementViews,
         createPost, createReply, deleteContent, updateContent, upvote } = require('../controllers/postController');
 
 router.get('/create', renderCreatePost);
 
-router.get('/:id', populateAll, getPostByUrl, headerFooterData, renderPost);
+router.get('/:id', populateAll, getPostByUrl, incrementViews, headerFooterData, renderPost);
 
 router.post('/post', createPost);
 
