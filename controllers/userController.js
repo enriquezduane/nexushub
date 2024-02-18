@@ -4,7 +4,13 @@ const User = require('../models/userModel');
 const renderUpdateProfile = (req, res) => {
   try {
     // Render the edit profile page
-    res.render('updateProfile', { loggedIn: true, title: 'Update Profile', userId: req.params.id, forumRules: res.forumRules, userLoggedIn: res.userLoggedIn});
+    res.render('updateProfile', { 
+      loggedIn: true, 
+      title: 'Update Profile', 
+      userId: req.params.id, 
+      forumRules: res.forumRules, 
+      userLoggedIn: res.userLoggedIn
+    });
   } catch (error) {
     console.error('Error fetching data:', error);
     res.status(500).json({ message: err.message });

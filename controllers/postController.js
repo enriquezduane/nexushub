@@ -7,7 +7,13 @@ const { populatePost, populateReply } = require('./helper');
 const renderCreatePost = (req, res) => {
     try {
         // Render the create post page
-        res.render('createPost', { loggedIn: true, title: 'Create Post', forumRules: res.forumRules, userLoggedIn: res.userLoggedIn });
+        res.render('createPost', { 
+            loggedIn: true, 
+            title: 'Create Post', 
+            forumRules: res.forumRules, 
+            userLoggedIn: 
+            res.userLoggedIn 
+        });
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ message: error.message });
@@ -17,7 +23,14 @@ const renderCreatePost = (req, res) => {
 const renderPost = (req, res) => {
     try {
         // Render the dynamic boards pages with the fetched data
-        res.render('post', { loggedIn: true, title: res.post.title, post: res.post, users: res.users, forumRules: res.forumRules, userLoggedIn: res.userLoggedIn });
+        res.render('post', { 
+            loggedIn: true, 
+            title: res.post.title, 
+            post: res.post, 
+            users: res.users, 
+            forumRules: res.forumRules, 
+            userLoggedIn: res.userLoggedIn 
+        });
     } catch (error) {
         console.error('Error fetching data:', error);
         res.status(500).json({ message: err.message, post: res.post});

@@ -4,8 +4,15 @@ const { populatePosts, highlightSubstring } = require('./helper');
 const renderSearch = (req, res) => {
     try {
         // Render the search page
-        res.render('search', { loggedIn: true, title: 'Search Results', posts: res.posts, query: req.query.query, highlightSubstring, 
-        forumRules: res.forumRules, userLoggedIn: res.userLoggedIn});
+        res.render('search', { 
+            loggedIn: true, 
+            title: 'Search Results', 
+            posts: res.posts, 
+            query: req.query.query, 
+            highlightSubstring, 
+            forumRules: res.forumRules, 
+            userLoggedIn: res.userLoggedIn
+        });
     }
     catch (err) {
         console.error('Error:', err);
