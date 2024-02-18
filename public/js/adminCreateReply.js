@@ -1,10 +1,17 @@
 const modal9 = document.getElementById('createReplyModal');
 const openReplyModalBtn = document.getElementById("openReplyModalBtn");
+const closeReplyModalBtn = document.getElementById("closeReplyModalBtn");
 const createReplyForm = document.getElementById("createReplyForm");
 
 if (openReplyModalBtn) {
     openReplyModalBtn.addEventListener('click', () => {
         modal9.classList.add('show');
+    });
+}
+
+if (closeReplyModalBtn) {
+    closeReplyModalBtn.addEventListener('click', () => {
+        modal9.classList.remove('show');
     });
 }
 

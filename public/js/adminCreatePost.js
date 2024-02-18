@@ -1,10 +1,17 @@
 const modal8 = document.getElementById('createPostModal');
 const openPostModalBtn = document.getElementById("openPostModalBtn");
+const closePostModalBtn = document.getElementById("closePostModalBtn");
 const createPostForm = document.getElementById("createPostForm");
 
 if (openPostModalBtn) {
     openPostModalBtn.addEventListener('click', () => {
         modal8.classList.add('show');
+    });
+}
+
+if (closePostModalBtn) {
+    closePostModalBtn.addEventListener('click', () => {
+        modal8.classList.remove('show');
     });
 }
 

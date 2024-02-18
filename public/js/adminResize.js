@@ -1,8 +1,12 @@
-const textarea = document.querySelector('textarea');
+const textareas = document.querySelectorAll('textarea');
+const editPostContent = document.getElementById('editPostContent');
+const editReplyContent = document.getElementById('editReplyContent');
 
-if (textarea) {
-    textarea.addEventListener('input', () => {
-        textarea.style.height = 'auto'; // Reset height
-        textarea.style.height = (textarea.scrollHeight) + 'px'; // Set new height
-    });
-}
+textareas.forEach(textarea => {
+    if (textarea.id !== 'editPostContent' && textarea.id !== 'editReplyContent') {
+        textarea.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+    }
+});

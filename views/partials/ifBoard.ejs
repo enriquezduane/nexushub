@@ -16,8 +16,15 @@
                 <div class="category-actions">
                     <button class="category-button collapse-button"></button>
                     <div>
-                        <button class="category-button">Edit</button>
-                        <button class="category-button">Delete</button>  
+                        <button class="category-button edit-board-button"
+                            data-id="<%= board._id %>"
+                            data-title="<%= board.title %>"
+                            data-description="<%= board.description %>"
+                            data-innerDescription="<%= board.innerDescription %>"
+                            data-category="<%= board.category.title %>">
+                            Edit
+                        </button>
+                        <button class="category-button delete-board-button" data-id="<%= board._id %>">Delete</button>  
                     </div>
                 </div>
                 <ul>
@@ -47,8 +54,15 @@
                 <div class="category-actions">
                     <button class="category-button collapse-button"></button>
                     <div>
-                        <button class="category-button">Edit</button>
-                        <button class="category-button">Delete</button>  
+                        <button class="category-button edit-board-button"
+                            data-id="<%= board._id %>"
+                            data-title="<%= board.title %>"
+                            data-description="<%= board.description %>"
+                            data-innerDescription="<%= board.innerDescription %>"
+                            data-category="<%= board.category %>">
+                            Edit
+                        </button>
+                        <button class="category-button delete-board-button" data-id="<%= board._id %>">Delete</button>  
                     </div>
                 </div>
                 <ul>
@@ -96,6 +110,23 @@
             </form>
         </div>
     </div>
+
+    <div id="editBoardModal" class="modal11">
+        <div class="board-modal-frame">
+            <form id="editBoardForm">
+                <button id="closeEditBoardModalBtn" class="close" type="button">&times;</button>
+                <h2>Edit Board</h2>
+                <label for="editBoardTitle">Board Title:</label>
+                <input type="text" id="editBoardTitle" name="editBoardTitle" required>
+                <label for="editBoardDescription">Description:</label>
+                <textarea id="editBoardDescription" name="editBoardDescription" required></textarea>
+                <label for="editInnerDescription">Inner Description:</label>
+                <textarea id="editInnerDescription" name="editInnerDescription" required></textarea>
+                <button type="submit">Save Changes</button>
+            </form>
+        </div>
+    </div>
 <% } %>
 
-<script src="/js/adminCreateBoard.js"></script>
+<script src="js/adminCreateBoard.js"></script>
+<script src="js/adminEditDeleteBoard.js"></script>

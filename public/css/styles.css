@@ -401,7 +401,12 @@ footer {
 .modal6,
 .modal7,
 .modal8,
-.modal9 {
+.modal9,
+.modal10,
+.modal11,
+.modal12,
+.modal13,
+.modal14 {
   visibility: hidden;
   position: fixed;
   z-index: 1;
@@ -1856,7 +1861,7 @@ tbody td:nth-child(5) {
 }
 
 /* Style for the modal close button */
-#closeCategoryModalBtn {
+.close {
   position: absolute;
   top: 10px;
   right: 10px;
@@ -2030,35 +2035,6 @@ tbody td:nth-child(5) {
   border-radius: 4px;
 }
 
-/* Style for the user modal button */
-.user-modal-frame button {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.user-modal-frame button:hover {
-  background-color: #0056b3;
-}
-
-/* Style for the close button */
-#closeUserModalBtn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 1.5rem;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-}
-
-/* Style for the post modal frame */
-
 /* Style for the post modal title */
 .post-modal-frame h2 {
   font-size: 1.5rem;
@@ -2089,37 +2065,6 @@ tbody td:nth-child(5) {
   box-sizing: border-box;
   /* Ensure the padding and border are included in the width */
 }
-
-/* Style for the post modal button */
-.post-modal-frame button {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  width: 100%;
-}
-
-.post-modal-frame button:hover {
-  background-color: #0056b3;
-}
-
-/* Style for the close button */
-#closePostModalBtn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 1.5rem;
-  background: none;
-  border: none;
-  padding: 0;
-  background: none;
-  color: #000;
-}
-
-/* Style for the reply modal frame */
 
 /* Style for the reply modal title */
 .reply-modal-frame h2 {
@@ -2152,22 +2097,6 @@ tbody td:nth-child(5) {
   /* Ensure the padding and border are included in the width */
 }
 
-/* Style for the reply modal button */
-.reply-modal-frame button {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  width: 100%;
-}
-
-.reply-modal-frame button:hover {
-  background-color: #0056b3;
-}
-
 .category-actions .category-button {
   display: none;
 }
@@ -2195,4 +2124,9 @@ tbody td:nth-child(5) {
 
 .collapse-button.active::before {
   transform: rotate(90deg); /* Rotate the pseudo-element when button is active */
+}
+
+textarea {
+  resize: vertical;
+  max-height: 600px;
 }

@@ -8,7 +8,11 @@ router.use(express.static('public'));
 const { populateAll, highlightSubstring } = require('../controllers/helper');
 
 // import controller
-const { createCategory, createBoard, createUser, createPost, createReply, searchFilter } = require('../controllers/adminController');
+const { 
+    createCategory, searchFilter, createBoard, createUser, createPost, createReply, 
+    editCategory, editBoard, editUser, editPost, editReply,
+    deleteCategory, deleteBoard, deleteUser, deletePost, deleteReply 
+    } = require('../controllers/adminController');
 
 router.get('/', populateAll, searchFilter, (req, res) => {
     try {
@@ -32,14 +36,29 @@ router.get('/', populateAll, searchFilter, (req, res) => {
     }
 })
 
-router.post('/category', createCategory);
+router.route('/category')
+    .post(createCategory)
+    .patch(editCategory)
+    .delete(deleteCategory);
 
-router.post('/board', createBoard);
+router.route('/board')
+    .post(createBoard)
+    .patch(editBoard)
+    .delete(deleteBoard);
 
-router.post('/user', createUser);
+router.route('/user')
+    .post(createUser)
+    .patch(editUser)
+    .delete(deleteUser);
 
-router.post('/post', createPost);
+router.route('/post')
+    .post(createPost)
+    .patch(editPost)
+    .delete(deletePost);
 
-router.post('/reply', createReply);
+router.route('/reply')
+    .post(createReply)
+    .patch(editReply)
+    .delete(deleteReply);
 
 module.exports = router;

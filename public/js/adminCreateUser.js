@@ -1,10 +1,17 @@
 const modal7 = document.getElementById('createUserModal');
 const openUserModalBtn = document.getElementById("openUserModalBtn");
+const closeUserModalBtn = document.getElementById("closeUserModalBtn");
 const createUserForm = document.getElementById("createUserForm");
 
 if (openUserModalBtn) {
     openUserModalBtn.addEventListener('click', () => {
         modal7.classList.add('show');
+    });
+}
+
+if (closeUserModalBtn) {
+    closeUserModalBtn.addEventListener('click', () => {
+        modal7.classList.remove('show');
     });
 }
 
