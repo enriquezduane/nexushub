@@ -121,9 +121,21 @@ a:hover {
   width: 100%;
 }
 
+.shade-5 {
+  background-image: url("../images/starspink.gif");
+  background-size: 5%;
+  opacity: 1;
+  z-index: -5;
+  height: 100%;
+  left: 0;
+  top: 0;
+  position: fixed;
+  width: 100%;
+}
+
 .top-shade {
-  background-image: url("../images/stars.gif");
-  background-size: 300px;
+  background-image: url("../images/starline.gif");
+  background-size: 20%;
   float: left;
   height: 100px;
   left: 0;
@@ -138,7 +150,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  margin-top: 15px;
+  margin-top: 60px;
 }
 
 header div {
@@ -2129,4 +2141,14 @@ tbody td:nth-child(5) {
 textarea {
   resize: vertical;
   max-height: 600px;
+}
+
+.pinned {
+  background-color: #222268; /* Slightly lighter than original */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); /* Add shadow for 3D effect */
+  transition: all 0.3s ease; /* Smooth changes */
+}
+
+.pinned:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 12px 40px 0 rgba(0, 0, 0, 0.19); /* Increase shadow on hover */
 }
