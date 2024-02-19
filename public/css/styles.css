@@ -480,10 +480,8 @@ footer {
   /* Neon purplish-pink text color */
   text-shadow:
     0 0 5px #f975f7,
-    /* Lighter neon purplish-pink glow */
-    0 0 10px #c45aeb,
-    /* Neon purplish-pink glow */
-    0 0 20px #c45aeb;
+    /* Lighter neon purplish-pink glow */ 0 0 10px #c45aeb,
+    /* Neon purplish-pink glow */ 0 0 20px #c45aeb;
   /* Enhanced neon glow for depth */
   font-family: "Press Start 2P", cursive;
   /* Ensure font consistency */
@@ -509,10 +507,8 @@ footer {
   outline: none;
   text-shadow:
     0 0 5px #f975f7,
-    /* Lighter neon purplish-pink glow */
-    0 0 10px #c45aeb,
-    /* Neon purplish-pink glow */
-    0 0 20px #c45aeb;
+    /* Lighter neon purplish-pink glow */ 0 0 10px #c45aeb,
+    /* Neon purplish-pink glow */ 0 0 20px #c45aeb;
   /* Enhanced neon glow for depth */
 }
 
@@ -769,7 +765,6 @@ footer {
 }
 
 @keyframes neon-flicker {
-
   0%,
   19%,
   21%,
@@ -824,7 +819,6 @@ footer {
 }
 
 @keyframes pulsing-glow {
-
   0%,
   100% {
     text-shadow:
@@ -845,7 +839,6 @@ footer {
 }
 
 @keyframes float {
-
   0%,
   100% {
     transform: translateY(0);
@@ -857,7 +850,6 @@ footer {
 }
 
 @keyframes flicker {
-
   0%,
   100% {
     opacity: 1;
@@ -904,7 +896,6 @@ footer {
 }
 
 @keyframes sparkle {
-
   0%,
   100% {
     opacity: 0;
@@ -1026,7 +1017,6 @@ tbody {
 }
 
 @keyframes clash {
-
   0%,
   100% {
     transform: rotate(0);
@@ -1378,7 +1368,7 @@ tbody {
   border-radius: 0 5px 5px 0;
 }
 
-.search-box+p {
+.search-box + p {
   font-size: 18px;
 }
 
@@ -1400,7 +1390,6 @@ tbody {
 }
 
 @keyframes neon-flicker-purple {
-
   0%,
   19%,
   21%,
@@ -1411,20 +1400,13 @@ tbody {
   100% {
     text-shadow:
       0 0 6px #b892ff,
-      /* Very light purple for a brighter glow */
-      0 0 12px #ab7bff,
-      /* Light purple */
-      0 0 18px #9a4dff,
-      /* Medium purple */
-      0 0 24px #8a2be2,
-      /* Deeper purple */
-      0 0 30px #8a2be2,
-      /* Deeper purple for more intense glow */
-      0 0 36px #7a0fec,
-      /* Even deeper purple */
-      0 0 42px #7a0fec,
-      /* Intensify the glow */
-      0 0 48px #6900ff;
+      /* Very light purple for a brighter glow */ 0 0 12px #ab7bff,
+      /* Light purple */ 0 0 18px #9a4dff,
+      /* Medium purple */ 0 0 24px #8a2be2,
+      /* Deeper purple */ 0 0 30px #8a2be2,
+      /* Deeper purple for more intense glow */ 0 0 36px #7a0fec,
+      /* Even deeper purple */ 0 0 42px #7a0fec,
+      /* Intensify the glow */ 0 0 48px #6900ff;
     /* Deep purple for maximum brightness and glow */
   }
 
@@ -1896,10 +1878,8 @@ tbody td:nth-child(5) {
   /* White text color */
   text-shadow:
     0 0 3px #9b30ff,
-    /* Innermost shadow with a soft glow */
-    0 0 6px #9b30ff,
-    /* Middle shadow with moderate glow */
-    0 0 9px #9b30ff;
+    /* Innermost shadow with a soft glow */ 0 0 6px #9b30ff,
+    /* Middle shadow with moderate glow */ 0 0 9px #9b30ff;
   /* Outer shadow for a subtle glow */
 }
 
@@ -2091,7 +2071,8 @@ tbody td:nth-child(5) {
 }
 
 .category-container:hover .category-button {
-  display: inline-block; /* or any other desired display property */
+  display: inline-block;
+  /* or any other desired display property */
 }
 
 .collapse-button {
@@ -2100,15 +2081,17 @@ tbody td:nth-child(5) {
   align-items: center;
   padding: 13px;
 }
+
 .collapse-button::before {
-  content: '\25B6'; 
-  transition: transform 0.1s ease; 
-  position: absolute; 
-  left: 0.5rem; 
+  content: "\25B6";
+  transition: transform 0.1s ease;
+  position: absolute;
+  left: 0.5rem;
 }
 
 .collapse-button.active::before {
-  transform: rotate(90deg); /* Rotate the pseudo-element when button is active */
+  transform: rotate(90deg);
+  /* Rotate the pseudo-element when button is active */
 }
 
 textarea {
@@ -2117,7 +2100,7 @@ textarea {
 }
 
 .pinned {
-  background-color: #222268; 
+  background-color: #222268;
 }
 
 .post-section:nth-child(even) {
@@ -2126,8 +2109,89 @@ textarea {
 
 .category-container:nth-of-type(even) {
   background-color: #222268;
-} 
+}
 
-ul li:nth-last-child(1) span, ul li:nth-last-child(2) span{
+ul li:nth-last-child(1) span,
+ul li:nth-last-child(2) span {
   color: #fff896;
+}
+
+.legend-frame {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Center align the flex items (children) */
+  overflow: hidden;
+  /* transition: max-height 0.3s ease; */
+  max-height: 500px;
+  /* box-shadow: 0 0 5px rgba(255, 255, 255, 0.4); */
+  box-shadow: none;
+  margin: 10px auto;
+  padding: 10px;
+  width: auto;
+  max-width: 80%;
+  background-color: transparent;
+}
+
+.legend-frame p {
+  font-family: "basiic", serif;
+  text-align: center;
+  /* Center aligns the legend text */
+  margin-bottom: 10px;
+  font-size: 1em;
+  font-weight: bold;
+  width: 100%;
+}
+
+.legend-frame table {
+  display: flex;
+  flex-direction: column;
+  /* Aligns table rows vertically */
+  align-items: center;
+  /* Center aligns the table within its container */
+  margin: 0;
+  width: 100%;
+  /* Adjusted to take the full width for better alignment control */
+  background-color: transparent;
+}
+
+.legend-frame table tbody {
+  display: flex;
+  flex-direction: row;
+  /* Aligns items horizontally */
+  justify-content: center;
+  /* Center spacing for items */
+  width: 100%;
+  /* Ensure tbody takes full width of the table */
+}
+
+.legend-frame table tr {
+  display: flex;
+  flex-direction: row;
+  /* Adjusted for horizontal alignment of cells */
+  justify-content: center;
+  /* Ensures items within are centered */
+  width: 100%;
+  box-shadow: none;
+  background-color: black;
+  /* Full width to accommodate center alignment */
+}
+
+.legend-frame table td {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 5px;
+  font-family: "WebFont";
+  color: #d4d7de;
+  background-color: black;
+  font-size: 1.3em;
+  border: none;
+}
+
+.legend-frame img {
+  margin: 0;
+  width: 30px;
+  height: auto;
 }
