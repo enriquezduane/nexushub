@@ -60,7 +60,7 @@ const getBoardPosts = async (req, res, next) => {
 
 const getPagination = (req, res, next) => {
     const page = parseInt(req.query.page) || 1;
-    const limit = 1;
+    const limit = 10;
 
     let startIndex = (page - 1) * limit;
     let endIndex = startIndex + limit;
@@ -71,8 +71,6 @@ const getPagination = (req, res, next) => {
         const totalPages = Math.ceil(boardPosts.length / limit);
 
         const results = boardPosts.slice(startIndex, endIndex);
-
-        console.log('start:', startIndex, 'end:', endIndex, 'total:', totalPages, 'page:', page, 'results:', results.length, boardPosts.length)
 
         res.paginationResults = results;
         res.totalPages = totalPages;
