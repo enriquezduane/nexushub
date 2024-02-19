@@ -40,13 +40,7 @@ const renderPost = (req, res) => {
 // Get post by URL
 const getPostByUrl = async (req, res, next) => {
     try {
-        // Split the URL by slashes and get the last part
-        const url = req.originalUrl;
-        const parts = url.split('/');
-        const lastPart = parts[parts.length - 1];
-
-        // Find the board in the database using a case-insensitive regex
-        const post = await Post.findById(lastPart);
+        const post = await Post.findById(req.params.id);
 
         if (!post) {
             return res.status(404).json({ message: 'Post not found', post: post });
@@ -62,22 +56,26 @@ const getPostByUrl = async (req, res, next) => {
 // Increment views
 const incrementViews = async (req, res, next) => {
     try {
-        // get the post id from response
-        const postId = res.post.id
+        const { id } = req.params;
+        const post = await Post.findById(id);
 
-        // Find the post and increment the views
-        const post = await Post.findById(postId);
+        // Check if the cookie exists
+        if (!req.cookies[`viewed_${id}`]) {
+            // Increment the view count
+            post.views += 1;
+            await post.save();
 
-        // Increment the views
-        post.views += 1;
+            // Set a cookie to expire in desired time in milliseconds (CURRENT: 1 minute)
+            res.cookie(`viewed_${id}`, true, { maxAge: 1000 * 60 });
 
-        // Save the updated post
-        await post.save();
-    } catch (err) {
-        res.status(500).json({ message: err.message });
+            console.log('View count incremented for post:', post.title);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ message: error.message });
     }
     next();
-}
+};
 
 const createPost = async (req, res, next) => {
     try {
