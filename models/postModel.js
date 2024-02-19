@@ -40,6 +40,10 @@ const postSchema = new mongoose.Schema({
     type: Number, 
     default: 0 
   },
+  pinned: {
+    type: Boolean,
+    default: false,
+  },
   createdAt: { 
     type: Date, 
     default: () => Date.now(),
@@ -68,6 +72,10 @@ postSchema.virtual('updatedAtSGT').get(function() {
 
 postSchema.virtual('href').get(function() {
   return `${this.refBoard.href}/${this._id}`;
+});
+
+postSchema.virtual('pinnedClass').get(function() {
+  return this.pinned ? 'pinned' : '';
 });
 
 postSchema.pre('save', async function(next) {

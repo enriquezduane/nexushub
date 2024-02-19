@@ -311,7 +311,8 @@ posts = [
         ultimate destination for all things RO. Dive in, explore, and may your adventures be legendary, Rok On!
               `,
         replies: [],
-        views: 102
+        views: 102,
+        pinned: true,
     },
 
     {   
@@ -369,7 +370,8 @@ posts = [
             </span>
               `,
         replies: [],
-        views: 86
+        views: 86,
+        pinned: true,
     },
 
     {   
@@ -435,7 +437,8 @@ posts = [
         Thank you for your attention, and let's continue to make NexusHub a welcoming and engaging space for all :).
               `,
         replies: [],
-        views: 78
+        views: 78,
+        pinned: true,
     },  
 
     {   

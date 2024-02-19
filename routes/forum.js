@@ -8,8 +8,8 @@ router.use(express.static('public'));
 const { populateAll, headerFooterData } = require('../controllers/helper');
 
 // import controller
-const { renderBoard, getBoardByUrl } = require('../controllers/forumController');
+const { renderBoard, getBoardByUrl, getBoardPosts } = require('../controllers/forumController');
 
-router.get('/:id', populateAll, getBoardByUrl, headerFooterData, renderBoard);
+router.get('/:id', populateAll, getBoardByUrl, getBoardPosts, headerFooterData, renderBoard);
 
 module.exports = router;
