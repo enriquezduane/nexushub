@@ -11,8 +11,7 @@ const renderCreatePost = (req, res) => {
             loggedIn: true, 
             title: 'Create Post', 
             forumRules: res.forumRules, 
-            userLoggedIn: 
-            res.userLoggedIn 
+            userLoggedIn: res.userLoggedIn 
         });
     } catch (error) {
         console.error('Error:', error);
@@ -26,7 +25,10 @@ const renderPost = (req, res) => {
         res.render('post', { 
             loggedIn: true, 
             title: res.post.title, 
-            post: res.post, 
+            post: res.post,
+            replies: res.paginationResults,
+            page: res.page,
+            totalPages: res.totalPages,
             users: res.users, 
             forumRules: res.forumRules, 
             userLoggedIn: res.userLoggedIn 
@@ -77,7 +79,37 @@ const incrementViews = async (req, res, next) => {
     next();
 };
 
-const createPost = async (req, res, next) => {
+const getPagination = (req, res, next) => {
+    const page = parseInt(req.query.page) || 1;
+    const limit = 10; 
+
+    let startIndex = (page - 1) * limit;
+    let endIndex = startIndex + limit;
+
+    try {
+        const post = res.post;
+
+        // Include the post itself in the replies array
+        const allReplies = [post].concat(post.replies);
+
+        const totalPages = Math.ceil(allReplies.length / limit);
+
+        const results = allReplies.slice(startIndex, endIndex);
+
+        const repliesOnly = results.filter(item => item.id !== post.id);
+
+        res.post = post;
+        res.paginationResults = repliesOnly;
+        res.totalPages = totalPages;
+        res.page = page;
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ message: error.message });
+    }
+    next();
+}
+
+const createPost = async (req, res) => {
     try {
         const { title, content, boardId } = req.body;
         const user = await User.findOne({username: "lokitrickster"}); // No session management yet, placeholder username
@@ -105,7 +137,7 @@ const createPost = async (req, res, next) => {
 
 
 // Create a new reply
-const createReply = async (req, res, next) => {
+const createReply = async (req, res) => {
     try {
         const { content, postId } = req.body;
         
@@ -156,7 +188,7 @@ const createReply = async (req, res, next) => {
 };
 
 // Delete reply
-const deleteContent = async (req, res, next) => {
+const deleteContent = async (req, res) => {
     try {
         const { type, id } = req.body;
 
@@ -186,7 +218,7 @@ const deleteContent = async (req, res, next) => {
     }
 };
 
-const updateContent = async (req, res, next) => {
+const updateContent = async (req, res) => {
     try {
         const { type, id, content } = req.body;
 
@@ -219,7 +251,7 @@ const updateContent = async (req, res, next) => {
     }
 };
 
-const upvote = async (req, res, next) => {
+const upvote = async (req, res) => {
     try {
         const { type, id, count } = req.body;
 
@@ -254,6 +286,7 @@ module.exports = {
     renderPost,
     getPostByUrl,
     incrementViews,
+    getPagination,
     createPost,
     createReply,
     deleteContent,
