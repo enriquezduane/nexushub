@@ -3,7 +3,7 @@ const { formatLatestPostDate } = require('../controllers/helper');
 const renderIndex = (req, res) => {
     try {
         res.render('index', { 
-            loggedIn: false, 
+            loggedIn: true, 
             title: "NexusHub", 
             categories: res.categories, 
             boards: res.boards, 
