@@ -73,9 +73,9 @@
                         </div>
                     </div>
                 </div>
-                <p class="post-content">
+                <div class="post-content">
                     <%- post.content %>
-                </p>
+                </div>
                 <div class="post-content-footer">
                     <button class="edit-button">Edit</button>
                     <button class="delete-button">Delete</button>
@@ -107,7 +107,7 @@
                 <div class="post-info">
                     <div class="post-info-top">
                         <div class="post-name">
-                        <a href="<%= post.href %>#reply<%= reply.id %>">
+                        <a href="<%= post.href %>">
                             <strong><%= reply.title %></strong>
                         </a>
                         </div>
@@ -128,9 +128,9 @@
                         </div>
                     </div>
                 </div>
-                <p class="post-content">
+                <div class="post-content">
                     <%- reply.reply %>
-                </p>
+                </div>
                 <div class="post-content-footer">
                     <button class="edit-button">Edit</button>
                     <button class="delete-button">Delete</button>
@@ -164,16 +164,14 @@
         <form id="replyForm">
             <input type="hidden" name="postId" value="<%= post.id %>">
             <div class="reply-area">
-                <div>
-                    <label for="reply-box"></label>
-                    <textarea id="reply-box" name="reply" dir="ltr"></textarea>
-                </div>
+                <div id="editor-container"></div>
                 <button type="submit" class="post-button">Post</button>
             </div>
         </form>
     </div>
 </div>
 
+<script src="js/quillEditor.js"></script>
 <script src="js/reply.js"></script>
 <script src="js/voteCount.js"></script>
 <script src="js/edit.js"></script>

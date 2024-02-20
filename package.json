@@ -20,7 +20,8 @@
     "express-ejs-layouts": "^2.5.1",
     "express-rate-limit": "^7.1.5",
     "moment-timezone": "^0.5.45",
-    "mongoose": "^8.1.1"
+    "mongoose": "^8.1.1",
+    "quill-delta-to-html": "^0.12.1"
   },
   "devDependencies": {
     "nodemon": "^3.0.3"

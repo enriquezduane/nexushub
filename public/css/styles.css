@@ -1235,12 +1235,15 @@ tbody {
 }
 
 .reply-area {
-  padding: 10px 100px;
-  text-align: center;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 #reply-box {
-  width: 500px;
+  width: 800px;
   height: 150px;
   max-height: 400px;
   flex-basis: 150px;
@@ -2099,15 +2102,18 @@ tbody td:nth-child(5) {
 
 textarea {
   resize: vertical;
-  max-height: 600px;
 }
 
 .pinned {
   background-color: #222268;
 }
 
+.post-section:nth-child(odd) {
+  background: linear-gradient(to right, #010e29, #1f2a4e, #000033);
+}
+
 .post-section:nth-child(even) {
-  background-color: #222268;
+  background: linear-gradient(to right, #0c0c31, #542a6d, #51235a, #030330);
 }
 
 .category-container:nth-of-type(even) {
@@ -2245,4 +2251,98 @@ img[alt="candy pin gif"] {
   width: 30px;
   height: 30px;
   transform: scale(1.75);
+}
+
+.post-button {
+  margin-top: 20px;
+}
+
+.ql-container.ql-snow {
+  width: 1000px;
+  flex-basis: 150px;
+  padding: 10px;
+  background: linear-gradient(to right, #2548a7, #9e4b9e);
+  border: 1px solid #bb00bb;
+  border-radius: 8px;
+  color: white;
+  font-family: "basiic", serif;
+  font-size: 15px;
+  box-shadow:
+      0 0 4px rgba(187, 0, 187, 1),
+      inset 0 0 4px rgba(0, 187, 0, 0.5);
+  outline: none;
+  transition:
+      box-shadow 0.3s ease-in-out,
+      border 0.3s ease-in-out;
+  margin-bottom: 20px;
+}
+
+.ql-container.ql-snow:focus-within {
+  box-shadow:
+      0 0 6px rgba(187, 0, 187, 0.7),
+      inset 0 0 6px rgba(0, 187, 0, 0.5);
+  border-color: #009999;
+}
+
+.ql-toolbar.ql-snow {
+  width: 1000px;
+  padding: 10px;
+  background: linear-gradient(to right, #2548a7, #9e4b9e);
+  border: 1px solid #bb00bb;
+  border-radius: 8px;
+  color: white;
+  font-family: "basiic", serif;
+  font-size: 15px;
+  box-shadow:
+      0 0 4px rgba(187, 0, 187, 1),
+      inset 0 0 4px rgba(0, 187, 0, 0.5);
+  outline: none;
+  transition:
+      box-shadow 0.3s ease-in-out,
+      border 0.3s ease-in-out;
+  margin-bottom: 20px;
+}
+
+.ql-toolbar.ql-snow .ql-picker-label,
+.ql-toolbar.ql-snow .ql-picker-item {
+  color: white !important;
+}
+
+.ql-toolbar.ql-snow .ql-stroke {
+  stroke: white !important;
+}
+
+.ql-editor::before {
+  color: rgb(160, 160, 160) !important; /* Replace with your desired color */
+}
+
+.ql-snow .ql-picker-item {
+  color: #000 !important; /* Change to your desired color */
+}
+
+.ql-snow .ql-picker-label {
+  color: #000 !important; /* Change to your desired color */
+}
+
+.ql-snow .ql-picker-item::before {
+  color: #313131; /* Set the color of the header selection text */
+}
+
+.ql-container.ql-snow .ql-editor {
+  min-height: 150px;
+}
+
+.ql-toolbar .ql-formats:not(:has(.emoji-toolbar-icon)) {
+  border: 1px solid #757474;
+  border-radius: 5px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+.ql-container.ql-snow .ql-editor strong {
+  color: white;
+}
+
+.ql-toolbar .ql-formats .ql-custom-emoticon-13 {
+  margin-bottom: 14px;
 }

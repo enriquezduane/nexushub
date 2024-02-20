@@ -527,6 +527,10 @@ const populateReply = async (reply) => {
                         model: 'User'
                     }
                 ]
+            }, 
+            {
+                path: 'refBoard',
+                model: 'Board',
             }
         ]
     }).populate({
@@ -568,6 +572,22 @@ const headerFooterData = async (req, res, next) => {
     next();
 }
 
+const emoticonData = {
+    'custom-emoticon-1': 'images/ro_emote_an.gif',
+    'custom-emoticon-2': 'images/ro_emote_dotdotdot.gif',
+    'custom-emoticon-3': 'images/ro_emote_eyes.gif',
+    'custom-emoticon-4': 'images/ro_emote_gg.gif',
+    'custom-emoticon-5': 'images/ro_emote_heh.gif',
+    'custom-emoticon-6': 'images/ro_emote_hmm.gif',
+    'custom-emoticon-7': 'images/ro_emote_ho.gif',
+    'custom-emoticon-8': 'images/ro_emote_kis2.gif',
+    'custom-emoticon-9': 'images/ro_emote_lv.gif',
+    'custom-emoticon-10': 'images/ro_emote_no1.gif',
+    'custom-emoticon-11': 'images/ro_emote_ook.gif',
+    'custom-emoticon-12': 'images/ro_emote_questionmark.gif',
+    'custom-emoticon-13': 'images/ro_emote_swt.gif',
+};
+
 module.exports = {
     populateAll,
     populateCategories,
@@ -581,4 +601,5 @@ module.exports = {
     highlightSubstring,
     formatLatestPostDate,
     headerFooterData,
+    emoticonData,
 }

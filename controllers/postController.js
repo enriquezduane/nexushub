@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 const Post = require('../models/postModel');
 const Reply = require('../models/replyModel');
 const User = require('../models/userModel');
-const { populatePost, populateReply } = require('./helper');
+const QuillDeltaToHtmlConverter = require('quill-delta-to-html').QuillDeltaToHtmlConverter;
+const { populatePost, populateReply, emoticonData } = require('./helper');
 
 const renderCreatePost = (req, res) => {
     try {
@@ -59,7 +60,7 @@ const getPostByUrl = async (req, res, next) => {
 const incrementViews = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const post = await Post.findById(id);
+        const post = await Post.findById(req.params.id);
 
         // Check if the cookie exists
         if (!req.cookies[`viewed_${id}`]) {
@@ -68,7 +69,7 @@ const incrementViews = async (req, res, next) => {
             await post.save();
 
             // Set a cookie to expire in desired time in milliseconds (CURRENT: 1 minute)
-            res.cookie(`viewed_${id}`, true, { maxAge: 1000 * 60 });
+            res.cookie(`viewed_${id}`, true, { maxAge: 1000 * 60 * 60 });
 
             console.log('View count incremented for post:', post.title);
         }
@@ -141,6 +142,22 @@ const createReply = async (req, res) => {
     try {
         const { content, postId } = req.body;
         
+        const opsWithImages = content.ops.map(op => {
+            if (op.insert && typeof op.insert === 'object') {
+                const emoticonType = Object.keys(op.insert)[0];
+                if (emoticonData[emoticonType]) {
+                    return { insert: { image: emoticonData[emoticonType] } };
+                }
+            }
+            return op;
+        });
+
+        // Replace emoticon ops with image ops in content
+        converter = new QuillDeltaToHtmlConverter(opsWithImages, {});
+
+        const htmlContent = converter.convert();
+        safeHtmlContent = htmlContent.replace(new RegExp('unsafe:', 'g'), '');
+        
         // Find the post and user by its ID
         const initialPost = await Post.findById(postId);
         const user = await User.findOne({username: "lokitrickster"}); // No session management yet, placeholder username
@@ -154,7 +171,7 @@ const createReply = async (req, res) => {
             title: 'Re: ' + post.title,
             refPost: post.id,
             poster: user.id,
-            reply: content,
+            reply: safeHtmlContent,
             createdAt: Date.now(),
             updatedAt: Date.now() 
         });
@@ -168,6 +185,7 @@ const createReply = async (req, res) => {
         replyMsg = {
             id: populatedReply.id,
             userId: populatedReply.poster.id,
+            href: populatedReply.refPost.href,
             title: populatedReply.title,
             reply: populatedReply.reply,
             date: populatedReply.createdAtSGT,
@@ -183,6 +201,7 @@ const createReply = async (req, res) => {
         // Send the new reply object to the client
         res.status(200).json(replyMsg);
     } catch (err) {
+        console.error('Error:', err)
         res.status(400).json({ message: err.message, request: req.body });
     }
 };

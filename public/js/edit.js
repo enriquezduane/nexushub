@@ -1,3 +1,127 @@
+const Delta = Quill.import('delta');
+
+function initializeQuill(className) {
+    const quill = new Quill(className, {
+        theme: 'snow',
+        modules: {
+            toolbar: [
+                [{ 'font': [] }],
+                [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                ['bold', 'italic', 'underline', 'strike'],
+                [{ 'color': [] }, { 'background': [] }],
+                [{ 'script': 'sub'}, { 'script': 'super' }],
+                [{ 'header': '1'}, { 'header': '2' }, 'blockquote', 'code-block'],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'indent': '-1'}, { 'indent': '+1' }],
+                ['direction', { 'align': [] }],
+                ['link', 'image', 'video', 'formula'],
+                ['clean']
+            ]
+        },
+        placeholder: 'Write your reply here...',
+        readOnly: false,
+    });
+
+    function updateQuillHeight() {
+        let editor = document.querySelector('.ql-editor');
+        let postContent = document.querySelector('.post-content'); 
+
+        // Temporarily show the postContent element to get its height
+        let originalDisplay = postContent.style.display;
+        postContent.style.display = 'block';
+
+        let postContentOffsetHeight = postContent.offsetHeight;
+
+        // Restore the original display value of the postContent element
+        postContent.style.display = originalDisplay;
+
+        editor.style.height = postContentOffsetHeight + 'px';
+
+        if (editor.scrollHeight <= postContentOffsetHeight) { // Adjust the value to match max-height
+            editor.style.height = 'auto';
+            editor.style.height = editor.scrollHeight + 'px';
+        } else {
+            editor.style.height = postContentOffsetHeight; // Set max-height
+        }
+    }
+
+    quill.clipboard.addMatcher(Node.ELEMENT_NODE, (node, delta) => {
+        // Loop through all the ops in the delta
+        delta.ops.forEach(op => {
+            // If the op has an insert property and it's an object
+            if (op.insert && typeof op.insert === 'object') {
+                // If the insert object has a background property, delete it
+                if (op.insert.background) {
+                    delete op.insert.background;
+                }
+            }
+            // If the op has attributes
+            if (op.attributes) {
+                // If the attributes object has a background property, delete it
+                if (op.attributes.background) {
+                    delete op.attributes.background;
+                }
+            }
+        });
+        
+        return delta;
+    });
+
+    quill.clipboard.addMatcher('IMG', function(node, delta) {
+        return new Delta().insert({
+            image: node.src
+        });
+    });
+
+    function addPasteEventListener(quillInstance) {
+        const quillContainer = quillInstance.container.querySelector('.ql-editor');
+
+        quillContainer.addEventListener('paste', function(event) {
+            const scrollPosition = window.scrollY || document.documentElement.scrollTop;
+    
+            setTimeout(function() {
+                window.scrollTo(0, scrollPosition);
+            }, 1);
+        });
+
+        quillContainer.addEventListener('paste', function(event) {
+            const clipboardData = (event.clipboardData || window.clipboardData);
+            const pastedData = clipboardData.getData('text/html') || clipboardData.getData('text/plain');
+            const tempElement = document.createElement('div');
+            tempElement.innerHTML = pastedData;
+
+            console.log('Pasted data: ' + pastedData)
+            console.log(tempElement.innerHTML)
+    
+            // Check if the pasted content contains images
+            const images = tempElement.querySelectorAll('img');
+            if (images.length > 0) {
+                // Prevent default paste behavior to handle pasted images separately
+                event.preventDefault();
+    
+                // Process each image individually
+                images.forEach(image => {
+                    // Create a new image element and set its src attribute
+                    var newImage = document.createElement('img');
+                    console.log('Image src: ' + image.src)
+                    newImage.src = image.src;
+    
+                    // Insert the new image into the editor at the current selection point
+                    quillInstance.clipboard.dangerouslyPasteHTML(quillInstance.getSelection(true).index, newImage.outerHTML);
+                });
+            }
+        });
+    }
+
+    // Update Quill container height when content changes
+    quill.on('text-change', updateQuillHeight);
+
+    // Initially set Quill container height
+    updateQuillHeight();
+    addPasteEventListener(quill);
+    
+    return quill;
+}
+
 document.addEventListener('click', (event) => {
     const clickedElement = event.target;
 
@@ -5,25 +129,37 @@ document.addEventListener('click', (event) => {
         const postArea = clickedElement.closest('.post-area');
         const postContent = postArea.querySelector('.post-content');
 
-        // Check if a textarea already exists
-        let textarea = postArea.querySelector('.edit-post-textarea');
-        if (!textarea) {
-            // Create a new textarea if it doesn't exist
-            textarea = document.createElement('textarea');
-            textarea.className = 'edit-post-textarea';
+        // Check if a Quill editor already exists
+        let quillEditor = postArea.querySelector('.quill-editor');
+        
+        if (!quillEditor) {
+            // Create a new div for the Quill editor if it doesn't exist
+            quillEditor = document.createElement('div');
+            quillEditor.className = 'quill-editor';
 
-            // replace all < and > with [ and ] except for <br> and </br> tags
-            postContent.innerHTML = postContent.innerHTML.replace(/<(?!br>)(?!\/br>)/g, '[').replace(/(?<!<br)(?<!<\/br)>/g, ']');
-            textarea.value = postContent.innerText.trim(); // Use innerText to preserve newline characters
+            // Hide original post content
+            postContent.style.display = 'none';
 
-            // Resize textarea to fit content dynamically
-            textarea.addEventListener('input', () => {
-                textarea.style.height = 'auto'; // Reset height
-                textarea.style.height = (textarea.scrollHeight) + 'px'; // Set new height
+            // Insert Quill editor before the post content
+            postArea.insertBefore(quillEditor, postContent);
+
+            // Initialize Quill on the new divs
+            const editQuill = initializeQuill('.quill-editor');
+
+            let quillToolbar = document.querySelector('.ql-toolbar');
+
+            setDimensions(quillEditor, postContent);
+            setDimensions(quillToolbar, postContent);
+
+            quillToolbar.style.marginTop = '20px';
+
+            editQuill.clipboard.dangerouslyPasteHTML(0, postContent.innerHTML);
+            // Trigger paste event
+            const pasteEvent = new Event('paste', {
+                bubbles: true,
+                cancelable: true,
             });
-            
-            // Set textarea dimensions to match the post content
-            setDimensions(textarea, postContent);
+            quillEditor.dispatchEvent(pasteEvent);
 
             // Create save button
             const saveButton = document.createElement('button');
@@ -41,17 +177,8 @@ document.addEventListener('click', (event) => {
             buttonsDiv.appendChild(saveButton);
             buttonsDiv.appendChild(cancelButton);
 
-            // Hide original post content
-            postContent.style.display = 'none';
-
-            // Insert textarea before the post content
-            postArea.insertBefore(textarea, postContent);
-
-            // Insert buttons below the textarea
-            postArea.insertBefore(buttonsDiv, postContent.nextSibling);
-
-            // set text area height to show all text 
-            textarea.style.height = (textarea.scrollHeight) + 'px'; // Set new height
+            // Insert buttons below the Quill editor
+            postArea.insertBefore(buttonsDiv, quillEditor.nextSibling);
 
             // Event listener for the save button
             saveButton.addEventListener('click', async () => {
@@ -62,7 +189,7 @@ document.addEventListener('click', (event) => {
                 const editedContainer = postContainer.querySelector('.post-edited');
 
                 // Get the updated content
-                const updatedContent = textarea.value.replace(/\n/g, '<br>').replace(/\[/g, '<').replace(/\]/g, '>');
+                const updatedContent = editQuill.root.innerHTML;
 
                 // Determine if the container is a post or a reply
                 const isReply = postContainer.classList.contains('reply-section');
@@ -83,12 +210,20 @@ document.addEventListener('click', (event) => {
                         throw new Error('Failed to update post');
                     }
 
-                    postContent.innerHTML = updatedContent; // Convert newline characters to <br> tags
                     postContent.style.display = ''; // Show original post content
-                    textarea.remove();
+            
+                    // Remove the Quill editor container from the DOM
+                    quillEditor.parentNode.removeChild(quillEditor);
+                
+                    // Remove the Quill toolbar from the DOM
+                    quillToolbar = document.querySelector('.ql-toolbar');
+                    quillToolbar.parentNode.removeChild(quillToolbar);
+                
                     buttonsDiv.remove();
 
-                    alert('Edited ' + (isReply ? 'reply' : 'post') + ' successfully');
+                    postContent.innerHTML = updatedContent;
+
+                    alert(isReply ? 'Reply updated successfully' : 'Post updated successfully')
 
                     // Update the edited container
                     const responseData = await response.json(); // Parse JSON response
@@ -101,22 +236,30 @@ document.addEventListener('click', (event) => {
 
             // Event listener for the cancel button
             cancelButton.addEventListener('click', () => {
-                postContent.innerHTML = postContent.innerHTML.replace(/\[/g, '<').replace(/\]/g, '>'); // Convert newline characters to <br> tags
                 postContent.style.display = ''; // Show original post content
-                textarea.remove();
+            
+                // Remove the Quill editor container from the DOM
+                quillEditor.parentNode.removeChild(quillEditor);
+            
+                // Remove the Quill toolbar from the DOM
+                quillToolbar = document.querySelector('.ql-toolbar');
+                quillToolbar.parentNode.removeChild(quillToolbar);
+            
                 buttonsDiv.remove();
             });
         } else {
-            // Focus on the existing textarea
-            textarea.focus();
+            // Focus on the existing Quill editor
+            quillEditor.focus();
         }
     }
 });
 
-function setDimensions(textarea, element) {
-    textarea.style.fontSize = getComputedStyle(element).fontSize;
-    textarea.style.fontFamily = getComputedStyle(element).fontFamily;
-    textarea.style.lineHeight = getComputedStyle(element).lineHeight;
-    textarea.style.width = getComputedStyle(element).width;
-    textarea.style.height = getComputedStyle(element).height;
+function setDimensions(target, source) {
+    const styles = ['fontSize', 'fontFamily', 'lineHeight', 'width', 'height'];
+    const computedStyle = getComputedStyle(source);
+
+    styles.forEach(style => {
+        target.style[style] = computedStyle[style];
+    });
 }
+
