@@ -141,6 +141,8 @@ const createPost = async (req, res) => {
 const createReply = async (req, res) => {
     try {
         const { content, postId } = req.body;
+
+        console.log(content.ops)
         
         const opsWithImages = content.ops.map(op => {
             if (op.insert && typeof op.insert === 'object') {
@@ -156,7 +158,9 @@ const createReply = async (req, res) => {
         converter = new QuillDeltaToHtmlConverter(opsWithImages, {});
 
         const htmlContent = converter.convert();
-        safeHtmlContent = htmlContent.replace(new RegExp('unsafe:', 'g'), '');
+        console.log(htmlContent)
+        const safeHtmlContent = htmlContent.replace(/src="unsafe:(.*?)"/g, 'src="$1"');
+        console.log(safeHtmlContent)
         
         // Find the post and user by its ID
         const initialPost = await Post.findById(postId);
