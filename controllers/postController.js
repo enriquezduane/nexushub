@@ -158,9 +158,7 @@ const createReply = async (req, res) => {
         converter = new QuillDeltaToHtmlConverter(opsWithImages, {});
 
         const htmlContent = converter.convert();
-        console.log(htmlContent)
         const safeHtmlContent = htmlContent.replace(/src="unsafe:(.*?)"/g, 'src="$1"');
-        console.log(safeHtmlContent)
         
         // Find the post and user by its ID
         const initialPost = await Post.findById(postId);

@@ -44,6 +44,7 @@ function initializeQuill(className) {
     
 
     function generateToolbarConfig(emoticonUrls) {
+        // Define the toolbar configuration
         const toolbarConfig = {
             container: [
                 [{ 'font': [] }],
@@ -59,6 +60,7 @@ function initializeQuill(className) {
             handlers: {}
         };
     
+        // Add custom emoticon buttons to the toolbar
         emoticonUrls.forEach((url, index) => {
             const buttonName = `custom-emoticon-${index + 1}`;
             toolbarConfig.container.push([buttonName]);
@@ -70,12 +72,14 @@ function initializeQuill(className) {
         return toolbarConfig;
     }
 
+    // Insert emoticon inside text editor
     function insertEmoticon(emoticonUrl, index) {
         const range = quill.getSelection(true);
         quill.insertEmbed(range.index, `custom-emoticon-${index + 1}`, emoticonUrl, Quill.sources.USER);
         quill.setSelection(range.index + 1, Quill.sources.SILENT);
     }
 
+    // Update Quill container height to match content
     function updateQuillHeight() {
         let editor = document.querySelector('.ql-editor');
         if (editor.scrollHeight <= 1000) { // Adjust the value to match max-height
@@ -86,6 +90,7 @@ function initializeQuill(className) {
         }
     }
 
+    // Remove background color from pasted content
     quill.clipboard.addMatcher(Node.ELEMENT_NODE, (node, delta) => {
         // Loop through all the ops in the delta
         delta.ops.forEach(op => {
@@ -107,15 +112,51 @@ function initializeQuill(className) {
         return delta;
     });
 
+   
+    // Convert pasted images to Delta
+    quill.clipboard.addMatcher('IMG', function(node, delta) {
+        return new Delta().insert({
+            image: node.src
+        });
+    });
+
+    // Add paste event listener to handle pasting events
     function addPasteEventListener(quillInstance) {
         const quillContainer = quillInstance.container.querySelector('.ql-editor');
     
-        quillContainer.addEventListener('paste', function(event) {
+        // Prevent scroll to top when pasting content
+        quillContainer.addEventListener('paste', function() {
             const scrollPosition = window.scrollY || document.documentElement.scrollTop;
     
             setTimeout(function() {
                 window.scrollTo(0, scrollPosition);
             }, 1);
+        });
+
+        // Handle pasted images
+        quillContainer.addEventListener('paste', function(event) {
+            const clipboardData = (event.clipboardData || window.clipboardData);
+            const pastedData = clipboardData.getData('text/html') || clipboardData.getData('text/plain');
+            const tempElement = document.createElement('div');
+            tempElement.innerHTML = pastedData;
+    
+            // Check if the pasted content contains images
+            const images = tempElement.querySelectorAll('img');
+            if (images.length > 0) {
+                // Prevent default paste behavior to handle pasted images separately
+                event.preventDefault();
+    
+                // Process each image individually
+                images.forEach(image => {
+                    // Create a new image element and set its src attribute
+                    const newImage = document.createElement('img');
+                    console.log('Image src: ' + image.src)
+                    newImage.src = image.src;
+    
+                    // Insert the new image into the editor at the current selection point
+                    quillInstance.clipboard.dangerouslyPasteHTML(quillInstance.getSelection(true).index, newImage.outerHTML);
+                });
+            }
         });
     }
 

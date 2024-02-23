@@ -75,7 +75,7 @@ function initializeQuill(className) {
     function addPasteEventListener(quillInstance) {
         const quillContainer = quillInstance.container.querySelector('.ql-editor');
 
-        quillContainer.addEventListener('paste', function(event) {
+        quillContainer.addEventListener('paste', function() {
             const scrollPosition = window.scrollY || document.documentElement.scrollTop;
     
             setTimeout(function() {
@@ -83,14 +83,12 @@ function initializeQuill(className) {
             }, 1);
         });
 
+        // Handle pasted images
         quillContainer.addEventListener('paste', function(event) {
             const clipboardData = (event.clipboardData || window.clipboardData);
             const pastedData = clipboardData.getData('text/html') || clipboardData.getData('text/plain');
             const tempElement = document.createElement('div');
             tempElement.innerHTML = pastedData;
-
-            console.log('Pasted data: ' + pastedData)
-            console.log(tempElement.innerHTML)
     
             // Check if the pasted content contains images
             const images = tempElement.querySelectorAll('img');
@@ -101,7 +99,7 @@ function initializeQuill(className) {
                 // Process each image individually
                 images.forEach(image => {
                     // Create a new image element and set its src attribute
-                    var newImage = document.createElement('img');
+                    const newImage = document.createElement('img');
                     console.log('Image src: ' + image.src)
                     newImage.src = image.src;
     
