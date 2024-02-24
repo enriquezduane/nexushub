@@ -288,9 +288,17 @@ const addVoteToUser = async (req, res, next) => {
                     if (!user.upvoted.some(vote => vote.item.toString() === id)) {
                         user.upvoted.push({ itemType: 'Post', item: id });
                     }
+
+                    if (user.downvoted.some(vote => vote.item.toString() === id)) {
+                        // Remove from downvoted array
+                        user.downvoted = user.downvoted.filter(vote => vote.item.toString() !== id);
+                    }
                 } else {
                     // Remove from upvoted array
                     user.upvoted = user.upvoted.filter(vote => vote.item.toString() !== id);
+
+                    // Remove from downvoted array
+                    user.downvoted = user.downvoted.filter(vote => vote.item.toString() !== id);
                 }
             } else if (action === 'downvote') {
                 if (active) {
@@ -298,9 +306,17 @@ const addVoteToUser = async (req, res, next) => {
                     if (!user.downvoted.some(vote => vote.item.toString() === id)) {
                         user.downvoted.push({ itemType: 'Post', item: id });
                     }
+
+                    if (user.upvoted.some(vote => vote.item.toString() === id)) {
+                        // Remove from upvoted array
+                        user.upvoted = user.upvoted.filter(vote => vote.item.toString() !== id);
+                    }
                 } else {
                     // Remove from downvoted array
                     user.downvoted = user.downvoted.filter(vote => vote.item.toString() !== id);
+
+                    // Remove from upvoted array
+                    user.upvoted = user.upvoted.filter(vote => vote.item.toString() !== id);
                 }
             }
         } else if (type === 'reply') {
