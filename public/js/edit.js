@@ -1,3 +1,5 @@
+const Delta = Quill.import('delta');
+
 emoticonUrls.forEach((url, index) => {
     class CustomEmoticonBlot extends InlineEmbed {
         static create(value) {
