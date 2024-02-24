@@ -123,26 +123,25 @@ userSchema.pre('save', async function(next) {
       let newRole = this.role; // Default to current role
 
       // Determine the new role based on post count
-      if (postCount >= 10 && postCount < 25) {
+      if (postCount >= 2 && postCount < 5) {
         newRole = 'Initiate Acolyte';
-      } else if (postCount >= 25 && postCount < 50) {
+      } else if (postCount >= 5 && postCount < 10) {
         newRole = 'Rookie Blacksmith';
-      } else if (postCount >= 50 && postCount < 100) {
+      } else if (postCount >= 10 && postCount < 20) {
         newRole = 'Journeyman Wizard';
-      } else if (postCount >= 100 && postCount < 200) {
+      } else if (postCount >= 20 && postCount < 40) {
         newRole = 'Veteran Archer';
-      } else if (postCount >= 200 && postCount < 500) {
+      } else if (postCount >= 40 && postCount < 75) {
         newRole = 'Elite Knight';
-      } else if (postCount >= 500 && postCount < 1000) {
+      } else if (postCount >= 75 && postCount < 150) {
         newRole = 'Master Assassin';
-      } else if (postCount >= 1000) {
+      } else if (postCount >= 150) {
         newRole = 'Grandmaster Scholar';
       }
 
       // Update the user's role if it has changed
       if (newRole !== this.role) {
         this.role = newRole;
-        console.log(`${this.username} role updated to: ${newRole}`);
       }
     }
 

@@ -111,7 +111,7 @@ const getPagination = (req, res, next) => {
 const createPost = async (req, res) => {
     try {
         const { title, content, boardId } = req.body;
-        const user = await User.findOne({username: "lokitrickster"}); // No session management yet, placeholder username
+        const user = await User.findById(req.user.id); 
 
         // Create a new post
         const initialPost = new Post({
@@ -158,7 +158,7 @@ const createReply = async (req, res) => {
         
         // Find the post and user by its ID
         const initialPost = await Post.findById(postId);
-        const user = await User.findOne({username: "lokitrickster"}); // No session management yet, placeholder username
+        const user = await User.findById(req.user.id); 
 
         // Populate the post object
         const post = await populatePost(initialPost);
