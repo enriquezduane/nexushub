@@ -99,8 +99,6 @@ postSchema.pre('save', async function(next) {
       }
     }
 
-    console.log('Post pre save middleware executed');
-
     next();
   } catch (error) {
     next(error);
@@ -127,11 +125,9 @@ postSchema.pre('deleteOne', async function (next) {
 
     // Remove the deleted post's replies
     if (post.replies && post.replies.length > 0) {
-      const replyDeletionResult = await mongoose.model('Reply').deleteMany({ _id: { $in: post.replies } });
-      console.log('Post Model Reply deletion result:', replyDeletionResult);
+      await mongoose.model('Reply').deleteMany({ _id: { $in: post.replies } });
     }
 
-    console.log('Post pre deleteOne middleware executed');
     next();
   } catch (error) {
     next(error);
@@ -161,12 +157,9 @@ postSchema.pre('deleteMany', async function (next) {
       
       // Remove the deleted post's replies
       if (post.replies && post.replies.length > 0) {
-        const postDeletionResult = await mongoose.model('Reply').deleteMany({ _id: { $in: post.replies } });
-        console.log('Post Model Reply deletion result:', postDeletionResult);
+        await mongoose.model('Reply').deleteMany({ _id: { $in: post.replies } });
       }
     }
-
-    console.log('Post pre deleteMany middleware executed');
 
     next();
   } catch (error) {

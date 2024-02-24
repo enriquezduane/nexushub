@@ -1,5 +1,6 @@
 // Mock Database for NexusHub Forum
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 users = [
     { 
         _id: new mongoose.Types.ObjectId(),
@@ -97,7 +98,21 @@ users = [
     },
 ]
 
-
+users.forEach(async (user) => {
+    try {
+        const salt = await bcrypt.genSalt(10);
+        let passwordToHash;
+        if (user.role === "Forum Master") {
+            passwordToHash = "admin";
+        } else {
+            passwordToHash = "user";
+        }
+        const hashedPassword = await bcrypt.hash(passwordToHash, salt);
+        user.password = hashedPassword;
+    } catch (error) {
+        console.error(`Error hashing password for user ${user.username}:`, error);
+    }
+});
 
 replies = [
     {

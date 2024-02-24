@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const moment = require('moment-timezone');
+const bcrypt = require('bcrypt');
 
 // Set the default timezone to Singapore
 moment.tz.setDefault('Asia/Singapore');
@@ -14,6 +15,7 @@ const userSchema = new mongoose.Schema({
   password: { 
     type: String, 
     default: "password",
+    required: true,
   },
   email: { 
     type: String, 
@@ -90,13 +92,11 @@ userSchema.pre('deleteOne', async function(next) {
     const user = await mongoose.model('User').findOne(this.getQuery()).populate('posts').populate('replies');
 
     if (user.posts && user.posts.length > 0) {
-      const postDeletionResult = await mongoose.model('Post').deleteMany({ _id: { $in: user.posts } });
-      console.log('User Model Post deletion result:', postDeletionResult);
+      await mongoose.model('Post').deleteMany({ _id: { $in: user.posts } });
     }
 
     if (user.replies && user.replies.length > 0) {
-      const replyDeletionResult = await mongoose.model('Reply').deleteMany({ _id: { $in: user.replies } });
-      console.log('User Model Reply deletion result:', replyDeletionResult);
+      await mongoose.model('Reply').deleteMany({ _id: { $in: user.replies } });
     }
 
     next();
@@ -111,13 +111,11 @@ userSchema.pre('deleteMany', async function(next) {
 
     for (const user of users) {
       if (user.posts && user.posts.length > 0) {
-        const postDeletionResult = await mongoose.model('Post').deleteMany({ _id: { $in: user.posts } });
-        console.log('User Model Post deletion result:', postDeletionResult);
+        await mongoose.model('Post').deleteMany({ _id: { $in: user.posts } });
       }
 
       if (user.replies && user.replies.length > 0) {
-        const replyDeletionResult = await mongoose.model('Reply').deleteMany({ _id: { $in: user.replies } });
-        console.log('User Model Reply deletion result:', replyDeletionResult);
+        await mongoose.model('Reply').deleteMany({ _id: { $in: user.replies } });
       }
     }
 

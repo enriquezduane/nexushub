@@ -78,8 +78,6 @@ boardSchema.pre('save', async function(next) {
       }
     } 
 
-    console.log('Board pre save middleware executed');
-    
     next();
   } catch (error) {
     next(error);
@@ -100,11 +98,9 @@ boardSchema.pre('deleteOne', async function(next) {
 
     // Remove the board's posts
     if (board.posts && board.posts.length > 0) {
-      const postDeletionResult = await mongoose.model('Post').deleteMany({ _id: { $in: board.posts } });
-      console.log('Board Model Post deletion result:', postDeletionResult);
+      await mongoose.model('Post').deleteMany({ _id: { $in: board.posts } });
     }
 
-    console.log('Board pre deleteOne middleware executed');
     next();
   } catch (error) {
     next(error);
@@ -126,12 +122,10 @@ boardSchema.pre('deleteMany', async function(next) {
 
       // Remove the boards' posts
       if (board.posts && board.posts.length > 0) {
-        const postDeletionResult = await mongoose.model('Post').deleteMany({ _id: { $in: board.posts } });
-        console.log('Board Model Post deletion result:', postDeletionResult);
+        await mongoose.model('Post').deleteMany({ _id: { $in: board.posts } });
       }
     }
 
-    console.log('Board pre deleteMany middleware executed');
     next();
   } catch (error) {
     next(error);

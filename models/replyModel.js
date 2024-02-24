@@ -73,9 +73,8 @@ replySchema.pre('save', async function(next) {
         poster.replies.push(this._id);
         await poster.save();
       }
-
-      console.log('Reply pre save middleware executed');
     } 
+
     next();
   } catch (error) {
     next(error);
@@ -99,8 +98,6 @@ replySchema.pre('deleteOne', async function(next) {
       poster.posts.pull(reply._id);
       await poster.save();
     }
-
-    console.log('Reply pre deleteOne middleware executed');
 
     next();
   } catch (error) {
@@ -127,8 +124,6 @@ replySchema.pre('deleteMany', async function(next) {
         await poster.save();
       }
     }
-    
-    console.log('Reply pre deleteMany middleware executed');
 
     next();
   } catch (error) {

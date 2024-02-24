@@ -6,6 +6,7 @@ const User = require('../models/userModel');
 const Reply = require('../models/replyModel');
 const Board = require('../models/boardModel');
 const Category = require('../models/categoryModel');
+const bcrypt = require('bcrypt');
 
 const populateAll = async (req, res, next) => {
     const categories = await Category.find().populate(
@@ -588,6 +589,11 @@ const emoticonData = {
     'custom-emoticon-13': 'images/ro_emote_swt.gif',
 };
 
+const hashPassword = (password) => {
+    const saltRounds = 10;
+    return bcrypt.hashSync(password, saltRounds);
+}
+
 module.exports = {
     populateAll,
     populateCategories,
@@ -601,5 +607,5 @@ module.exports = {
     highlightSubstring,
     formatLatestPostDate,
     headerFooterData,
-    emoticonData,
+    hashPassword
 }

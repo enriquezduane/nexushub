@@ -63,7 +63,8 @@ const createUser = async (req, res) => {
       return res.status(409).json({ message: 'Username already exists' });
     }
 
-    const hashedPassword = await bcrypt.hash(registerPassword, 10);
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(registerPassword, salt);
 
     const user = new User({ 
         _id: new mongoose.Types.ObjectId(),
@@ -82,6 +83,7 @@ const createUser = async (req, res) => {
       }
       return res.status(200).json({ message: 'User registered and logged in successfully' });
     });
+
   } catch (err) {
     console.error('Error creating user:', err);
     res.status(500).json({ message: err.message });

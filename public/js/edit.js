@@ -1,10 +1,34 @@
-const Delta = Quill.import('delta');
+emoticonUrls.forEach((url, index) => {
+    class CustomEmoticonBlot extends InlineEmbed {
+        static create(value) {
+            let node = super.create(value);
+            node.setAttribute('src', value);
+            return node;
+        }
+    }
+
+    CustomEmoticonBlot.blotName = `custom-emoticon-${index + 14}`; // Use unique class name
+    CustomEmoticonBlot.tagName = 'img';
+
+    Quill.register(CustomEmoticonBlot); // Register the custom blot class
+});
 
 function initializeQuill(className) {
     const quill = new Quill(className, {
         theme: 'snow',
         modules: {
-            toolbar: [
+            toolbar: generateToolbarConfig(emoticonUrls),
+        },
+        placeholder: 'Write your reply here...',
+        readOnly: false,
+    });
+
+    
+
+    function generateToolbarConfig(emoticonUrls) {
+        // Define the toolbar configuration
+        const toolbarConfig = {
+            container: [
                 [{ 'font': [] }],
                 [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
                 ['bold', 'italic', 'underline', 'strike'],
@@ -13,37 +37,42 @@ function initializeQuill(className) {
                 [{ 'header': '1'}, { 'header': '2' }, 'blockquote', 'code-block'],
                 [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'indent': '-1'}, { 'indent': '+1' }],
                 ['direction', { 'align': [] }],
-                ['link', 'image', 'video', 'formula'],
-                ['clean']
-            ]
-        },
-        placeholder: 'Write your reply here...',
-        readOnly: false,
-    });
+                ['link', 'image', 'video', 'clean'],
+            ],
+            handlers: {}
+        };
+    
+        // Add custom emoticon buttons to the toolbar
+        emoticonUrls.forEach((url, index) => {
+            const buttonName = `custom-emoticon-${index + 14}`;
+            toolbarConfig.container.push([buttonName]);
+            toolbarConfig.handlers[buttonName] = function() {
+                insertEmoticon(url, index);
+            };
+        });
+    
+        return toolbarConfig;
+    }
 
+    // Insert emoticon inside text editor
+    function insertEmoticon(emoticonUrl, index) {
+        const range = quill.getSelection(true);
+        quill.insertEmbed(range.index, `custom-emoticon-${index + 14}`, emoticonUrl, Quill.sources.USER);
+        quill.setSelection(range.index + 1, Quill.sources.SILENT);
+    }
+
+    // Update Quill container height to match content
     function updateQuillHeight() {
         let editor = document.querySelector('.ql-editor');
-        let postContent = document.querySelector('.post-content'); 
-
-        // Temporarily show the postContent element to get its height
-        let originalDisplay = postContent.style.display;
-        postContent.style.display = 'block';
-
-        let postContentOffsetHeight = postContent.offsetHeight;
-
-        // Restore the original display value of the postContent element
-        postContent.style.display = originalDisplay;
-
-        editor.style.height = postContentOffsetHeight + 'px';
-
-        if (editor.scrollHeight <= postContentOffsetHeight) { // Adjust the value to match max-height
+        if (editor.scrollHeight <= 1000) { // Adjust the value to match max-height
             editor.style.height = 'auto';
             editor.style.height = editor.scrollHeight + 'px';
         } else {
-            editor.style.height = postContentOffsetHeight; // Set max-height
+            editor.style.height = '1000px'; // Set max-height
         }
     }
 
+    // Remove background color from pasted content
     quill.clipboard.addMatcher(Node.ELEMENT_NODE, (node, delta) => {
         // Loop through all the ops in the delta
         delta.ops.forEach(op => {
@@ -62,19 +91,22 @@ function initializeQuill(className) {
                 }
             }
         });
-        
         return delta;
     });
 
+   
+    // Convert pasted images to Delta
     quill.clipboard.addMatcher('IMG', function(node, delta) {
         return new Delta().insert({
             image: node.src
         });
     });
 
+    // Add paste event listener to handle pasting events
     function addPasteEventListener(quillInstance) {
         const quillContainer = quillInstance.container.querySelector('.ql-editor');
-
+    
+        // Prevent scroll to top when pasting content
         quillContainer.addEventListener('paste', function() {
             const scrollPosition = window.scrollY || document.documentElement.scrollTop;
     
@@ -116,7 +148,7 @@ function initializeQuill(className) {
     // Initially set Quill container height
     updateQuillHeight();
     addPasteEventListener(quill);
-    
+
     return quill;
 }
 
@@ -143,6 +175,15 @@ document.addEventListener('click', (event) => {
 
             // Initialize Quill on the new divs
             const editQuill = initializeQuill('.quill-editor');
+
+            emoticonUrls.forEach((url, index) => {
+                const buttonName = `.ql-custom-emoticon-${index + 14}`;
+                const button = document.querySelector(buttonName);
+                if (button) {
+                    button.innerHTML = `<img src="${url}" class="emoji-toolbar-icon">`;
+                }
+            });
+            
 
             let quillToolbar = document.querySelector('.ql-toolbar');
 

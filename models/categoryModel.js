@@ -41,11 +41,9 @@ categorySchema.pre('deleteOne', async function(next) {
 
     // Remove the category's boards
     if (category.boards && category.boards.length > 0) {
-      const boardDeletionResult = await mongoose.model('Board').deleteMany({ _id: { $in: category.boards } });
-      console.log('Category Model Board deletion result:', boardDeletionResult);
+      await mongoose.model('Board').deleteMany({ _id: { $in: category.boards } });
     }
 
-    console.log('Category pre deleteOne middleware executed');
     next();
   } catch (error) {
     next(error);
@@ -59,12 +57,10 @@ categorySchema.pre('deleteMany', async function(next) {
     for (const category of categories) {
       // Remove the category's boards
       if (category.boards && category.boards.length > 0) {
-        const boardDeletionResult = await mongoose.model('Board').deleteMany({ _id: { $in: category.boards } });
-        console.log('Category Model Board deletion result:', boardDeletionResult);
+        await mongoose.model('Board').deleteMany({ _id: { $in: category.boards } });
       }
     }
 
-    console.log('Category pre deleteMany middleware executed');
     next();
   } catch (error) {
     next(error);
