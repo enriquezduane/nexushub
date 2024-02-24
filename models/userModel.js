@@ -115,6 +115,43 @@ userSchema.virtual('href').get(function() {
   return `/user/${this._id}`;
 });
 
+userSchema.pre('save', async function(next) {
+  try {
+    // Check if the user's role needs to be updated based on post count
+    if (this.isModified('posts') && this.role !== 'Forum Master') {
+      const postCount = this.postCount; // Use the virtual property
+      let newRole = this.role; // Default to current role
+
+      // Determine the new role based on post count
+      if (postCount >= 10 && postCount < 25) {
+        newRole = 'Initiate Acolyte';
+      } else if (postCount >= 25 && postCount < 50) {
+        newRole = 'Rookie Blacksmith';
+      } else if (postCount >= 50 && postCount < 100) {
+        newRole = 'Journeyman Wizard';
+      } else if (postCount >= 100 && postCount < 200) {
+        newRole = 'Veteran Archer';
+      } else if (postCount >= 200 && postCount < 500) {
+        newRole = 'Elite Knight';
+      } else if (postCount >= 500 && postCount < 1000) {
+        newRole = 'Master Assassin';
+      } else if (postCount >= 1000) {
+        newRole = 'Grandmaster Scholar';
+      }
+
+      // Update the user's role if it has changed
+      if (newRole !== this.role) {
+        this.role = newRole;
+        console.log(`${this.username} role updated to: ${newRole}`);
+      }
+    }
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
+
 userSchema.pre('deleteOne', async function(next) {
   try {
     const user = await mongoose.model('User').findOne(this.getQuery()).populate('posts').populate('replies');

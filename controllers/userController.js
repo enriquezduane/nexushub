@@ -5,12 +5,16 @@ const bcrypt = require('bcrypt');
 const renderUpdateProfile = (req, res) => {
   try {
     // Render the edit profile page
+    if (!req.isAuthenticated() || req.user.id !== req.params.id) {
+      return res.status(403).json({ message: 'Forbidden Access' });
+    }
+
     res.render('updateProfile', { 
-      loggedIn: true, 
+      loggedIn: req.isAuthenticated(), 
       title: 'Update Profile', 
       userId: req.params.id, 
       forumRules: res.forumRules, 
-      userLoggedIn: res.userLoggedIn
+      userLoggedIn: req.user
     });
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -21,7 +25,7 @@ const renderUpdateProfile = (req, res) => {
 const renderUser = (req, res) => {
   try {
     // Render the users page
-    res.render('user', { loggedIn: req.isAuthenticated(), title: req.user.username, user: req.user, forumRules: res.forumRules, userLoggedIn: req.user });
+    res.render('user', { loggedIn: req.isAuthenticated(), title: res.user.username, user: res.user, forumRules: res.forumRules, userLoggedIn: req.user });
   } catch (error) {
     console.error('Error fetching data:', error);
     res.status(500).json({ message: err.message });
