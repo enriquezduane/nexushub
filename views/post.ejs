@@ -97,10 +97,12 @@
                 <div class="post-content">
                     <%- post.content %>
                 </div>
-                <div class="post-content-footer">
-                    <button class="edit-button">Edit</button>
-                    <button class="delete-button">Delete</button>
-                </div>
+                <% if (loggedIn && post.poster.id.toString() === userLoggedIn.id.toString()) { %>
+                    <div class="post-content-footer">
+                        <button class="edit-button">Edit</button>
+                        <button class="delete-button">Delete</button>
+                    </div>
+                <% } %>
             </div>
         </div>
     <% } %>
@@ -173,10 +175,12 @@
                 <div class="post-content">
                     <%- reply.reply %>
                 </div>
-                <div class="post-content-footer">
-                    <button class="edit-button">Edit</button>
-                    <button class="delete-button">Delete</button>
-                  </div>
+                <% if (loggedIn && reply.poster.id.toString() === userLoggedIn.id.toString()) { %>
+                    <div class="post-content-footer">
+                        <button class="edit-button">Edit</button>
+                        <button class="delete-button">Delete</button>
+                    </div>
+                <% } %>
             </div>
         </div>
     <% } %>
@@ -199,18 +203,20 @@
             </div>
         </div>
     </div>
-    <div class="reply-section post-container-template">
-        <div class="reply-header topic-header">
-            Reply
-        </div>
-        <form id="replyForm">
-            <input type="hidden" name="postId" value="<%= post.id %>">
-            <div class="reply-area">
-                <div id="editor-container"></div>
-                <button type="submit" class="post-button">Post</button>
+    <% if (loggedIn) { %>
+        <div class="reply-section post-container-template">
+            <div class="reply-header topic-header">
+                Reply
             </div>
-        </form>
-    </div>
+            <form id="replyForm">
+                <input type="hidden" name="postId" value="<%= post.id %>">
+                <div class="reply-area">
+                    <div id="editor-container"></div>
+                    <button type="submit" class="post-button">Post</button>
+                </div>
+            </form>
+        </div>
+    <% } %>
 </div>
 
 <script src="js/quillEditor.js"></script>
