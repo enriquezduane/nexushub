@@ -21,11 +21,11 @@ const renderIndex = (req, res) => {
 
 const renderTerms = (req, res) => {
     res.render('terms', { 
-        loggedIn: true, 
+        loggedIn: req.isAuthenticated(), 
         title: "Terms and Conditions", 
         forumRules: 
         res.forumRules, 
-        userLoggedIn: res.userLoggedIn 
+        userLoggedIn: req.user 
     });
 }
 
