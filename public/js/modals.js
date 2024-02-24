@@ -28,9 +28,11 @@ window.addEventListener('click', function(event) {
 const modal2 = document.querySelector('.modal2');
 const openModalButton2 = document.querySelector('#register');
 
-openModalButton2.addEventListener('click', function() {
-    modal2.classList.add('show');
-});
+if (openModalButton2) {
+    openModalButton2.addEventListener('click', function() {
+        modal2.classList.add('show');
+    });
+}
 
 // Close modal2 on window click
 window.addEventListener('click', function(event) {
@@ -43,10 +45,12 @@ window.addEventListener('click', function(event) {
 const modal3 = document.querySelector('.modal3');
 const agreeButton = document.querySelector('.agree-button');
 
-agreeButton.addEventListener('click', function() {
-   modal3.classList.add('show');
-   modal2.classList.remove('show');
-});
+if (agreeButton) {
+    agreeButton.addEventListener('click', function() {
+    modal3.classList.add('show');
+    modal2.classList.remove('show');
+    });
+}
 
 window.addEventListener('click', function(event) {
     if (event.target === modal3) {
@@ -71,27 +75,4 @@ window.addEventListener('click', function(event) {
 
 searchButton.addEventListener('click', function() {
     modal4.classList.remove('show');
-});
-
-// music functions
-const soundButton = document.querySelector('.music-button');
-const soundEffect = document.querySelector('.sound-effect');
-let isPlaying = false;
-
-soundEffect.volume = 0.4;
-
-soundButton.addEventListener('click', function () {
-    if (!isPlaying) {
-        // Play the sound
-        soundEffect.play();
-        soundButton.textContent = 'Stop Sound';
-    } else {
-        // Stop the sound
-        soundEffect.pause();
-        soundEffect.currentTime = 0; // Reset the playback to the beginning
-        soundButton.textContent = 'Play Sound';
-    }
-
-    // Toggle the state
-    isPlaying = !isPlaying;
 });

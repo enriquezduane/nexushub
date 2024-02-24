@@ -5,13 +5,13 @@ const renderSearch = (req, res) => {
     try {
         // Render the search page
         res.render('search', { 
-            loggedIn: true, 
+            loggedIn: req.isAuthenticated(), 
             title: 'Search Results', 
             posts: res.posts, 
             query: req.query.query, 
             highlightSubstring, 
             forumRules: res.forumRules, 
-            userLoggedIn: res.userLoggedIn
+            userLoggedIn: req.user
         });
     }
     catch (err) {

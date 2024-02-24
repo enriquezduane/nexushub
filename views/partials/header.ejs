@@ -7,7 +7,7 @@
         <div class="dropdown-content">
           <a href="<%= userLoggedIn.href %>">Profile</a>
           <a href="/user/update=<%= userLoggedIn.id %>">Account Settings</a>
-          <a href="/">Log out</a>
+          <a href="/logout" id="logoutLink">Log out</a>
         </div>
       </li>
     </ul>
@@ -15,9 +15,6 @@
   <nav class="navbar-logged-in">
     <a href="/">
       <img alt="home" src="images/home.gif">
-    </a>
-    <a id="register" href="#">
-      <img alt="register" src="images/register.gif">
     </a>
     <a id="search" href="#">
       <img alt="search" src="images/search.gif">

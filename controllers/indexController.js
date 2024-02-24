@@ -3,7 +3,7 @@ const { formatLatestPostDate } = require('../controllers/helper');
 const renderIndex = (req, res) => {
     try {
         res.render('index', { 
-            loggedIn: true, 
+            loggedIn: req.isAuthenticated(), 
             title: "NexusHub", 
             categories: res.categories, 
             boards: res.boards, 
@@ -11,7 +11,7 @@ const renderIndex = (req, res) => {
             users: res.users, 
             formatLatestPostDate, 
             forumRules: res.forumRules, 
-            userLoggedIn: res.userLoggedIn
+            userLoggedIn: req.user
         });
     } catch (error) {
         console.error('Error fetching data:', error);

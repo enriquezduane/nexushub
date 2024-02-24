@@ -1,14 +1,35 @@
+// load environment variables
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
+
 // require important modules
 const express = require('express');
-const dotenv = require('dotenv').config();
 const connectDatabase = require('./models/database/database');
 const expressLayouts = require('express-ejs-layouts');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const passport = require('passport');
+const flash = require('express-flash');
+const session = require('express-session');
 
 // config 
-const app = express();
+const app = express(); 
 const port = process.env.PORT;
+
+// passport and session initialization
+const initializePassport = require('./controllers/passportConfig');
+initializePassport(passport);
+
+app.use(flash());
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // static file serving
 app.use(express.static('public'));
@@ -18,6 +39,7 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
 
 // templating engine
 app.set('view engine', 'ejs');

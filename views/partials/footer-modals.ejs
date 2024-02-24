@@ -18,7 +18,7 @@
         <span><button class="close-btn">&times;</button></span>
       </div>
       <div class="modal-content">
-        <form>
+        <form action="/login" method="post">
           <label for="username">Username:</label>
           <input type="text" id="username" name="username" required><br>
           <label for="password">Password:</label>
@@ -32,9 +32,8 @@
       </div>
     </div>
   </div>
-<% } %>
 
-<div class="modal2">
+  <div class="modal2">
     <div class="agreement-frame">
       <div id="registration-agreement">
         Registration Agreement
@@ -66,38 +65,41 @@
         <button class="agree-button">I ACCEPT THE TERMS OF THE AGREEMENT.</button>
       </div>
     </div>
-</div>
+  </div>
 
-<div class="modal3">
-    <div class="registration-form-frame">
-      <form class="registration-form">
-        <header>Registration Form</header>
-        <fieldset>
-          <dl class="register_form">
-            <dt>
-              <strong><label for="register-username">Username:</label></strong>
-            </dt>
-            <dt>
-              <input type="text" id="register-username" name="registerUsername" placeholder="Your username..."
-                required>
-            </dt>
-          </dl>
-          <dl class="register_form">
-            <dt>
-              <strong><label for="register-password">Password:</label></strong>
-            </dt>
-            <dt>
-              <input type="password" id="register-password" name="registerPassword" placeholder="Your password..."
-                required>
-            </dt>
-          </dl>
-          <div class="button-area">
-            <button id="register-button" type="submit">Register</button>
-          </div>
-        </fieldset>
-      </form>
-    </div>
-</div>
+  <div class="modal3">
+      <div class="registration-form-frame">
+        <form class="registration-form">
+          <header>Registration Form</header>
+          <fieldset>
+            <dl class="register_form">
+              <dt>
+                <strong><label for="register-username">Username:</label></strong>
+              </dt>
+              <dt>
+                <input type="text" id="register-username" name="registerUsername" placeholder="Your username..."
+                  required>
+              </dt>
+            </dl>
+            <dl class="register_form">
+              <dt>
+                <strong><label for="register-password">Password:</label></strong>
+              </dt>
+              <dt>
+                <input type="password" id="register-password" name="registerPassword" placeholder="Your password..."
+                  required>
+              </dt>
+            </dl>
+            <div class="button-area">
+              <button id="register-button" type="submit">Register</button>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+  </div>
+<% } %>
+
+
 
 <div class="modal4">
     <div class="search-container">

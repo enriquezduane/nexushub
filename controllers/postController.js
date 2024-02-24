@@ -9,7 +9,7 @@ const renderCreatePost = (req, res) => {
     try {
         // Render the create post page
         res.render('createPost', { 
-            loggedIn: true, 
+            loggedIn: req.isAuthenticated(),
             title: 'Create Post', 
             forumRules: res.forumRules, 
             userLoggedIn: res.userLoggedIn 
@@ -24,7 +24,7 @@ const renderPost = (req, res) => {
     try {
         // Render the dynamic boards pages with the fetched data
         res.render('post', { 
-            loggedIn: true, 
+            loggedIn: req.isAuthenticated(),
             title: res.post.title, 
             post: res.post,
             replies: res.paginationResults,
@@ -141,8 +141,6 @@ const createPost = async (req, res) => {
 const createReply = async (req, res) => {
     try {
         const { content, postId } = req.body;
-
-        console.log(content.ops)
         
         const opsWithImages = content.ops.map(op => {
             if (op.insert && typeof op.insert === 'object') {

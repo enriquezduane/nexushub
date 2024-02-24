@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const User = require('../models/userModel');
+const bcrypt = require('bcrypt');
 
 const renderUpdateProfile = (req, res) => {
   try {
@@ -44,6 +45,7 @@ const getUserByUrl = async (req, res, next) => {
       }
   }
   catch (err) {
+      console.log('Error fetching user:', err.message)
       res.status(500).json({ message: err.message });
   }
   next();
@@ -61,24 +63,27 @@ const createUser = async (req, res) => {
       return res.status(409).json({ message: 'Username already exists' });
     }
 
-    // Create a new user
+    const hashedPassword = await bcrypt.hash(registerPassword, 10);
+
     const user = new User({ 
-      _id: new mongoose.Types.ObjectId(),
-      username: registerUsername, 
-      password: registerPassword,
-      createdAt: Date.now(),
-      UpdatedAt: Date.now(),
+        _id: new mongoose.Types.ObjectId(),
+        username: registerUsername, 
+        password: hashedPassword,
+        role: 'Novice Adventurer',
+        createdAt: Date.now(),
+        updatedAt: Date.now()
     });
+    
+    await user.save();
 
-    // Save the user to the database
-    user1 = await user.save();  
-
-    console.log('User created successfully:', user1)
-
-    // Send a success message
-    res.status(201).json({ message: 'User created successfully' });
-  }
-  catch (err) {
+    req.login(user, (err) => {
+      if (err) {
+          return res.status(500).json({ message: 'Login failed after registration' });
+      }
+      return res.status(200).json({ message: 'User registered and logged in successfully' });
+    });
+  } catch (err) {
+    console.error('Error creating user:', err);
     res.status(500).json({ message: err.message });
   }
 }
@@ -105,6 +110,7 @@ const updateUser = async (req, res) => {
     res.status(200).json({ message: 'Profile updated successfully' });
   }
   catch (err) {
+    console.log('Error updating user:', err.message);
     res.status(500).json({ message: err.message });
   }
 }

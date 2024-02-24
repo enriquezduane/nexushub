@@ -5,13 +5,18 @@ const Board = require('../models/boardModel');
 const User = require('../models/userModel');
 const Post = require('../models/postModel');
 const Reply = require('../models/replyModel');
+const bcrypt = require('bcrypt');
 
 const { highlightSubstring } = require('./helper');
 
 const renderAdmin = (req, res) => {
     try {
+        if (req.user.role !== 'Forum Master') {
+            return res.status(403).json({ message: 'Forbidden Access' });
+        }
+
         res.render('admin', { 
-            loggedIn: true, 
+            loggedIn: req.isAuthenticated(), 
             title: "Forum Master Page", 
             action: req.query.action, 
             query: req.query.search, 
@@ -23,7 +28,7 @@ const renderAdmin = (req, res) => {
             filteredData: res.filteredData || [], 
             highlightSubstring, 
             forumRules: res.forumRules, 
-            userLoggedIn: res.userLoggedIn 
+            userLoggedIn: req.user
         });
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -173,7 +178,8 @@ const createUser = async (req, res) => {
         })
 
         if (password) {
-            user.password = password;
+            const hashedPassword = await bcrypt.hash(password, 10);
+            user.password = hashedPassword;
         }
 
         if (email) {
