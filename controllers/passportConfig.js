@@ -4,29 +4,24 @@ const User = require('../models/userModel');
 
 const initializePassport = (passport) => {
     const authenticateUser = async (username, password, done) => {
-        console.log('Authenticating user:', username);
+        console.log('\nAuthenticating user:', username);
         
         try {
             const user = await User.findOne({ username: username });
-            console.log('User found:', user ? user.username : 'Not found');
+            console.log('\nUser found:', user ? user.username : 'Not found');
             
             if (!user) {
-                console.log('No user found with username:', username);
+                console.log('\nNo user found with username:', username);
                 return done(null, false, { message: 'No user with that username' });
-            }
-
-            if (password === "password") {
-                console.log('Using default password');
-                return done(null, user);
             }
     
             const passwordMatch = await bcrypt.compare(password, user.password);
             
             if (passwordMatch) {
-                console.log('User authenticated successfully');
+                console.log('\nUser authenticated successfully');
                 return done(null, user);
             } else {
-                console.log('Incorrect password for user:', username);
+                console.log('\nIncorrect password for user:', username);
                 return done(null, false, { message: 'Password incorrect' });
             }
         } catch (error) {

@@ -12,6 +12,9 @@
           <div class="dropdown-content">
             <a href="<%= userLoggedIn.href %>">Profile</a>
             <a href="/user/update=<%= userLoggedIn.id %>">Account Settings</a>
+            <% if (loggedIn && userLoggedIn.role === 'Forum Master') { %>
+              <a href="/admin">Master Area</a>
+            <% } %>
             <a href="/logout" id="logoutLink">Log out</a>
           </div>
         </li>
