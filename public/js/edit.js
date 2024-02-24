@@ -264,7 +264,7 @@ document.addEventListener('click', (event) => {
 
                     postContent.innerHTML = updatedContent;
 
-                    alert(isReply ? 'Reply updated successfully' : 'Post updated successfully')
+                    alert(isReply ? 'Reply updated successfully' : 'Post updated successfully');
 
                     // Update the edited container
                     const responseData = await response.json(); // Parse JSON response

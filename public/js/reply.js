@@ -26,8 +26,6 @@ document.getElementById('replyForm').addEventListener('submit', function(event) 
             const newReplySection = document.createElement('div');
             const repliesSectionFooter = document.querySelector('.reply-section-top');
 
-            console.log(reply)
-
             newReplySection.classList.add('reply-section', 'post-section', 'post-container-template');
             newReplySection.dataset.id = reply.id;
             newReplySection.innerHTML = `
@@ -78,8 +76,6 @@ document.getElementById('replyForm').addEventListener('submit', function(event) 
                         </div>
                     </div>
             `;
-
-            console.log(newReplySection.innerHTML)
 
             replyContainer.insertBefore(newReplySection, repliesSectionFooter);
             postQuill.setText('');
