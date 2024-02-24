@@ -275,7 +275,6 @@ const upvote = async (req, res) => {
         const { type, id, count } = req.body;
 
         if (type === 'post') {
-            console.log('Upvoting post')
             // Find the post
             const post = await Post.findById(id);
 
@@ -283,7 +282,6 @@ const upvote = async (req, res) => {
             post.upvotes = count;
             await post.save();
         } else {
-            console.log('Upvoting reply')
             // Find the reply
             const reply = await Reply.findById(id);
 
