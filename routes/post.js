@@ -11,7 +11,7 @@ const { populateAll, headerFooterData } = require('../controllers/helper');
 const { renderCreatePost, renderPost, getPostByUrl, incrementViews, getPagination,
         createPost, createReply, deleteContent, updateContent, upvote } = require('../controllers/postController');
 
-router.get('/create', renderCreatePost);
+router.get('/create', headerFooterData, renderCreatePost);
 
 router.get('/:id', populateAll, getPostByUrl, incrementViews, getPagination, headerFooterData, renderPost);
 

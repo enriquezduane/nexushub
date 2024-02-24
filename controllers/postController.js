@@ -70,8 +70,6 @@ const incrementViews = async (req, res, next) => {
 
             // Set a cookie to expire in desired time in milliseconds (CURRENT: 1 minute)
             res.cookie(`viewed_${id}`, true, { maxAge: 1000 * 60 * 60 });
-
-            console.log('View count incremented for post:', post.title);
         }
     } catch (error) {
         console.error('Error:', error);

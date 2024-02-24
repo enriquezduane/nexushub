@@ -4,6 +4,7 @@
 const modal = document.querySelector('.modal');
 const openModalButton = document.querySelector('#login');
 const closeModalButton = document.querySelector('.close-btn');
+const signUpButton = document.querySelector('#sign-up');
 
 if (openModalButton) {
     openModalButton.addEventListener('click', function() {
@@ -14,6 +15,13 @@ if (openModalButton) {
 if (closeModalButton) {
     closeModalButton.addEventListener('click', function() {
         modal.classList.remove('show');
+    });
+}
+
+if (signUpButton) {
+    signUpButton.addEventListener('click', function() {
+        modal.classList.remove('show');
+        modal2.classList.add('show');
     });
 }
 

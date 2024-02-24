@@ -1,6 +1,5 @@
-// import mongoose and models
+// import models
 const moment = require('moment-timezone');
-const mongoose = require('mongoose');
 const Post = require('../models/postModel');
 const User = require('../models/userModel');
 const Reply = require('../models/replyModel');
@@ -14,7 +13,7 @@ const populateAll = async (req, res, next) => {
     const posts = await populatePosts(await Post.find());
     const replies = await populateReplies(await Reply.find());
     const users = await populateUsers(await User.find());
-    
+
     res.categories = categories;
     res.boards = boards;
     res.posts = posts;
@@ -26,7 +25,7 @@ const populateAll = async (req, res, next) => {
 
 const populateCategories = async (categories) => {
     for (let i = 0; i < categories.length; i++) {
-        categories[i] = await populatePost(categories[i]);
+        categories[i] = await populateCategory(categories[i]);
     }
     return categories;
 }
