@@ -7,12 +7,11 @@ const { populatePost, populateReply, emoticonData } = require('./helper');
 
 const renderCreatePost = (req, res) => {
     try {
-        // Render the create post page
         res.render('createPost', { 
             loggedIn: req.isAuthenticated(),
             title: 'Create Post', 
             forumRules: res.forumRules, 
-            userLoggedIn: res.userLoggedIn 
+            userLoggedIn: req.user 
         });
     } catch (error) {
         console.error('Error:', error);
@@ -32,7 +31,7 @@ const renderPost = (req, res) => {
             totalPages: res.totalPages,
             users: res.users, 
             forumRules: res.forumRules, 
-            userLoggedIn: res.userLoggedIn 
+            userLoggedIn: req.user 
         });
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -268,9 +267,81 @@ const updateContent = async (req, res) => {
     }
 };
 
+const addVoteToUser = async (req, res, next) => {
+    try {
+        const { action, type, id, active } = req.body;
+        const userId = req.user.id;
+
+        // Find the user
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Check if the type is post or reply
+        if (type === 'post') {
+            if (action === 'upvote') {
+                if (active) {
+                    // If not already upvoted, add to upvoted array
+                    if (!user.upvoted.some(vote => vote.item.toString() === id)) {
+                        user.upvoted.push({ itemType: 'Post', item: id });
+                    }
+                } else {
+                    // Remove from upvoted array
+                    user.upvoted = user.upvoted.filter(vote => vote.item.toString() !== id);
+                }
+            } else if (action === 'downvote') {
+                if (active) {
+                    // If not already downvoted, add to downvoted array
+                    if (!user.downvoted.some(vote => vote.item.toString() === id)) {
+                        user.downvoted.push({ itemType: 'Post', item: id });
+                    }
+                } else {
+                    // Remove from downvoted array
+                    user.downvoted = user.downvoted.filter(vote => vote.item.toString() !== id);
+                }
+            }
+        } else if (type === 'reply') {
+            if (action === 'upvote') {
+                if (active) {
+                    // If not already upvoted, add to upvoted array
+                    if (!user.upvoted.some(vote => vote.item.toString() === id)) {
+                        user.upvoted.push({ itemType: 'Reply', item: id });
+                    }
+                } else {
+                    // Remove from upvoted array
+                    user.upvoted = user.upvoted.filter(vote => vote.item.toString() !== id);
+                }
+            } else if (action === 'downvote') {
+                if (active) {
+                    // If not already downvoted, add to downvoted array
+                    if (!user.downvoted.some(vote => vote.item.toString() === id)) {
+                        user.downvoted.push({ itemType: 'Reply', item: id });
+                    }
+                } else {
+                    // Remove from downvoted array
+                    user.downvoted = user.downvoted.filter(vote => vote.item.toString() !== id);
+                }
+            }
+        } else {
+            return res.status(400).json({ message: 'Invalid type' });
+        }
+
+        // Save the updated user
+        await user.save();
+
+    } catch (error) {
+        console.error('Error adding vote to user:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+    next();
+};
+
+
 const upvote = async (req, res) => {
     try {
-        const { type, id, count } = req.body;
+        const {type, id, count } = req.body;
 
         if (type === 'post') {
             // Find the post
@@ -306,5 +377,6 @@ module.exports = {
     createReply,
     deleteContent,
     updateContent,
+    addVoteToUser,
     upvote,
 };

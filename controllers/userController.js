@@ -21,7 +21,7 @@ const renderUpdateProfile = (req, res) => {
 const renderUser = (req, res) => {
   try {
     // Render the users page
-    res.render('user', { loggedIn: true, title: res.user.username, user: res.user, forumRules: res.forumRules, userLoggedIn: res.userLoggedIn });
+    res.render('user', { loggedIn: req.isAuthenticated(), title: req.user.username, user: req.user, forumRules: res.forumRules, userLoggedIn: req.user });
   } catch (error) {
     console.error('Error fetching data:', error);
     res.status(500).json({ message: err.message });

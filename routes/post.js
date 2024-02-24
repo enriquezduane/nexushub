@@ -9,7 +9,7 @@ const { populateAll, headerFooterData } = require('../controllers/helper');
 
 // import controller
 const { renderCreatePost, renderPost, getPostByUrl, incrementViews, getPagination,
-        createPost, createReply, deleteContent, updateContent, upvote } = require('../controllers/postController');
+        createPost, createReply, deleteContent, updateContent, addVoteToUser, upvote } = require('../controllers/postController');
 
 router.get('/create', headerFooterData, renderCreatePost);
 
@@ -19,7 +19,7 @@ router.post('/post', createPost);
 
 router.post('/reply', createReply);
 
-router.patch('/upvote', upvote);
+router.patch('/upvote', addVoteToUser, upvote);
 
 router.patch('/edit', updateContent);
 

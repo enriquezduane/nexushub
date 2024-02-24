@@ -45,6 +45,34 @@ const userSchema = new mongoose.Schema({
       default: [] 
     }
   ],
+  upvoted: [
+    {
+      itemType: {
+        type: String,
+        enum: ['Post', 'Reply'], 
+        required: true
+      },
+      item: { 
+        type: mongoose.Schema.Types.ObjectId,
+        refPath: 'upvoted.itemType', 
+        required: true
+      }
+    }
+  ],
+  downvoted: [
+    {
+      itemType: {
+        type: String,
+        enum: ['Post', 'Reply'], // Define the possible types
+        required: true
+      },
+      item: { 
+        type: mongoose.Schema.Types.ObjectId,
+        refPath: 'downvoted.itemType', // Reference either 'Post' or 'Reply'
+        required: true
+      }
+    }
+  ],
   age: { 
     type: Number, 
     default: 18,

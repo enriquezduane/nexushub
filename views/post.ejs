@@ -57,9 +57,30 @@
                         <a href="<%= post.href %>"><strong><%= post.title %></strong></a>
                         </div>
                         <div class="vote-container">
-                            <button class="upvote-btn">Upvote</button>
-                            <p class="vote-count"><%= post.upvotes %></p>
-                            <button class="downvote-btn">Downvote</button>
+                            <% if (loggedIn) { %>
+                                <% const postId = post._id.toString(); %>
+                                <% let isUpvoted = false; %>
+                                <% let isDownvoted = false; %>
+                                <% userLoggedIn.upvoted.forEach(vote => { %>
+                                    <% if (vote.itemType === 'Post' && vote.item.toString() === postId ) { %>
+                                        <% isUpvoted = true; %>
+                                        
+                                    <% } %>
+                                <% }); %>
+                                <% userLoggedIn.downvoted.forEach(vote => { %>
+                                    <% if (vote.itemType === 'Post' && vote.item.toString() === postId ) { %>
+                                        <% isDownvoted = true; %>
+                                        
+                                    <% } %>
+                                <% }); %>
+                                <button class="upvote-btn <%= isUpvoted ? 'active' : '' %>">Upvote</button>
+                                <p class="vote-count"><%= post.upvotes %></p>
+                                <button class="downvote-btn <%= isDownvoted ? 'active' : '' %>">Downvote</button>
+                            <% } else { %>
+                                <button class="upvote-btn" disabled>Upvote</button>
+                                <p class="vote-count"><%= post.upvotes %></p>
+                                <button class="downvote-btn" disabled>Downvote</button>
+                            <% } %>
                         </div>
                     </div>
                     <div class="post-info-bottom">
@@ -112,9 +133,30 @@
                         </a>
                         </div>
                         <div class="vote-container">
-                            <button class="upvote-btn">Upvote</button>
-                            <p class="vote-count"><%= reply.upvotes %></p>
-                            <button class="downvote-btn">Downvote</button>
+                            <% if (loggedIn) { %>
+                                <% const replyId = reply._id.toString(); %>
+                                <% let isUpvoted = false; %>
+                                <% let isDownvoted = false; %>
+                                <% userLoggedIn.upvoted.forEach(vote => { %>
+                                    <% if (vote.itemType === 'Reply' && vote.item.toString() === replyId ) { %>
+                                        <% isUpvoted = true; %>
+                                        
+                                    <% } %>
+                                <% }); %>
+                                <% userLoggedIn.downvoted.forEach(vote => { %>
+                                    <% if (vote.itemType === 'Reply' && vote.item.toString() === replyId ) { %>
+                                        <% isDownvoted = true; %>
+                                        
+                                    <% } %>
+                                <% }); %>
+                                <button class="upvote-btn <%= isUpvoted ? 'active' : '' %>">Upvote</button>
+                                <p class="vote-count"><%= reply.upvotes %></p>
+                                <button class="downvote-btn <%= isDownvoted ? 'active' : '' %>">Downvote</button>
+                            <% } else { %>
+                                <button class="upvote-btn" disabled>Upvote</button>
+                                <p class="vote-count"><%= reply.upvotes %></p>
+                                <button class="downvote-btn" disabled>Downvote</button>
+                            <% } %>
                         </div>
                     </div>
                     <div class="post-info-bottom">

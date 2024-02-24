@@ -4,6 +4,7 @@ function handleUpvote(event) {
     const downvoteButton = event.target.nextElementSibling.nextElementSibling;
     let currentCount = parseInt(voteCount.textContent);
     let downvoted = downvoteButton.classList.contains('active');
+    let active = event.target.classList.contains('active');
 
     // Get the closest post or reply container
     const postContainer = event.target.closest('.post-section');
@@ -18,15 +19,18 @@ function handleUpvote(event) {
     if (!event.target.classList.contains('active') && !downvoted) {
         currentCount++;
         event.target.classList.add('active');
+        active =  true;
     } else if (event.target.classList.contains('active')) {
         // If the upvote button is active, decrease the count by 1 and remove the active state
         currentCount--;
         event.target.classList.remove('active');
+        active = false;
     } else if (downvoted) {
         // If the upvote button is not active but the downvote button is active, increase the count by 2 and mark upvote as active
         currentCount += 2;
         event.target.classList.add('active');
         downvoteButton.classList.remove('active');
+        active = true;
     }
 
     fetch('upvote', {
@@ -34,7 +38,7 @@ function handleUpvote(event) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ type: (isReply ? 'reply' : 'post'), id: id, count: currentCount }),
+        body: JSON.stringify({ action: 'upvote', active: active, type: (isReply ? 'reply' : 'post'), id: id, count: currentCount }),
     })
     .then(response => {
         if (!response.ok) {
@@ -56,6 +60,7 @@ function handleDownvote(event) {
     const upvoteButton = event.target.previousElementSibling.previousElementSibling;
     let currentCount = parseInt(voteCount.textContent);
     let upvoted = upvoteButton.classList.contains('active');
+    let active = event.target.classList.contains('active');
 
     // Get the closest post or reply container
     const postContainer = event.target.closest('.post-section');
@@ -70,15 +75,18 @@ function handleDownvote(event) {
     if (!event.target.classList.contains('active') && !upvoted) {
         currentCount--;
         event.target.classList.add('active');
+        active = true;
     } else if (event.target.classList.contains('active')) {
         // If the downvote button is active, increase the count by 1 and remove the active state
         currentCount++;
         event.target.classList.remove('active');
+        active = false;
     } else if (upvoted) {
         // If the downvote button is not active but the upvote button is active, decrease the count by 2 and mark downvote as active
         currentCount -= 2;
         event.target.classList.add('active');
         upvoteButton.classList.remove('active');
+        active = true;
     }
 
     fetch('upvote', {
@@ -86,7 +94,7 @@ function handleDownvote(event) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ type: (isReply ? 'reply' : 'post'), id: id, count: currentCount }),
+        body: JSON.stringify({ action: 'downvote', active: active, type: (isReply ? 'reply' : 'post'), id: id, count: currentCount }),
     })
     .then(response => {
         if (!response.ok) {

@@ -11,7 +11,7 @@ const { highlightSubstring } = require('./helper');
 
 const renderAdmin = (req, res) => {
     try {
-        if (req.user.role !== 'Forum Master') {
+        if (!req.isAuthenticated() || req.user.role !== 'Forum Master') {
             return res.status(403).json({ message: 'Forbidden Access' });
         }
 

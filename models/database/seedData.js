@@ -1025,6 +1025,29 @@ users[8].posts = [posts[10]._id];
 users[9].posts = [posts[8]._id];
 users[10].posts = [posts[11]._id];
 
+if (!users[0].upvoted) {
+    users[0].upvoted = [];
+  }
+
+users[0].upvoted.push(
+    { itemType: 'Post', item: posts[0]._id },
+    { itemType: 'Reply', item: replies[0]._id }
+  );
+    
+if (!users[0].downvoted) {
+    users[0].downvoted = [];
+}
+
+users[0].downvoted.push(
+    { itemType: 'Post', item: posts[1]._id },
+    { itemType: 'Reply', item: replies[1]._id }
+  );
+
+posts[0].upvotes = 1;
+replies[0].upvotes = 1;
+posts[1].upvotes = -1;
+replies[1].upvotes = -1;
+
 users[0].replies = [];
 users[1].replies = [];
 users[2].replies = [];
