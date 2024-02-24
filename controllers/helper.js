@@ -436,5 +436,6 @@ module.exports = {
     highlightSubstring,
     formatLatestPostDate,
     headerFooterData,
+    emoticonData,
     hashPassword
 }

@@ -49,10 +49,10 @@ const getPostByUrl = async (req, res, next) => {
         } else {
             res.post = await populatePost(post);
         }
+        next();
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
-    next();
 }
 
 // Increment views
@@ -70,11 +70,12 @@ const incrementViews = async (req, res, next) => {
             // Set a cookie to expire in desired time in milliseconds (CURRENT: 1 minute)
             res.cookie(`viewed_${id}`, true, { maxAge: 1000 * 60 * 60 });
         }
+        next();
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ message: error.message });
     }
-    next();
+    
 };
 
 const getPagination = (req, res, next) => {
@@ -100,11 +101,11 @@ const getPagination = (req, res, next) => {
         res.paginationResults = repliesOnly;
         res.totalPages = totalPages;
         res.page = page;
+        next();
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ message: error.message });
     }
-    next();
 }
 
 const createPost = async (req, res) => {
@@ -331,11 +332,11 @@ const addVoteToUser = async (req, res, next) => {
         // Save the updated user
         await user.save();
 
+        next();
     } catch (error) {
         console.error('Error adding vote to user:', error);
         res.status(500).json({ message: 'Internal server error' });
     }
-    next();
 };
 
 

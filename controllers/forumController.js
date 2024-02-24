@@ -33,12 +33,12 @@ const getBoardByUrl = async (req, res, next) => {
         }
 
         res.board = board;
-    }
-    catch (err) {
+
+        next();
+    } catch (err) {
         console.error('Error fetching data:', error);
         res.status(500).json({ message: err.message });
     }
-    next();
 }
 
 const getBoardPosts = async (req, res, next) => {
@@ -51,11 +51,11 @@ const getBoardPosts = async (req, res, next) => {
 
         res.boardPosts = populatedPinnedPosts.concat(populatedPosts);
 
+        next();
     } catch (error) {
         console.error('Error fetching data:', error);
         res.status(500).json({ message: err.message });
     }
-    next();
 }
 
 const getPagination = (req, res, next) => {
@@ -75,11 +75,12 @@ const getPagination = (req, res, next) => {
         res.paginationResults = results;
         res.totalPages = totalPages;
         res.page = page;
+
+        next();
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ message: error.message });
     }
-    next();
 }
 
 module.exports = {
