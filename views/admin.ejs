@@ -1,6 +1,28 @@
 <%- include('partials/logo.ejs') %>
 
 <div class="content-container dashed-black-container container-margin">
+    <div class="directory-bar">
+        <a href="/">NexusHub Forum</a> 
+        <span>&gt;</span>
+        <a href="/admin">Forum Master Area</a>
+        <% if (action === 'categories') { %>
+            <span>&gt;</span>
+            <a href="/admin?action=categories">Categories</a>
+        <% } else if (action === 'boards') { %>
+            <span>&gt;</span>
+            <a href="/admin?action=boards">Boards</a>
+        <% } else if (action === 'users') { %>
+            <span>&gt;</span>
+            <a href="/admin?action=users">Users</a>
+        <% } else if (action === 'posts') { %>
+            <span>&gt;</span>
+            <a href="/admin?action=posts">Posts</a>
+        <% } else if (action === 'replies') { %>
+            <span>&gt;</span>
+            <a href="/admin?action=replies">Replies</a>
+        <% } %>
+    </div>
+
     <div class="admin-container topic-header">
         <div class="admin-header">
             <img id="torch-gif" src="/images/torch.gif" alt="icon">
