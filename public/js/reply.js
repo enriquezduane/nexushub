@@ -4,8 +4,9 @@ document.getElementById('replyForm').addEventListener('submit', function(event) 
     // Collect reply content and post ID
     const content = postQuill.getContents(); // Trim whitespace
     const postId = document.querySelector('input[name="postId"]').value;
+    
     // Check if reply content is not empty
-    if (content) {
+    if (content && !(content.ops.length === 1 && content.ops[0].insert === '\n')) {
         // Send AJAX request to add the reply
         fetch('reply', {
             method: 'POST',

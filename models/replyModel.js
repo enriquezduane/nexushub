@@ -22,7 +22,8 @@ const replySchema = new mongoose.Schema({
   },
   reply: { 
     type: String, 
-    required: true 
+    required: true,
+    minlength: 1,
   },
   upvotes: {
     type: Number,

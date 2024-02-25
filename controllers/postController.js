@@ -152,6 +152,10 @@ const createReply = async (req, res) => {
         if (!req.isAuthenticated()) {
             return res.status(403).json({ message: 'User not logged in.' });
         }
+
+        if (!content || (content.ops.length === 1 && content.ops[0].insert === '\n')) {
+            return res.status(400).json({ message: 'Reply content is empty' });
+        }
         
         const opsWithImages = content.ops.map(op => {
             if (op.insert && typeof op.insert === 'object') {

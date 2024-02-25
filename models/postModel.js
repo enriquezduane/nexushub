@@ -23,7 +23,8 @@ const postSchema = new mongoose.Schema({
   },
   content: { 
     type: String, 
-    required: true 
+    required: true,
+    minlength: 1,
   },
   upvotes: {
     type: Number,
