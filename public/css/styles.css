@@ -731,11 +731,18 @@ footer {
 }
 
 .registration-form fieldset dl {
-  margin-right: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
+}
+
+.register_form input {
+  width: 254px;
+}
+
+.registration-form fieldset dl #register-email {
+  margin-left: 50px;
 }
 
 .button-area {

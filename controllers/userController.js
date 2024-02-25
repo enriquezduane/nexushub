@@ -58,7 +58,7 @@ const getUserByUrl = async (req, res, next) => {
 const createUser = async (req, res) => {
   try {
     // Get the username and password from the request body
-    const { registerUsername, registerPassword } = req.body;
+    const { registerUsername, registerEmail, registerPassword } = req.body;
 
     // Check if the username already exists
     const existing = await User.findOne({ username: registerUsername });
@@ -82,6 +82,7 @@ const createUser = async (req, res) => {
         _id: new mongoose.Types.ObjectId(),
         username: registerUsername, 
         password: hashedPassword,
+        email: registerEmail,
         role: 'Novice Adventurer',
         createdAt: Date.now(),
         updatedAt: Date.now()

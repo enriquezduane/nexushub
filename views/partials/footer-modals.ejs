@@ -83,11 +83,20 @@
             </dl>
             <dl class="register_form">
               <dt>
+                <strong><label for="register-email">Email:</label></strong>
+              </dt>
+              <dt>
+                <input type="text" id="register-email" name="registerEmail" placeholder="Your email..."
+                  required>
+              </dt>
+            </dl>
+            <dl class="register_form">
+              <dt>
                 <strong><label for="register-password">Password:</label></strong>
               </dt>
               <dt>
                 <input type="password" id="register-password" name="registerPassword" placeholder="Your password..."
-                  required>
+                  required minlength="6">
               </dt>
             </dl>
             <div class="button-area">

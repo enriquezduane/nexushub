@@ -23,6 +23,7 @@ const userSchema = new mongoose.Schema({
     type: String, 
     default: "test@test.com",
     lowercase: true,
+    required: true,
   },
   role: { 
     type: String, 
