@@ -171,8 +171,10 @@ function initializeQuill(className) {
 }
 
 // Use the function to initialize Quill on '#editor-container'
+let postQuill = null;
+
 if (document.querySelector('#editor-container')) {
-    const postQuill = initializeQuill('#editor-container');
+    postQuill = initializeQuill('#editor-container');
 }
 
 emoticonUrls.forEach((url, index) => {

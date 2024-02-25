@@ -24,7 +24,7 @@
           </tr>
           <tr class="topics">
             <th colspan="2">Boards</th>
-            <th>Topics</th>
+            <th>Posts</th>
             <th style="width: 10%;">Replies</th>
             <th style="width: 10%;">Last Post</th>
           </tr>
@@ -62,17 +62,52 @@
   </div>
   <div class="info-center-frame">
     <div>
+      Recent Posts
+    </div>
+    <table>
+      <thead>
+        <tr class="topics">
+          <th colspan="2">Subject</th>
+          <th>Started By</th>
+          <th>Board</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% latestPosts.forEach( (post) => { %>
+          <tr>
+            <td class="post-logo">
+              <img src="images/angeling.gif" alt="icon">
+            </td>
+            <td>
+              <a href="<%= post.href %>"><strong><%= post.title %></strong></a>
+            </td>
+            <td>
+              <a href="<%= post.poster.href %>"><%= post.poster.username %></a>
+            </td>
+            <td>
+              <a href="<%= post.refBoard.href %>"><%= post.refBoard.title %></a>
+            </td>
+            <td>
+              <span><%= formatLatestPostDate(post) %></span>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+    <div>
       Forum Stats
     </div>
     <p>
-      12 Topics and 14 Replies by 11 Members - Latest Member:
+      <span style="color: #fff"><%= postCount %></span> Posts and <span style="color: #fff"><%= replyCount %></span> Replies by 
+      <span style="color: #fff"><%= userCount %></span> Members - Latest Member:
       <a href="<%= users[users.length - 1].href %>">
         <%= users[users.length - 1].username %>
       </a>
       <br>
       Latest Post:
       <a href="<%= posts[posts.length - 1].href %>">
-        "<%= posts[posts.length - 1].title %>"
+        <%= posts[posts.length - 1].title %>
       </a>
       (<span style="color: #fff"><%= formatLatestPostDate(posts[posts.length-1]) %></span>)
     </p>

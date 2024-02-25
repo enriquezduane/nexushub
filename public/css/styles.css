@@ -2395,3 +2395,7 @@ img[alt="candy pin gif"] {
 .directory-bar span {
   margin: 0 10px;
 }
+
+.info-center-frame tbody :not(td:nth-child(2)) {
+  text-align: center;
+}
