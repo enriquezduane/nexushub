@@ -2370,3 +2370,24 @@ img[alt="candy pin gif"] {
 .ql-toolbar .ql-formats .ql-custom-emoticon-26 {
   margin-bottom: 14px;
 }
+
+.directory-bar {
+  background: linear-gradient(to right, #555582, #171762, #272787, #2f2f96, #3172b4, #6a2c97, #a72cb2);
+  font-family: 'Romance', serif;
+  font-size: 16px;
+  color: #ffffff;
+  text-shadow: 2px 2px 4px #000000;
+  padding: 10px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.directory-bar span {
+  margin: 0 10px;
+}

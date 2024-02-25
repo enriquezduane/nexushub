@@ -225,7 +225,14 @@ const populatePost = async (post) => {
                     model: 'User'
                 }
             ]
-    }).populate('refBoard');
+    }).populate({
+        path: 'refBoard',
+        model: 'Board',
+        populate: {
+            path: 'category',
+            model: 'Category'
+        }
+    });
     return post;
 }
 

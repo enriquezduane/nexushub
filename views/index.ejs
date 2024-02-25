@@ -1,6 +1,9 @@
 <%- include('partials/logo.ejs') %>
 
 <div class="content-container dashed-black-container container-margin">
+  <div class="directory-bar">
+    <a href="/">NexusHub Forum</a>
+  </div>
   <div class="content-frame">
     <table>
       <thead>
@@ -40,7 +43,7 @@
                 <td style="text-align: center; font-weight: bold; font-size: 20px; color: white;">None</td>
               <% } else { %>
               <td>
-                Last post: <%= board.lastPost.createdAtSGT %> 
+                Last post: <a href="<%= board.lastPost.href %>"><%= board.lastPost.createdAtSGT %></a>
                 <br>in <a href="<%= board.lastPost.href %>"><%= board.lastPost.title %></a>
                 <br>by <a href="<%= board.lastPost.poster.href %>">
                   <%= board.lastPost.poster.username %></a>

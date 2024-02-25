@@ -1,6 +1,12 @@
 <%- include('partials/logo.ejs') %>
 
 <div class="content-container dashed-black-container container-margin">
+    <div class="directory-bar">
+        <a href="/">NexusHub Forum</a> 
+        <span>&gt;</span>
+        <a href="/search?query=<%= query %>">Search</a>
+    </div>
+
   <div class="title-header post-container-template topic-header">
       Search Results for "<%= query %>"
   </div>

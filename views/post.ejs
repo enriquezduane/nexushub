@@ -1,6 +1,16 @@
 <%- include('partials/logo.ejs') %>
 
 <div class="content-container dashed-black-container container-margin">
+    <div class="directory-bar">
+        <a href="/">NexusHub Forum</a> 
+        <span>&gt;</span>
+        <a href="/"><%= post.refBoard.category.title %></a>
+        <span>&gt;</span>
+        <a href="<%= post.refBoard.href %>"><%= post.refBoard.title %></a>
+        <span>&gt;</span>
+        <a href="<%= post.href %>"><%= post.title %></a>
+    </div>
+    
     <div class="title-header post-container-template">
         <div class="post-title topic-header">
             <%= post.title %>
