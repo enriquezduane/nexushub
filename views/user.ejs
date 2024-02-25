@@ -1,6 +1,12 @@
 <%- include('partials/logo.ejs') %>
 
 <div class="content-container dashed-black-container container-margin">
+  <div class="directory-bar">
+    <a href="/">NexusHub Forum</a> 
+    <span>&gt;</span>
+    <a href="<%= user.href %>"><%= user.username %></a>
+  </div>
+
   <div class="profile-container post-container-template">
     <div class="profile-header topic-header">
       Profile Summary
@@ -24,11 +30,17 @@
             <a href="/user/update=<%= user.id %>"><button class="edit-profile-button">Update Profile</button></a>
           <% } %>
         </div>
-        <div>
+        <div class="profile-block">
           <dl class="profile-info">
             <dt>Posts:</dt>
             <dd><%= user.postCount %></dd>
           </dl>
+          <% if (loggedIn && user.id === userLoggedIn.id) { %>
+            <dl class="profile-info">
+              <dt>Email:</dt>
+              <dd><%= user.email %></dd>
+            </dl>
+          <% } %>
           <dl class="profile-info">
             <dt>Age:</dt>
             <dd><%= user.age %></dd>
@@ -37,7 +49,7 @@
         <div>
           <dl class="profile-info">
             <dt>Join Date:</dt>
-            <dd><%= user.joinDateMonth %></dd>
+            <dd><%= user.createdAtSGT %></dd>
           </dl>
           <dl class="profile-info">
             <dt>Current Server:</dt>

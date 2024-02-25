@@ -1309,6 +1309,10 @@ tbody {
   font-size: 18px;
 }
 
+.profile-block {
+  margin-bottom: 20px;
+}
+
 .profile-info {
   display: flex;
   justify-content: space-between;
