@@ -4,6 +4,23 @@ const moment = require('moment-timezone');
 // Set the default timezone to Singapore
 moment.tz.setDefault('Asia/Singapore');
 
+const reportReasons = [
+  'Disrespectful Behavior',
+  'Hate Speech or Offensive Content',
+  'Incivility',
+  'Off-Topic Posts',
+  'Spam or Self-Promotion',
+  'Privacy Violations',
+  'Copyright Infringement',
+  'Illegal Activities',
+  'Disputes with Moderators',
+  'Multiple Accounts',
+  'Inappropriate Language or Tone',
+  'Low-Quality Contributions',
+  'Violation of Guidelines',
+  'Failure to Stay Informed'
+];
+
 const reportSchema = new mongoose.Schema({
     reporter: {
       type: mongoose.Schema.Types.ObjectId,
@@ -21,8 +38,10 @@ const reportSchema = new mongoose.Schema({
     },
     reason: {
       type: String,
+      enum: reportReasons,
       required: true
     },
+    description: String,
     status: {
       type: String,
       enum: ['pending', 'resolved', 'dismissed'],

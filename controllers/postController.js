@@ -224,8 +224,8 @@ const createReply = async (req, res) => {
         // Send the new reply object to the client
         res.status(200).json(replyMsg);
     } catch (err) {
-        console.error('Error:', err)
-        res.status(500).json({ message: error.message });
+        console.error('Error:', err.message)
+        res.status(500).json({ message: err.message });
     }
 };
 
@@ -330,7 +330,7 @@ const updateContent = async (req, res) => {
             res.status(200).json({ updatedAt: reply.updatedAtSGT });
         }
     } catch (error) {
-        console.error('Error:', error);
+        console.error('Error:', error.message);
         res.status(500).json({ message: error.message });
     }
 };
