@@ -2352,6 +2352,10 @@ img[alt="candy pin gif"] {
   color: #313131; /* Set the color of the header selection text */
 }
 
+.ql-snow .ql-picker-item .ql-stroke {
+  stroke: black !important; /* Change the color to your desired color */
+}
+
 .ql-container.ql-snow .ql-editor {
   min-height: 150px;
 }
@@ -2398,4 +2402,23 @@ img[alt="candy pin gif"] {
 
 .info-center-frame tbody :not(td:nth-child(2)) {
   text-align: center;
+}
+
+blockquote {
+  background-color: #7e7d7d;
+  border-left: 10px solid #535353;
+}
+
+blockquote:before {
+  color: #4b4b4b;
+  content: open-quote;
+  font-size: 1.9rem;
+  line-height: 0.1em;
+  margin-left: 0.1em;
+  margin-right: 0.25em;
+  vertical-align: -0.3em;
+}
+
+blockquote p {
+  display: inline;
 }

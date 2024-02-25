@@ -89,6 +89,7 @@ if (replyForm) {
             .catch(error => {
                 // Handle error
                 console.error('Error:', error);
+                alert('Failed to create reply.');
             });
         } else {
             // Optionally, you can provide feedback to the user that the reply is empty
