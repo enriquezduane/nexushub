@@ -22,12 +22,18 @@
       <% posts.forEach( (post, index) => { %>
           <div class="search-result-container post-section post-container-template">
               <div class="search-result-content">
-                  <a href="<%= post.href %>">
-                      <%- highlightSubstring(post.title, query) %>
-                  </a>
-                  <span>
-                      <strong>#<%= index + 1 %></strong>
-                  </span>
+                <div>
+                    <a href="<%= post.refBoard.href %>">
+                        <%- post.refBoard.title %>
+                    </a>
+                    <span>&gt;</span>
+                    <a href="<%= post.href %>">
+                        <%- highlightSubstring(post.title, query) %>
+                    </a>
+                </div>
+                <span>
+                    <strong>#<%= index + 1 %></strong>
+                </span>
               </div>
               <p>
                   <span style="font-size: 15px;"><%= post.createdAtSGT %></span> by <a href="<%= post.poster.href %>"><%= post.poster.username %></a>
