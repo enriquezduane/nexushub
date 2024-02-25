@@ -171,7 +171,9 @@ function initializeQuill(className) {
 }
 
 // Use the function to initialize Quill on '#editor-container'
-const postQuill = initializeQuill('#editor-container');
+if (document.querySelector('#editor-container')) {
+    const postQuill = initializeQuill('#editor-container');
+}
 
 emoticonUrls.forEach((url, index) => {
     const buttonName = `.ql-custom-emoticon-${index + 1}`;
