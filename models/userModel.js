@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const moment = require('moment-timezone');
-const bcrypt = require('bcrypt');
 
 // Set the default timezone to Singapore
 moment.tz.setDefault('Asia/Singapore');
@@ -11,6 +10,8 @@ const userSchema = new mongoose.Schema({
     type: String, 
     required: true, 
     unique: true,
+    maxlength: 15,
+    minlength: 3,
   },
   password: { 
     type: String, 
