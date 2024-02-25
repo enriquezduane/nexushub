@@ -67,6 +67,14 @@ const createUser = async (req, res) => {
       return res.status(409).json({ message: 'Username already exists' });
     }
 
+    if (registerUsername.length < 3 || registerUsername.length > 15) {
+      return res.status(400).json({ message: 'Username must be between 3 and 15 characters' });
+    }
+
+    if (registerPassword.length < 6) {
+      return res.status(400).json({ message: 'Password must be at least 6 characters'});
+    }
+
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(registerPassword, salt);
 
@@ -99,17 +107,34 @@ const updateUser = async (req, res) => {
     const { userId, age, description, newPassword } = req.body;
     const user = await User.findById(userId);
 
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
     if (age) {
+      if (age < 13 || age > 110) {
+        return res.status(400).json({ message: 'Age must be between 13 and 110' });
+      }
+
       user.age = age;
     }
 
     if (newPassword) {
-      user.password = newPassword;
+      if (newPassword.length < 6) {
+        return res.status(400).json({ message: 'Password must be at least 6 characters' });
+      }
+
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+      user.password = hashedPassword;
     }
 
     if (description) {
       user.description = description;
     }
+
+    user.updatedAt = Date.now();
 
     await user.save();
 

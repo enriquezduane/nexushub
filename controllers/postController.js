@@ -7,6 +7,10 @@ const { populatePost, populateReply, emoticonData } = require('./helper');
 
 const renderCreatePost = (req, res) => {
     try {
+        if (!req.isAuthenticated()) {
+            return res.status(403).json({ message: 'User not logged in' });
+        }
+
         res.render('createPost', { 
             loggedIn: req.isAuthenticated(),
             title: 'Create Post', 
@@ -111,7 +115,12 @@ const getPagination = (req, res, next) => {
 const createPost = async (req, res) => {
     try {
         const { title, content, boardId } = req.body;
+
         const user = await User.findById(req.user.id); 
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not logged in.' });
+        }
 
         // Create a new post
         const initialPost = new Post({
@@ -139,6 +148,10 @@ const createPost = async (req, res) => {
 const createReply = async (req, res) => {
     try {
         const { content, postId } = req.body;
+
+        if (!req.isAuthenticated()) {
+            return res.status(403).json({ message: 'User not logged in.' });
+        }
         
         const opsWithImages = content.ops.map(op => {
             if (op.insert && typeof op.insert === 'object') {
@@ -158,10 +171,18 @@ const createReply = async (req, res) => {
         
         // Find the post and user by its ID
         const initialPost = await Post.findById(postId);
-        const user = await User.findById(req.user.id); 
+
+        if (!initialPost) {
+            return res.status(404).json({ message: 'Post not found' });
+        }
 
         // Populate the post object
         const post = await populatePost(initialPost);
+        const user = await User.findById(req.user.id);
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
 
         // Create a new reply
         const initialReply = new Reply({
@@ -200,7 +221,7 @@ const createReply = async (req, res) => {
         res.status(200).json(replyMsg);
     } catch (err) {
         console.error('Error:', err)
-        res.status(400).json({ message: err.message, request: req.body });
+        res.status(500).json({ message: error.message });
     }
 };
 
@@ -208,11 +229,24 @@ const createReply = async (req, res) => {
 const deleteContent = async (req, res) => {
     try {
         const { type, id } = req.body;
+        const userId = req.user.id;
+
+        if (!req.isAuthenticated()) {
+            return res.status(403).json({ message: 'User not logged in.' });
+        }
 
         if (type === 'post') {
 
             // Find the post
             const post = await Post.findById(id);
+
+            if (!post) {
+                return res.status(404).json({ message: 'Post not found' });
+            }
+
+            if (post.poster.toString() !== userId) {
+                return res.status(403).json({ message: 'Unauthorized' });
+            }
 
             // Delete the post
             await post.deleteOne();
@@ -222,6 +256,14 @@ const deleteContent = async (req, res) => {
 
             // Find the reply
             const reply = await Reply.findById(id);
+
+            if (!reply) {
+                return res.status(404).json({ message: 'Reply not found' });
+            }
+
+            if (reply.poster.toString() !== userId) {
+                return res.status(403).json({ message: 'Unauthorized' });
+            }
 
             // Delete the reply
             await reply.deleteOne();
@@ -238,11 +280,24 @@ const deleteContent = async (req, res) => {
 const updateContent = async (req, res) => {
     try {
         const { type, id, content } = req.body;
+        const userId = req.user.id;
+
+        if (!req.isAuthenticated()) {
+            return res.status(403).json({ message: 'User not logged in.' });
+        }
 
         if (type === 'post') {
 
             // Find the post
             const post = await Post.findById(id);
+
+            if (!post) {
+                return res.status(404).json({ message: 'Post not found' });
+            }
+
+            if (post.poster.toString() !== userId) {
+                return res.status(403).json({ message: 'Unauthorized editing.' });
+            }
 
             // Update the post
             post.content = content;
@@ -254,6 +309,14 @@ const updateContent = async (req, res) => {
 
             // Find the reply
             const reply = await Reply.findById(id);
+
+            if (!reply) {
+                return res.status(404).json({ message: 'Reply not found' });
+            }
+
+            if (reply.poster.toString() !== userId) {
+                return res.status(403).json({ message: 'Unauthorized editing.' });
+            }
 
             // Update the reply
             reply.reply = content;
@@ -271,10 +334,13 @@ const updateContent = async (req, res) => {
 const addVoteToUser = async (req, res, next) => {
     try {
         const { action, type, id, active } = req.body;
-        const userId = req.user.id;
+
+        if (!req.isAuthenticated()) {
+            return res.status(403).json({ message: 'User not logged in.' });
+        }
 
         // Find the user
-        const user = await User.findById(userId);
+        const user = await User.findById(req.user.id);
 
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
@@ -358,6 +424,10 @@ const addVoteToUser = async (req, res, next) => {
 const upvote = async (req, res) => {
     try {
         const {type, id, count } = req.body;
+
+        if (!req.isAuthenticated()) {
+            return res.status(403).json({ message: 'User not logged in.' });
+        }
 
         if (type === 'post') {
             // Find the post

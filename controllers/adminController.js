@@ -40,6 +40,10 @@ const createCategory = async (req, res) => {
     try {
         const {title} = req.body;
 
+        if (!req.isAuthenticated() || req.user.role !== 'Forum Master') {
+            return res.status(403).json({ message: 'Forbidden Access' });
+        }
+
         // check if category already exists
         const categoryExists = await Category.findOne({ title: title });
 
@@ -134,6 +138,10 @@ const createBoard = async (req, res) => {
     try {
         const {title, description, innerDescription, category} = req.body;
 
+        if (!req.isAuthenticated() || req.user.role !== 'Forum Master') {
+            return res.status(403).json({ message: 'Forbidden Access' });
+        }
+
         const boardExists = await Board.findOne({ title: title });                      
 
         if (boardExists) {
@@ -162,6 +170,10 @@ const createBoard = async (req, res) => {
 const createUser = async (req, res) => {
     try {
         const {username, password, email, role, description, age, currentServer} = req.body;
+
+        if (!req.isAuthenticated() || req.user.role !== 'Forum Master') {
+            return res.status(403).json({ message: 'Forbidden Access' });
+        }
 
         const userExists = await User.findOne({ username: username });
 
@@ -212,6 +224,16 @@ const createPost = async (req, res) => {
     try {
         const {title, content, poster, refBoard} = req.body;
 
+        if (!req.isAuthenticated() || req.user.role !== 'Forum Master') {
+            return res.status(403).json({ message: 'Forbidden Access' });
+        }
+
+        const titleExists = await Post.findOne({ title: title });
+
+        if (titleExists) {
+            return res.status(409).json({ message: 'Post already exists' });
+        }
+
         const post = new Post({
             _id: new mongoose.Types.ObjectId(),
             title: title,
@@ -236,7 +258,15 @@ const createReply = async (req, res) => {
     try {
         const {reply, poster, refPost} = req.body;
 
+        if (!req.isAuthenticated() || req.user.role !== 'Forum Master') {
+            return res.status(403).json({ message: 'Forbidden Access' });
+        }
+
         const post = await Post.findById(refPost);
+        
+        if (!post) {
+            return res.status(404).json({ message: 'Post not found' });
+        }
 
         const newReply = new Reply({
             _id: new mongoose.Types.ObjectId(),
@@ -261,7 +291,15 @@ const editCategory = async (req, res) => {
     try {
         const {id, title} = req.body;
 
+        if (!req.isAuthenticated() || req.user.role !== 'Forum Master') {
+            return res.status(403).json({ message: 'Forbidden Access' });
+        }
+
         const category = await Category.findById(id);
+
+        if (!category) {
+            return res.status(404).json({ message: 'Category not found' });
+        }
 
         category.title = title.trim();
         category.updatedAt = Date.now();
@@ -279,7 +317,15 @@ const editBoard = async (req, res) => {
     try {
         const {id, title, description, innerDescription} = req.body;
 
+        if (!req.isAuthenticated() || req.user.role !== 'Forum Master') {
+            return res.status(403).json({ message: 'Forbidden Access' });
+        }
+
         const board = await Board.findById(id);
+
+        if (!board) {
+            return res.status(404).json({ message: 'Board not found' });
+        }
 
         board.title = title.trim();
 
@@ -306,12 +352,30 @@ const editUser = async (req, res) => {
     try {
         const {id, username, password, email, role, description, age, currentServer} = req.body;
 
+        if (!req.isAuthenticated() || req.user.role !== 'Forum Master') {
+            return res.status(403).json({ message: 'Forbidden Access' });
+        }
+
         const user = await User.findById(id);
 
-        user.username = username.trim();
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        trimmedUsername = username.trim();
+
+        if (trimmedUsername.length < 3 || trimmedUsername.length > 15) {
+            return res.status(400).json({ message: 'Username must be between 3 and 15 characters' });
+        }
 
         if (password) {
-            user.password = password;
+            if (password.length < 6) {
+                return res.status(400).json({ message: 'Password must be at least 6 characters'});
+            }
+
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(password, salt);
+            user.password = hashedPassword;
         }
 
         if (email) {
@@ -327,6 +391,10 @@ const editUser = async (req, res) => {
         }
 
         if (age) {
+            if (age < 13 || age > 110) {
+                return res.status(400).json({ message: 'Age must be between 13 and 110' });
+              }
+
             user.age = age;
         }
 
@@ -349,7 +417,15 @@ const editPost = async (req, res) => {
     try {
         const {id, title, content} = req.body;
 
+        if (!req.isAuthenticated() || req.user.role !== 'Forum Master') {
+            return res.status(403).json({ message: 'Forbidden Access' });
+        }
+
         const post = await Post.findById(id);
+
+        if (!post) {
+            return res.status(404).json({ message: 'Post not found' });
+        }
 
         post.title = title.trim();
         post.content = content.trim();
@@ -368,12 +444,20 @@ const editReply = async (req, res) => {
     try {
         const {id, content} = req.body;
 
-        const saveReply = await Reply.findById(id);
+        if (!req.isAuthenticated() || req.user.role !== 'Forum Master') {
+            return res.status(403).json({ message: 'Forbidden Access' });
+        }
 
-        saveReply.reply = content.trim();
-        saveReply.updatedAt = Date.now();
+        const reply = await Reply.findById(id);
 
-        await saveReply.save();
+        if (!reply) {
+            return res.status(404).json({ message: 'Reply not found' });
+        }
+
+        reply.reply = content.trim();
+        reply.updatedAt = Date.now();
+
+        await reply.save();
 
         res.status(201).json({message: 'Reply updated successfully'});
     } catch (error) {
@@ -386,9 +470,17 @@ const deleteCategory = async (req, res) => {
     try {
         const { id } = req.body;
 
+        if (!req.isAuthenticated() || req.user.role !== 'Forum Master') {
+            return res.status(403).json({ message: 'Forbidden Access' });
+        }
+
         console.log('id:', id)
 
         category = await Category.findById(id);
+
+        if (!category) {
+            return res.status(404).json({ message: 'Category not found' });
+        }
 
         await category.deleteOne();
 
@@ -403,7 +495,15 @@ const deleteBoard = async (req, res) => {
     try {
         const { id } = req.body;
 
+        if (!req.isAuthenticated() || req.user.role !== 'Forum Master') {
+            return res.status(403).json({ message: 'Forbidden Access' });
+        }
+
         board = await Board.findById(id);
+
+        if (!board) {
+            return res.status(404).json({ message: 'Board not found' });
+        }
 
         await board.deleteOne();
 
@@ -418,7 +518,15 @@ const deleteUser = async (req, res) => {
     try {
         const { id } = req.body;
 
+        if (!req.isAuthenticated() || req.user.role !== 'Forum Master') {
+            return res.status(403).json({ message: 'Forbidden Access' });
+        }
+
         user = await User.findById(id);
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
 
         await user.deleteOne();
 
@@ -433,7 +541,15 @@ const deletePost = async (req, res) => {
     try {
         const { id } = req.body;
 
+        if (!req.isAuthenticated() || req.user.role !== 'Forum Master') {
+            return res.status(403).json({ message: 'Forbidden Access' });
+        }
+
         post = await Post.findById(id);
+
+        if (!post) {
+            return res.status(404).json({ message: 'Post not found' });
+        }
 
         await post.deleteOne();
 
@@ -448,7 +564,15 @@ const deleteReply = async (req, res) => {
     try {
         const { id } = req.body;
 
+        if (!req.isAuthenticated() || req.user.role !== 'Forum Master') {
+            return res.status(403).json({ message: 'Forbidden Access' });
+        }
+
         reply = await Reply.findById(id);
+
+        if (!reply) {
+            return res.status(404).json({ message: 'Reply not found' });
+        }
 
         await reply.deleteOne();
 

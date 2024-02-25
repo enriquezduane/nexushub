@@ -22,7 +22,8 @@ if (loginForm) {
         .then(data => {
             if (data.success) {
                 // Redirect to home page or perform any other action for successful login
-                window.location.href = '/';
+                alert('Login successful!')
+                window.location.reload()
             } else {
                 // Throw error with the appropriate message based on the response from the server
                 throw new Error(data.error);
