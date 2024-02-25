@@ -105,11 +105,15 @@ const createUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
-    const { userId, age, description, newPassword } = req.body;
+    const { userId, email, age, description, newPassword } = req.body;
     const user = await User.findById(userId);
 
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (email) {
+      user.email = email;
     }
 
     if (age) {

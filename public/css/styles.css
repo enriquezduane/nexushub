@@ -1562,6 +1562,10 @@ tbody td:nth-child(5) {
   flex-direction: column;
 }
 
+.form-control {
+  border-radius: 5px;
+}
+
 .create-post-form .form-control,
 .edit-post-textarea {
   padding: 0.5rem;
@@ -1706,8 +1710,17 @@ tbody td:nth-child(5) {
   /* Ensure consistent font */
   font-size: 0.8rem;
   /* Smaller font size for compactness */
-  width: 80%;
+  width: 227px;
   /* Adjust width as needed for compactness */
+}
+
+.edit-profile-form .form-control#user-age {
+  text-align: center;
+}
+
+.edit-profile-form .form-control:focus {
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  outline: none;
 }
 
 .edit-profile-form .update-profile-btn {
