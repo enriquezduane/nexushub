@@ -2,26 +2,23 @@ const logoutLink = document.getElementById('logoutLink');
 
 if (logoutLink) {
     logoutLink.addEventListener('click', function(e) {
-        e.preventDefault();
+        e.preventDefault(); 
 
         fetch('/logout', {
             method: 'POST'
         })
         .then(response => {
-            if (response.ok) {
-                window.location.href = '/'; // Redirect to the homepage after logout
-            } else {
-                return response.text().then(errorMessage => {
-                    throw new Error('Logout failed: ' + errorMessage);
-                });
+            if (!response.ok) {
+                throw new Error('Failed to logout');
             }
+        })
+        .then(data => {
+            alert('Logout successful!');
+            window.location.href = '/';
         })
         .catch(error => {
             console.error(error);
             alert('Logout failed.')
         })
-        .finally(() => {
-            alert('Logout successful!');
-        });
     });
 }

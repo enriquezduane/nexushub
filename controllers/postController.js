@@ -355,7 +355,6 @@ const addVoteToUser = async (req, res, next) => {
     }
 };
 
-
 const upvote = async (req, res) => {
     try {
         const {type, id, count } = req.body;
