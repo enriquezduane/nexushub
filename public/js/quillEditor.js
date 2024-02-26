@@ -1,4 +1,4 @@
-const Delta = Quill.import('delta');
+let Delta = Quill.import('delta');
 const InlineEmbed = Quill.import('blots/embed');
 
 const emoticonUrls = [

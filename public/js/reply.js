@@ -8,8 +8,6 @@ if (replyForm) {
         const content = postQuill.getContents(); 
         const postId = document.querySelector('input[name="postId"]').value;
 
-        console.log(content.ops);
-
         const isEmptyContent = content.ops.every(op => {
             // Check if op.insert is a string before attempting to trim
             if (typeof op.insert === 'string') {
