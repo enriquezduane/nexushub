@@ -2137,7 +2137,7 @@ textarea {
 }
 
 .post-section:nth-child(even) {
-  background: linear-gradient(to right, #0c0c31, #542a6d, #51235a, #030330);
+  background: linear-gradient(to right, rgba(12, 12, 49, 0.7), rgba(84, 42, 109, 0.7), rgba(81, 35, 90, 0.7), rgba(3, 3, 48, 0.7));
 }
 
 .category-container:nth-of-type(even) {
@@ -2384,16 +2384,11 @@ img[alt="candy pin gif"] {
 }
 
 .directory-bar {
-  background: linear-gradient(to right, #555582, #171762, #272787, #2f2f96, #3172b4, #6a2c97, #a72cb2);
   font-family: 'Romance', serif;
   font-size: 16px;
   color: #ffffff;
   text-shadow: 2px 2px 4px #000000;
   padding: 10px;
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
-  border-bottom-left-radius: 3px;
-  border-bottom-right-radius: 3px;
   display: flex;
   align-items: center;
   margin-bottom: 20px;
