@@ -480,8 +480,10 @@ footer {
   /* Neon purplish-pink text color */
   text-shadow:
     0 0 5px #f975f7,
-    /* Lighter neon purplish-pink glow */ 0 0 10px #c45aeb,
-    /* Neon purplish-pink glow */ 0 0 20px #c45aeb;
+    /* Lighter neon purplish-pink glow */
+    0 0 10px #c45aeb,
+    /* Neon purplish-pink glow */
+    0 0 20px #c45aeb;
   /* Enhanced neon glow for depth */
   font-family: "Press Start 2P", cursive;
   /* Ensure font consistency */
@@ -507,8 +509,10 @@ footer {
   outline: none;
   text-shadow:
     0 0 5px #f975f7,
-    /* Lighter neon purplish-pink glow */ 0 0 10px #c45aeb,
-    /* Neon purplish-pink glow */ 0 0 20px #c45aeb;
+    /* Lighter neon purplish-pink glow */
+    0 0 10px #c45aeb,
+    /* Neon purplish-pink glow */
+    0 0 20px #c45aeb;
   /* Enhanced neon glow for depth */
 }
 
@@ -772,6 +776,7 @@ footer {
 }
 
 @keyframes neon-flicker {
+
   0%,
   19%,
   21%,
@@ -826,6 +831,7 @@ footer {
 }
 
 @keyframes pulsing-glow {
+
   0%,
   100% {
     text-shadow:
@@ -846,6 +852,7 @@ footer {
 }
 
 @keyframes float {
+
   0%,
   100% {
     transform: translateY(0);
@@ -857,6 +864,7 @@ footer {
 }
 
 @keyframes flicker {
+
   0%,
   100% {
     opacity: 1;
@@ -903,6 +911,7 @@ footer {
 }
 
 @keyframes sparkle {
+
   0%,
   100% {
     opacity: 0;
@@ -1024,6 +1033,7 @@ tbody {
 }
 
 @keyframes clash {
+
   0%,
   100% {
     transform: rotate(0);
@@ -1385,7 +1395,7 @@ tbody {
   border-radius: 0 5px 5px 0;
 }
 
-.search-box + p {
+.search-box+p {
   font-size: 18px;
 }
 
@@ -1407,6 +1417,7 @@ tbody {
 }
 
 @keyframes neon-flicker-purple {
+
   0%,
   19%,
   21%,
@@ -1417,13 +1428,20 @@ tbody {
   100% {
     text-shadow:
       0 0 6px #b892ff,
-      /* Very light purple for a brighter glow */ 0 0 12px #ab7bff,
-      /* Light purple */ 0 0 18px #9a4dff,
-      /* Medium purple */ 0 0 24px #8a2be2,
-      /* Deeper purple */ 0 0 30px #8a2be2,
-      /* Deeper purple for more intense glow */ 0 0 36px #7a0fec,
-      /* Even deeper purple */ 0 0 42px #7a0fec,
-      /* Intensify the glow */ 0 0 48px #6900ff;
+      /* Very light purple for a brighter glow */
+      0 0 12px #ab7bff,
+      /* Light purple */
+      0 0 18px #9a4dff,
+      /* Medium purple */
+      0 0 24px #8a2be2,
+      /* Deeper purple */
+      0 0 30px #8a2be2,
+      /* Deeper purple for more intense glow */
+      0 0 36px #7a0fec,
+      /* Even deeper purple */
+      0 0 42px #7a0fec,
+      /* Intensify the glow */
+      0 0 48px #6900ff;
     /* Deep purple for maximum brightness and glow */
   }
 
@@ -1913,8 +1931,10 @@ tbody td:nth-child(5) {
   /* White text color */
   text-shadow:
     0 0 3px #9b30ff,
-    /* Innermost shadow with a soft glow */ 0 0 6px #9b30ff,
-    /* Middle shadow with moderate glow */ 0 0 9px #9b30ff;
+    /* Innermost shadow with a soft glow */
+    0 0 6px #9b30ff,
+    /* Middle shadow with moderate glow */
+    0 0 9px #9b30ff;
   /* Outer shadow for a subtle glow */
 }
 
@@ -2248,32 +2268,71 @@ ul li:nth-last-child(2) span {
   text-decoration: none;
 }
 
-/* Hover effect */
 .page-button:hover {
-  background-color: #0000EE;
+  background-color: #c800ff;
+  color: #e6ccff;
 }
 
 .currentPage {
-  /* Add styles for the current page button */
-  /* For example: */
-  background-color: #007bff;
+  background-color: #c800ff;
+  /* Neon Purple Background */
   color: #ffffff;
-  transform: scale(1.1);
-}
-
-#bot, #top{
-  display: inline-block;
+  /* White Text */
+  transform: scale(0.9);
+  /* Slightly Scale Down the Current Page Button */
+  border: 2px solid #c800ff;
+  /* Neon Purple Border */
+  box-shadow:
+    0 0 3px #c800ff,
+    /* Subtle Outer Neon Glow */
+    0 0 6px #c800ff;
+  /* Subtle Inner Neon Glow */
+  text-shadow:
+    0 0 2px #c800ff;
+  /* Subtle Text Neon Glow */
   padding: 8px 16px;
-  background-color: #444444;
-  color: #ffffff;
-  text-decoration: none;
-  font-family: 'Press Start 2P', cursive; /* Use a retro pixel font */
-  font-size: 14px; /* Adjust font size */
-  border-radius: 4px; /* Add some rounded corners */
+  /* Smaller Padding for the Button */
+  margin: 3px;
+  /* Smaller Margin around the Button */
+  border-radius: 4px;
+  /* Slightly Rounded Corners for the Button */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  /* Transition for Hover Effect */
+  cursor: pointer;
+  /* Change Cursor to Pointer to Indicate Clickable */
 }
 
-#bot:hover, #top:hover {
-  background-color: #242222; /* Darken the background on hover */
+.currentPage:hover {
+  transform: scale(1);
+  /* Return to Normal Size on Hover */
+  box-shadow:
+    0 0 5px #c800ff,
+    /* Slightly More Pronounced Outer Neon Glow on Hover */
+    0 0 10px #c800ff;
+  /* Slightly More Pronounced Inner Neon Glow on Hover */
+}
+
+#bot,
+#top {
+  background-color: #000033;
+  /* Dark blue color to match your theme */
+  color: #ffffff;
+  padding: 10px 20px;
+  margin: 0 5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-family: "Press Start 2P", cursive;
+  /* Retro font from your theme */
+  font-size: 0.8em;
+  outline: none;
+  border: 1px solid #8f3e97;
+  transition: 0s;
+}
+
+#bot:hover,
+#top:hover {
+  color: #ffffff;
+  background-color: #8f3e97;
 }
 
 img[alt="candy pin gif"] {
@@ -2297,19 +2356,19 @@ img[alt="candy pin gif"] {
   font-family: "basiic", serif;
   font-size: 15px;
   box-shadow:
-      0 0 4px rgba(187, 0, 187, 1),
-      inset 0 0 4px rgba(0, 187, 0, 0.5);
+    0 0 4px rgba(187, 0, 187, 1),
+    inset 0 0 4px rgba(0, 187, 0, 0.5);
   outline: none;
   transition:
-      box-shadow 0.3s ease-in-out,
-      border 0.3s ease-in-out;
+    box-shadow 0.3s ease-in-out,
+    border 0.3s ease-in-out;
   margin-bottom: 20px;
 }
 
 .ql-container.ql-snow:focus-within {
   box-shadow:
-      0 0 6px rgba(187, 0, 187, 0.7),
-      inset 0 0 6px rgba(0, 187, 0, 0.5);
+    0 0 6px rgba(187, 0, 187, 0.7),
+    inset 0 0 6px rgba(0, 187, 0, 0.5);
   border-color: #009999;
 }
 
@@ -2323,12 +2382,12 @@ img[alt="candy pin gif"] {
   font-family: "basiic", serif;
   font-size: 15px;
   box-shadow:
-      0 0 4px rgba(187, 0, 187, 1),
-      inset 0 0 4px rgba(0, 187, 0, 0.5);
+    0 0 4px rgba(187, 0, 187, 1),
+    inset 0 0 4px rgba(0, 187, 0, 0.5);
   outline: none;
   transition:
-      box-shadow 0.3s ease-in-out,
-      border 0.3s ease-in-out;
+    box-shadow 0.3s ease-in-out,
+    border 0.3s ease-in-out;
   margin-bottom: 20px;
 }
 
@@ -2342,23 +2401,28 @@ img[alt="candy pin gif"] {
 }
 
 .ql-editor::before {
-  color: rgb(160, 160, 160) !important; /* Replace with your desired color */
+  color: rgb(160, 160, 160) !important;
+  /* Replace with your desired color */
 }
 
 .ql-snow .ql-picker-item {
-  color: #000 !important; /* Change to your desired color */
+  color: #000 !important;
+  /* Change to your desired color */
 }
 
 .ql-snow .ql-picker-label {
-  color: #000 !important; /* Change to your desired color */
+  color: #000 !important;
+  /* Change to your desired color */
 }
 
 .ql-snow .ql-picker-item::before {
-  color: #313131; /* Set the color of the header selection text */
+  color: #313131;
+  /* Set the color of the header selection text */
 }
 
 .ql-snow .ql-picker-item .ql-stroke {
-  stroke: black !important; /* Change the color to your desired color */
+  stroke: black !important;
+  /* Change the color to your desired color */
 }
 
 .ql-container.ql-snow .ql-editor {
@@ -2427,6 +2491,7 @@ blockquote p {
   display: inline;
 }
 
-.create-post-block .ql-toolbar, .create-post-block .ql-container {
+.create-post-block .ql-toolbar,
+.create-post-block .ql-container {
   width: 1439px;
 }
