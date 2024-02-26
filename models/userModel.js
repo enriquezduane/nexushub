@@ -126,7 +126,7 @@ userSchema.virtual('roleClass').get(function() {
 });
 
 userSchema.virtual('createdAtSGT').get(function() {
-  return moment(this.createdAt).tz('Asia/Singapore').format('MMM YYYY hh:mm A'); // Format SGT createdAt
+  return moment(this.createdAt).tz('Asia/Singapore').format('MMM DD, YYYY hh:mm A'); // Format SGT createdAt
 });
 
 userSchema.virtual('joinDateMonth').get(function() {
