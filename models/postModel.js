@@ -25,7 +25,7 @@ const postSchema = new mongoose.Schema({
   content: { 
     type: String, 
     required: true,
-    maxlength: 150000,
+    maxlength: [150000, 'Reply content is too long!']
   },
   upvotes: {
     type: Number,

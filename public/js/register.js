@@ -27,7 +27,7 @@ if (registerForm) {
 
             window.location.href = '/'; // Redirect to home page
         } catch (error) {
-            alert('Registration failed: ' + error.message);
+            alert(error.message);
         }
     });
 }

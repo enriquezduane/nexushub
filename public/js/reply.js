@@ -32,19 +32,9 @@ if (replyForm) {
             })
             .then(response => {
                 if (!response.ok) {
-                    if (response.status === 400) {
-                        throw new Error('Reply content is empty!');
-                    }
-                    if (response.status === 403) {
-                        throw new Error('You are not logged in. Please log in to reply!');
-                    }
-                    if (response.status === 404) {
-                        throw new Error('Post or User not found!');
-                    }
-                    if (response.status === 413) {
-                        throw new Error('Reply content is too large!');
-                    }
-                    throw new Error('Failed to create reply');
+                    return response.json().then(data => {
+                        throw new Error(data.message);
+                    });
                 }
                 return response.json();
             })
@@ -117,7 +107,7 @@ if (replyForm) {
             });
         } else {
             // Optionally, you can provide feedback to the user that the reply is empty
-            alert('Reply content is empty!');
+            alert('Reply cannot be empty');
         }
     });
 

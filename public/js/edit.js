@@ -247,20 +247,10 @@ document.addEventListener('click', (event) => {
                         body: JSON.stringify({ type: (isReply ? 'reply' : 'post'), content: updatedContent, id: id})
                     });
 
+                    const responseData = await response.json(); // Convert response to JSON
+
                     if (!response.ok) {
-                        if (response.status === 400) {
-                            throw new Error('Post content is empty!');
-                        }
-                        if (response.status === 403) {
-                            throw new Error('You are not logged in. Please log in to edit!');
-                        }
-                        if (response.status === 404) {
-                            throw new Error('Post or User not found!');
-                        }
-                        if (response.status === 413) {
-                            throw new Error('Content is too large!');
-                        }
-                        throw new Error('Failed to update post');
+                        throw new Error(responseData.message); // Throw error with server-side message
                     }
 
                     postContent.style.display = ''; // Show original post content
@@ -279,7 +269,6 @@ document.addEventListener('click', (event) => {
                     alert(isReply ? 'Reply updated successfully' : 'Post updated successfully');
 
                     // Update the edited container
-                    const responseData = await response.json(); // Parse JSON response
                     editedContainer.textContent = `Last Edit: ${responseData.updatedAt}`;
                     
                 } catch (error) {

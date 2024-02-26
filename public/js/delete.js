@@ -28,13 +28,15 @@ document.addEventListener('click', (event) => {
         })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Failed to delete ' + (isReply ? 'reply' : 'post'));
+                return response.json().then(data => {
+                    throw new Error(data.message);
+                });
             }
             return response.json();
         })
         .then(data => {
             // Display a success message
-            alert('Deleted ' + (isReply ? 'reply' : 'post') + ' successfully');
+            alert(data.message);
 
             // Remove the post container from the DOM
             postContainer.classList.add('fade-out');
@@ -47,8 +49,8 @@ document.addEventListener('click', (event) => {
             }, 300); // Adjust this value to match the transition duration in CSS
         })
         .catch(error => {
-            console.error('Error deleting ' + (isReply ? 'reply' : 'post') + ':', error);
-            alert('An error occurred while deleting the ' + (isReply ? 'reply' : 'post') + '. Please try again later.');
+            console.error('Error:', error);
+            alert(error.message);
         });
     }
 });

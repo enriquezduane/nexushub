@@ -168,6 +168,7 @@ const createReply = async (req, res) => {
             // Check if the trimmed insert is only newline characters
             return trimmedInsert === '\n' || trimmedInsert === '';
         });
+
         if (isEmptyContent) {
             return res.status(400).json({ message: 'Reply content is empty!' });
         }
@@ -239,7 +240,15 @@ const createReply = async (req, res) => {
         // Send the new reply object to the client
         res.status(200).json(replyMsg);
     } catch (err) {
-        console.error('Error:', err.message)
+        console.error('Error:', err.message);
+
+        if (err.name === 'ValidationError') {
+            // Extract the specific validation error message
+            const errorMessage = Object.values(err.errors).map(error => error.message);
+            // Send the custom error message to the client
+            return res.status(400).json({ message: errorMessage });
+        }
+
         res.status(500).json({ message: err.message });
     }
 };
@@ -248,7 +257,7 @@ const createReply = async (req, res) => {
 const deleteContent = async (req, res) => {
     try {
         if (!req.isAuthenticated()) {
-            return res.status(403).json({ message: 'User not logged in.' });
+            return res.status(403).json({ message: 'User is not logged in!' });
         }
 
         const { type, id } = req.body;
@@ -260,34 +269,34 @@ const deleteContent = async (req, res) => {
             const post = await Post.findById(id);
 
             if (!post) {
-                return res.status(404).json({ message: 'Post not found' });
+                return res.status(404).json({ message: 'Post not found!' });
             }
 
             if (post.poster.toString() !== userId) {
-                return res.status(403).json({ message: 'Unauthorized' });
+                return res.status(403).json({ message: 'Unauthorized to delete!' });
             }
 
             // Delete the post
             await post.deleteOne();
 
-            res.status(200).json({ message: 'Post deleted successfully' });
+            res.status(200).json({ message: 'Post deleted successfully!' });
         } else {
 
             // Find the reply
             const reply = await Reply.findById(id);
 
             if (!reply) {
-                return res.status(404).json({ message: 'Reply not found' });
+                return res.status(404).json({ message: 'Reply not found!' });
             }
 
             if (reply.poster.toString() !== userId) {
-                return res.status(403).json({ message: 'Unauthorized' });
+                return res.status(403).json({ message: 'Unauthorized to delete!' });
             }
 
             // Delete the reply
             await reply.deleteOne();
             
-            res.status(200).json({ message: 'Reply deleted successfully' });
+            res.status(200).json({ message: 'Reply deleted successfully!' });
         }
         
     } catch (error) {
@@ -299,15 +308,15 @@ const deleteContent = async (req, res) => {
 const updateContent = async (req, res) => {
     try {
         if (!req.isAuthenticated()) {
-            return res.status(403).json({ message: 'User not logged in.' });
+            return res.status(403).json({ message: 'User is not logged in!' });
         }
 
         const { type, id, content } = req.body;
         const userId = req.user.id;
 
-        const trimmedContent = content.replace(/<[^>]*>/g, '').trim();
+        const trimmedContent = content.replace(/<(?!img)[^>]*>/g, '').trim();
         if (trimmedContent === '' || trimmedContent === '<br>') {
-            return res.status(400).json({ message: 'Content is empty or consists only of <br> tags.' });
+            return res.status(400).json({ message: 'Content is empty!' });
         }
 
         if (type === 'post') {
@@ -316,11 +325,11 @@ const updateContent = async (req, res) => {
             const post = await Post.findById(id);
 
             if (!post) {
-                return res.status(404).json({ message: 'Post not found' });
+                return res.status(404).json({ message: 'Post not found!' });
             }
 
             if (post.poster.toString() !== userId) {
-                return res.status(403).json({ message: 'Unauthorized editing.' });
+                return res.status(403).json({ message: 'Unauthorized editing!' });
             }
 
             // Update the post
@@ -335,11 +344,11 @@ const updateContent = async (req, res) => {
             const reply = await Reply.findById(id);
 
             if (!reply) {
-                return res.status(404).json({ message: 'Reply not found' });
+                return res.status(404).json({ message: 'Reply not found!' });
             }
 
             if (reply.poster.toString() !== userId) {
-                return res.status(403).json({ message: 'Unauthorized editing.' });
+                return res.status(403).json({ message: 'Unauthorized editing!' });
             }
 
             // Update the reply
@@ -350,7 +359,15 @@ const updateContent = async (req, res) => {
             res.status(200).json({ updatedAt: reply.updatedAtSGT });
         }
     } catch (error) {
-        console.error('Error:', error);
+        console.error('Error:', error.message);
+
+        if (error.name === 'ValidationError') {
+            // Extract the specific validation error message
+            const errorMessage = Object.values(error.errors).map(error => error.message);
+            // Send the custom error message to the client
+            return res.status(400).json({ message: errorMessage });
+        }
+
         res.status(500).json({ message: error.message });
     }
 };
