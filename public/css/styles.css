@@ -1878,10 +1878,17 @@ tbody td:nth-child(5) {
 
 .search-bar input {
   background-color: #000033;
-  border: 1px solid rgb(160, 160, 160);
-  border-radius: 5px;
+  color: #ffffff;
+  padding: 10px 20px;
   margin-right: 5px;
+  cursor: text;
+  font-family: "Press Start 2P", cursive;
+  font-size: 0.8em;
+  outline: none;
+  border: 1px solid #8f3e97;
+  border-radius: 5px;
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+  transition: 0s;
 }
 
 .category-button {
