@@ -248,6 +248,18 @@ document.addEventListener('click', (event) => {
                     });
 
                     if (!response.ok) {
+                        if (response.status === 400) {
+                            throw new Error('Post content is empty!');
+                        }
+                        if (response.status === 403) {
+                            throw new Error('You are not logged in. Please log in to edit!');
+                        }
+                        if (response.status === 404) {
+                            throw new Error('Post or User not found!');
+                        }
+                        if (response.status === 413) {
+                            throw new Error('Content is too large!');
+                        }
                         throw new Error('Failed to update post');
                     }
 
@@ -272,6 +284,7 @@ document.addEventListener('click', (event) => {
                     
                 } catch (error) {
                     console.error('Error:', error.message);
+                    alert(error.message);
                 }
             });
 

@@ -114,12 +114,16 @@ const getPagination = (req, res, next) => {
 
 const createPost = async (req, res) => {
     try {
+        if (!req.isAuthenticated()) {
+            return res.status(403).json({ message: 'User not logged in.' });
+        }
+
         const { title, content, boardId } = req.body;
 
         const user = await User.findById(req.user.id); 
 
         if (!user) {
-            return res.status(404).json({ message: 'User not logged in.' });
+            return res.status(404).json({ message: 'User not found.' });
         }
 
         // Create a new post
@@ -147,14 +151,21 @@ const createPost = async (req, res) => {
 // Create a new reply
 const createReply = async (req, res) => {
     try {
-        const { content, postId } = req.body;
-
         if (!req.isAuthenticated()) {
             return res.status(403).json({ message: 'User not logged in.' });
         }
 
-        if (!content || (content.ops.length === 1 && content.ops[0].insert === '\n')) {
-            return res.status(400).json({ message: 'Reply content is empty' });
+        const { content, postId } = req.body;
+
+        const isEmptyContent = content.ops.every(op => {
+            // Remove leading and trailing whitespace from the insert
+            const trimmedInsert = op.insert.trim();
+            // Check if the trimmed insert is only newline characters
+            return trimmedInsert === '\n' || trimmedInsert === '';
+        });
+
+        if (isEmptyContent) {
+            return res.status(400).json({ message: 'Reply content is empty!' });
         }
         
         const opsWithEmoticons = content.ops.map(op => {
@@ -172,6 +183,8 @@ const createReply = async (req, res) => {
 
         const htmlContent = converter.convert();
         const safeHtmlContent = htmlContent.replace(/src="unsafe:(.*?)"/g, 'src="$1"');
+
+        console.log('safeHtmlContent:', safeHtmlContent);
         
         // Find the post and user by its ID
         const initialPost = await Post.findById(postId);
@@ -232,12 +245,12 @@ const createReply = async (req, res) => {
 // Delete reply
 const deleteContent = async (req, res) => {
     try {
-        const { type, id } = req.body;
-        const userId = req.user.id;
-
         if (!req.isAuthenticated()) {
             return res.status(403).json({ message: 'User not logged in.' });
         }
+
+        const { type, id } = req.body;
+        const userId = req.user.id;
 
         if (type === 'post') {
 
@@ -283,11 +296,16 @@ const deleteContent = async (req, res) => {
 
 const updateContent = async (req, res) => {
     try {
+        if (!req.isAuthenticated()) {
+            return res.status(403).json({ message: 'User not logged in.' });
+        }
+
         const { type, id, content } = req.body;
         const userId = req.user.id;
 
-        if (!req.isAuthenticated()) {
-            return res.status(403).json({ message: 'User not logged in.' });
+        const trimmedContent = content.replace(/<[^>]*>/g, '').trim();
+        if (trimmedContent === '' || trimmedContent === '<br>') {
+            return res.status(400).json({ message: 'Content is empty or consists only of <br> tags.' });
         }
 
         if (type === 'post') {
@@ -330,18 +348,18 @@ const updateContent = async (req, res) => {
             res.status(200).json({ updatedAt: reply.updatedAtSGT });
         }
     } catch (error) {
-        console.error('Error:', error.message);
+        console.error('Error:', error);
         res.status(500).json({ message: error.message });
     }
 };
 
 const addVoteToUser = async (req, res, next) => {
     try {
-        const { action, type, id, active } = req.body;
-
         if (!req.isAuthenticated()) {
             return res.status(403).json({ message: 'User not logged in.' });
         }
+
+        const { action, type, id, active } = req.body;
 
         // Find the user
         const user = await User.findById(req.user.id);
@@ -443,11 +461,11 @@ const addVoteToUser = async (req, res, next) => {
 
 const upvote = async (req, res) => {
     try {
-        const {type, id, count } = req.body;
-
         if (!req.isAuthenticated()) {
             return res.status(403).json({ message: 'User not logged in.' });
         }
+
+        const {type, id, count } = req.body;
 
         if (type === 'post') {
             // Find the post

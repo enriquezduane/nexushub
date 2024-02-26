@@ -5,11 +5,18 @@ if (replyForm) {
         event.preventDefault(); // Prevent default form submission
 
         // Collect reply content and post ID
-        const content = postQuill.getContents(); // Trim whitespace
+        const content = postQuill.getContents(); 
         const postId = document.querySelector('input[name="postId"]').value;
+
+        const isEmptyContent = content.ops.every(op => {
+            // Remove leading and trailing whitespace from the insert
+            const trimmedInsert = op.insert.trim();
+            // Check if the trimmed insert is only newline characters
+            return trimmedInsert === '\n' || trimmedInsert === '';
+        });
         
         // Check if reply content is not empty
-        if (content && !(content.ops.length === 1 && content.ops[0].insert === '\n')) {
+        if (!isEmptyContent) {
             // Send AJAX request to add the reply
             fetch('reply', {
                 method: 'POST',
