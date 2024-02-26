@@ -143,7 +143,7 @@ const createPost = async (req, res) => {
         // send the post id to the client
         res.status(200).json({ id: post.id });
     } catch (err) {
-        res.status(400).json({ message: err.message, request: req.body });
+        res.status(500).json({ message: err.message, request: req.body });
     }
 }
 
