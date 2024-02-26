@@ -456,6 +456,8 @@ module.exports = {
     populatePost,
     populateReplies,   
     populateReply,
+    populateUsers,
+    populateUser,
     highlightSubstring,
     formatLatestPostDate,
     headerFooterData,
