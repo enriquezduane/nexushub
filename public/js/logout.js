@@ -4,7 +4,7 @@ if (logoutLink) {
     logoutLink.addEventListener('click', function(e) {
         e.preventDefault(); 
 
-        fetch('/logout', {
+        fetch('/auth/logout', {
             method: 'POST'
         })
         .then(response => {

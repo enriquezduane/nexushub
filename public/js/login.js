@@ -9,7 +9,7 @@ if (loginForm) {
         const password = document.getElementById('password').value;
         
         // Send form data to the server via AJAX
-        fetch('/login', {
+        fetch('/auth/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
