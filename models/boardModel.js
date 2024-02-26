@@ -10,20 +10,20 @@ const boardSchema = new mongoose.Schema({
     type: String, 
     required: true,
     unique: true,
-    minlength: 4,
-    maxlength: 90,
+    minlength: [4, 'Title must be 4 characters or more'], 
+    maxlength: [90, 'Title must be 90 characters or less']
   },
   description: { 
     type: String, 
     required: true,
-    minlength: 10,
-    maxlength: 85,
+    minlength: [10, 'Description must be 10 characters or more'],
+    maxlength: [85, 'Description must be 85 characters or less']
   },
   innerDescription: { 
     type: String, 
     required: true,
-    minlength: 10,
-    maxlength: 100,
+    minlength: [10, 'Inner Description must be 10 characters or more'],
+    maxlength: [100, 'Inner Description must be 100 characters or less']
   },
   category: { 
     type: mongoose.Schema.Types.ObjectId, 

@@ -10,8 +10,8 @@ const categorySchema = new mongoose.Schema({
     type: String, 
     required: true,
     unique: true,
-    minlength: 4,
-    maxlength: 90,
+    minlength: [4, 'Category title must be 4 characters or more'],
+    maxlength: [90, 'Category title must be 90 characters or less']
   },
   boards: [
     { 

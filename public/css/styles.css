@@ -1566,6 +1566,11 @@ tbody td:nth-child(5) {
   flex-direction: column;
 }
 
+#post-subject {
+  font-size: 18px;
+  background: linear-gradient(to right, #2548a7, #9e4b9e);
+}
+
 .form-control {
   border-radius: 5px;
 }
@@ -2420,4 +2425,8 @@ blockquote:before {
 
 blockquote p {
   display: inline;
+}
+
+.create-post-block .ql-toolbar, .create-post-block .ql-container {
+  width: 1439px;
 }

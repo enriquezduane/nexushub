@@ -430,6 +430,19 @@ const hashPassword = (password) => {
     return bcrypt.hashSync(password, saltRounds);
 }
 
+const handleValidationError = (err) => {
+    if (err.name === 'ValidationError') {
+        const errorMessage = Object.values(err.errors).map(error => error.message);
+        return { status: 400, message: errorMessage };
+    }
+
+    if (err.code === 11000) {
+        return { status: 400, message: 'Username or email already exists!' };
+    }
+
+    return { status: 500, message: 'Internal Server Error!' };
+};
+
 module.exports = {
     populateAll,
     populateCategories,
@@ -444,5 +457,6 @@ module.exports = {
     formatLatestPostDate,
     headerFooterData,
     emoticonData,
-    hashPassword
+    hashPassword,
+    handleValidationError
 }

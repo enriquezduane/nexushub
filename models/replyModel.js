@@ -9,7 +9,7 @@ const replySchema = new mongoose.Schema({
   title: { 
     type: String, 
     required: true,
-    maxlength: 95,
+    maxlength: [95, 'Title must be 95 characters or less']
   },
   refPost: { 
     type: mongoose.Schema.Types.ObjectId, 

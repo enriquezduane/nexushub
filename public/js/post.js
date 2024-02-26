@@ -1,23 +1,34 @@
 // resize textarea to fit content dynamically
 var textarea = document.querySelector('.create-post-textarea');
 
-function resizeTextarea() {
-  textarea.style.height = 'auto';
-  textarea.style.height = (textarea.scrollHeight) + 'px';
-}
-
-textarea.addEventListener('input', resizeTextarea);
-
-resizeTextarea();
-
 // create post
 document.querySelector('.create-post-form').addEventListener('submit', async function(event) {
     event.preventDefault();
   
     // get form data
     const title = document.querySelector('#post-subject').value;
-    const content = document.querySelector('#post-content').value;
+    const content = createPostQuill.getContents();
     const boardId = window.location.pathname.split('/')[2];
+
+    const isEmptyContent = content.ops.every(op => {
+      // Check if op.insert is a string before attempting to trim
+      if (typeof op.insert === 'string') {
+          // Remove leading and trailing whitespace from the insert
+          const trimmedInsert = op.insert.trim();
+          // Check if the trimmed insert is only newline characters
+          return trimmedInsert === '\n' || trimmedInsert === '';
+      }
+    });
+
+    if (isEmptyContent) {
+        alert('Post content cannot be empty');
+        return;
+    }
+
+    if (title === '') {
+        alert('Post title cannot be empty');
+        return;
+    }
   
     try {
       const response = await fetch('/forum/:id/post', {

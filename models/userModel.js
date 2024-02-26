@@ -23,22 +23,21 @@ const userSchema = new mongoose.Schema({
     type: String, 
     required: true, 
     unique: true,
-    maxlength: 15,
-    minlength: 3,
+    maxlength: [15, 'Username must be 15 characters or less'],
+    minlength: [3, 'Username must be 3 characters or more']
   },
   password: { 
     type: String, 
-    default: "password",
     required: true,
-    minlength: 6,
+    minlength: [6, 'Password must be 6 characters or more']
   },
   email: { 
     type: String, 
     default: "test@test.com",
     lowercase: true,
     required: true,
-    maxlength: 320,
-    validate: [validator.isEmail, 'Invalid email address'],
+    maxlength: [320, 'Email must be 320 characters or less'],
+    validate: [validator.isEmail, 'Invalid email address!'],
   },
   role: { 
     type: String, 
@@ -49,7 +48,7 @@ const userSchema = new mongoose.Schema({
   description: {
     type: String,
     default: "No description.",
-    maxlength: 50,
+    maxlength: [50, 'Short Description must be 50 characters or less']
   },
   posts: [
     { 
@@ -96,8 +95,8 @@ const userSchema = new mongoose.Schema({
   age: {
     type: Number,
     default: 18,
-    min: 13,
-    max: 110
+    min: [13, 'Minimum age is 13!'],
+    max: [110, 'Maximum age is 110!']
   },
   currentServer: { 
     type: String, 

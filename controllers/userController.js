@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const User = require('../models/userModel');
 const bcrypt = require('bcrypt');
-const validator = require('validator');
+const { populateUser, handleValidationError } = require('./helper');
 
 const renderUpdateProfile = (req, res) => {
   try {
@@ -35,18 +35,12 @@ const renderUser = (req, res) => {
 
 const getUserByUrl = async (req, res, next) => {
   try {
-      // Split the URL by slashes and get the last part
-      const url = req.originalUrl;
-      const parts = url.split('/');
-      const lastPart = parts[parts.length - 1];
-      
-      // Find the board in the database
-      const user = await User.findById(lastPart);  
+      const user = await User.findById(req.params.id);  
 
       if (!user) {
           return res.status(404).json({ message: 'User not found' });
       } else {
-          res.user = user;
+          res.user = await populateUser(user);
       }
   }
   catch (err) {
@@ -60,21 +54,6 @@ const createUser = async (req, res) => {
   try {
     // Get the username and password from the request body
     const { registerUsername, registerEmail, registerPassword } = req.body;
-
-    // Check if the username already exists
-    const existing = await User.findOne({ username: registerUsername });
-
-    if (existing) {
-      return res.status(409).json({ message: 'Username already exists!' });
-    }
-
-    if (registerUsername.length < 3 || registerUsername.length > 15) {
-      return res.status(400).json({ message: 'Username must be between 3 and 15 characters!' });
-    }
-
-    if (!validator.isEmail(registerEmail)) {
-      return res.status(400).json({ message: 'Invalid email address!' });
-    }
 
     if (registerPassword.length < 6) {
       return res.status(400).json({ message: 'Password must be at least 6 characters!'});
@@ -102,11 +81,10 @@ const createUser = async (req, res) => {
       return res.status(200).json({ message: 'User registered and logged in successfully' });
     });
 
-    res.status(201).json({ message: 'User created successfully' });
-
   } catch (err) {
     console.error('Error creating user:', err);
-    res.status(500).json({ message: err.message });
+    const { status, message } = handleValidationError(err);
+    return res.status(status).json({ message });
   }
 }
 
@@ -124,18 +102,14 @@ const updateUser = async (req, res) => {
     }
 
     if (age) {
-      if (age < 13 || age > 110) {
-        return res.status(400).json({ message: 'Age must be between 13 and 110' });
-      }
-
       user.age = age;
     }
 
     if (newPassword) {
       if (newPassword.length < 6) {
-        return res.status(400).json({ message: 'Password must be at least 6 characters' });
+        return res.status(400).json({ message: 'Password must be at least 6 characters!'});
       }
-
+      
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(newPassword, salt);
 
@@ -153,8 +127,9 @@ const updateUser = async (req, res) => {
     res.status(200).json({ message: 'Profile updated successfully' });
   }
   catch (err) {
-    console.log('Error updating user:', err.message);
-    res.status(500).json({ message: err.message });
+    console.error('Error:', err);
+    const { status, message } = handleValidationError(err);
+    return res.status(status).json({ message });
   }
 }
 

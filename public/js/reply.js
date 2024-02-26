@@ -8,16 +8,16 @@ if (replyForm) {
         const content = postQuill.getContents(); 
         const postId = document.querySelector('input[name="postId"]').value;
 
+        console.log(content.ops);
+
         const isEmptyContent = content.ops.every(op => {
-            // Skip the check if the insert is an image
-            if (op.insert && typeof op.insert === 'object' && op.insert.image) {
-                return false;
+            // Check if op.insert is a string before attempting to trim
+            if (typeof op.insert === 'string') {
+                // Remove leading and trailing whitespace from the insert
+                const trimmedInsert = op.insert.trim();
+                // Check if the trimmed insert is only newline characters
+                return trimmedInsert === '\n' || trimmedInsert === '';
             }
-            
-            // Remove leading and trailing whitespace from the insert
-            const trimmedInsert = op.insert.trim();
-            // Check if the trimmed insert is only newline characters
-            return trimmedInsert === '\n' || trimmedInsert === '';
         });
         
         // Check if reply content is not empty

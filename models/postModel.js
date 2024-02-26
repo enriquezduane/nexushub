@@ -10,7 +10,8 @@ const postSchema = new mongoose.Schema({
     type: String, 
     required: true, 
     unique: true,
-    maxlength: 90,
+    minlength: [4, 'Title must be 4 characters or more'],
+    maxlength: [90, 'Title must be 90 characters or less'],
   },
   refBoard: { 
     type: mongoose.Schema.Types.ObjectId, 

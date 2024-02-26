@@ -120,6 +120,44 @@ const createPost = async (req, res) => {
 
         const { title, content, boardId } = req.body;
 
+        const isEmptyContent = content.ops.every(op => {
+            // Skip the check if the insert is an image
+            if (op.insert && typeof op.insert === 'object' && op.insert.image) {
+                return false;
+            }
+        
+            // Check if op.insert is a string before attempting to trim
+            if (typeof op.insert === 'string') {
+                // Remove leading and trailing whitespace from the insert
+                const trimmedInsert = op.insert.trim();
+                // Check if the trimmed insert is only newline characters
+                return trimmedInsert === '\n' || trimmedInsert === '';
+            }
+            
+            // If op.insert is not a string, consider it as empty
+            return true;
+        });
+
+        if (isEmptyContent) {
+            return res.status(400).json({ message: 'Post content is empty!' });
+        }
+
+        const opsWithEmoticons = content.ops.map(op => {
+            if (op.insert && typeof op.insert === 'object') {
+                const emoticonType = Object.keys(op.insert)[0];
+                if (emoticonData[emoticonType]) {
+                    return { insert: { image: emoticonData[emoticonType] } };
+                }
+            }
+            return op;
+        });
+
+        // Replace emoticon ops with image ops in content
+        converter = new QuillDeltaToHtmlConverter(opsWithEmoticons, {});
+
+        const htmlContent = converter.convert();
+        const safeHtmlContent = htmlContent.replace(/src="unsafe:(.*?)"/g, 'src="$1"');
+
         const user = await User.findById(req.user.id); 
 
         if (!user) {
@@ -131,7 +169,7 @@ const createPost = async (req, res) => {
             _id: new mongoose.Types.ObjectId(),
             title: title,
             refBoard: boardId,
-            content: content,
+            content: safeHtmlContent,
             poster: user.id,
             createdAt: Date.now(),
             updatedAt: Date.now()
@@ -143,7 +181,9 @@ const createPost = async (req, res) => {
         // send the post id to the client
         res.status(200).json({ id: post.id });
     } catch (err) {
-        res.status(500).json({ message: err.message, request: req.body });
+        console.error('Error:', err);
+        const { status, message } = handleValidationError(err);
+        return res.status(status).json({ message });
     }
 }
 
@@ -158,15 +198,13 @@ const createReply = async (req, res) => {
         const { content, postId } = req.body;
 
         const isEmptyContent = content.ops.every(op => {
-            // Skip the check if the insert is an image
-            if (op.insert && typeof op.insert === 'object' && op.insert.image) {
-                return false;
+            // Check if op.insert is a string before attempting to trim
+            if (typeof op.insert === 'string') {
+                // Remove leading and trailing whitespace from the insert
+                const trimmedInsert = op.insert.trim();
+                // Check if the trimmed insert is only newline characters
+                return trimmedInsert === '\n' || trimmedInsert === '';
             }
-            
-            // Remove leading and trailing whitespace from the insert
-            const trimmedInsert = op.insert.trim();
-            // Check if the trimmed insert is only newline characters
-            return trimmedInsert === '\n' || trimmedInsert === '';
         });
 
         if (isEmptyContent) {
@@ -240,16 +278,9 @@ const createReply = async (req, res) => {
         // Send the new reply object to the client
         res.status(200).json(replyMsg);
     } catch (err) {
-        console.error('Error:', err.message);
-
-        if (err.name === 'ValidationError') {
-            // Extract the specific validation error message
-            const errorMessage = Object.values(err.errors).map(error => error.message);
-            // Send the custom error message to the client
-            return res.status(400).json({ message: errorMessage });
-        }
-
-        res.status(500).json({ message: err.message });
+        console.error('Error:', err);
+        const { status, message } = handleValidationError(err);
+        return res.status(status).json({ message });
     }
 };
 
@@ -359,16 +390,9 @@ const updateContent = async (req, res) => {
             res.status(200).json({ updatedAt: reply.updatedAtSGT });
         }
     } catch (error) {
-        console.error('Error:', error.message);
-
-        if (error.name === 'ValidationError') {
-            // Extract the specific validation error message
-            const errorMessage = Object.values(error.errors).map(error => error.message);
-            // Send the custom error message to the client
-            return res.status(400).json({ message: errorMessage });
-        }
-
-        res.status(500).json({ message: error.message });
+        console.error('Error:', err);
+        const { status, message } = handleValidationError(err);
+        return res.status(status).json({ message });
     }
 };
 
@@ -474,7 +498,7 @@ const addVoteToUser = async (req, res, next) => {
         next();
     } catch (error) {
         console.error('Error adding vote to user:', error);
-        res.status(500).json({ message: 'Internal server error' });
+        res.status(500).json({ message: 'Internal server error.' });
     }
 };
 

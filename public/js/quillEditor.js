@@ -1,3 +1,4 @@
+const Delta = Quill.import('delta');
 const InlineEmbed = Quill.import('blots/embed');
 
 const emoticonUrls = [
@@ -172,9 +173,14 @@ function initializeQuill(className) {
 
 // Use the function to initialize Quill on '#editor-container'
 let postQuill = null;
+let postCreateQuill = null;
 
 if (document.querySelector('#editor-container')) {
     postQuill = initializeQuill('#editor-container');
+}
+
+if (document.querySelector('#create-post-container')) {
+    createPostQuill = initializeQuill('#create-post-container');
 }
 
 emoticonUrls.forEach((url, index) => {

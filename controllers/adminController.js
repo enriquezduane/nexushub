@@ -175,12 +175,6 @@ const createUser = async (req, res) => {
             return res.status(403).json({ message: 'Forbidden Access' });
         }
 
-        const userExists = await User.findOne({ username: username });
-
-        if (userExists) {
-            return res.status(409).json({ message: 'Username already exists' });
-        }
-
         const user = new User({
             _id: new mongoose.Types.ObjectId(),
             username: username,
@@ -189,11 +183,13 @@ const createUser = async (req, res) => {
             updatedAt: Date.now(),
         })
 
-        if (password) {
-            const salt = await bcrypt.genSalt(10);
-            const hashedPassword = await bcrypt.hash(password, salt);
-            user.password = hashedPassword;
+        if (password.length < 6) {
+            return res.status(400).json({ message: 'Password must be at least 6 characters' });
         }
+
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        user.password = hashedPassword;
 
         if (email) {
             user.email = email;
@@ -215,8 +211,9 @@ const createUser = async (req, res) => {
 
         res.status(201).json({message: 'User created successfully'});
     } catch (error) {
-        console.error('Error creating user:', error);
-        res.status(500).json({ message: error.message });
+        console.error('Error:', err);
+        const { status, message } = handleValidationError(err);
+        return res.status(status).json({ message });
     }
 }
 
