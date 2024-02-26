@@ -2459,6 +2459,10 @@ img[alt="candy pin gif"] {
   text-align: right;
 }
 
+.ql-snow .ql-fill {
+  fill:  #fff !important;
+}
+
 .directory-bar {
   font-family: 'Romance', serif;
   font-size: 16px;
