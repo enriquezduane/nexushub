@@ -157,7 +157,7 @@ const createReply = async (req, res) => {
             return res.status(400).json({ message: 'Reply content is empty' });
         }
         
-        const opsWithImages = content.ops.map(op => {
+        const opsWithEmoticons = content.ops.map(op => {
             if (op.insert && typeof op.insert === 'object') {
                 const emoticonType = Object.keys(op.insert)[0];
                 if (emoticonData[emoticonType]) {
@@ -168,7 +168,7 @@ const createReply = async (req, res) => {
         });
 
         // Replace emoticon ops with image ops in content
-        converter = new QuillDeltaToHtmlConverter(opsWithImages, {});
+        converter = new QuillDeltaToHtmlConverter(opsWithEmoticons, {});
 
         const htmlContent = converter.convert();
         const safeHtmlContent = htmlContent.replace(/src="unsafe:(.*?)"/g, 'src="$1"');
