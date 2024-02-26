@@ -2379,6 +2379,10 @@ img[alt="candy pin gif"] {
   margin-bottom: 14px;
 }
 
+.ql-align-right {
+  text-align: right;
+}
+
 .directory-bar {
   background: linear-gradient(to right, #555582, #171762, #272787, #2f2f96, #3172b4, #6a2c97, #a72cb2);
   font-family: 'Romance', serif;
