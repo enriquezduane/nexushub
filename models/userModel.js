@@ -1,8 +1,21 @@
 const mongoose = require('mongoose');
+const validator = require('validator');
 const moment = require('moment-timezone');
 
 // Set the default timezone to Singapore
 moment.tz.setDefault('Asia/Singapore');
+
+const roles = [
+  'Novice Adventurer',
+  'Initiate Acolyte',
+  'Rookie Blacksmith',
+  'Journeyman Wizard',
+  'Veteran Archer',
+  'Elite Knight',
+  'Master Assassin',
+  'Grandmaster Scholar',
+  'Forum Master'
+];
 
 const userSchema = new mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
@@ -24,15 +37,19 @@ const userSchema = new mongoose.Schema({
     default: "test@test.com",
     lowercase: true,
     required: true,
+    maxlength: 320,
+    validate: [validator.isEmail, 'Invalid email address'],
   },
   role: { 
     type: String, 
     default: "Novice Adventurer",
-    required: true 
+    required: true,
+    enum: roles,
   },
   description: {
     type: String,
-    default: "No description."
+    default: "No description.",
+    maxlength: 50,
   },
   posts: [
     { 
@@ -76,9 +93,11 @@ const userSchema = new mongoose.Schema({
       }
     }
   ],
-  age: { 
-    type: Number, 
+  age: {
+    type: Number,
     default: 18,
+    min: 13,
+    max: 110
   },
   currentServer: { 
     type: String, 

@@ -35,7 +35,7 @@ app.use(passport.session());
 app.use(express.static('public'));
 
 // middlewares
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '10mb' }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());

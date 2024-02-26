@@ -158,12 +158,16 @@ const createReply = async (req, res) => {
         const { content, postId } = req.body;
 
         const isEmptyContent = content.ops.every(op => {
+            // Skip the check if the insert is an image
+            if (op.insert && typeof op.insert === 'object' && op.insert.image) {
+                return false;
+            }
+            
             // Remove leading and trailing whitespace from the insert
             const trimmedInsert = op.insert.trim();
             // Check if the trimmed insert is only newline characters
             return trimmedInsert === '\n' || trimmedInsert === '';
         });
-
         if (isEmptyContent) {
             return res.status(400).json({ message: 'Reply content is empty!' });
         }
@@ -183,8 +187,6 @@ const createReply = async (req, res) => {
 
         const htmlContent = converter.convert();
         const safeHtmlContent = htmlContent.replace(/src="unsafe:(.*?)"/g, 'src="$1"');
-
-        console.log('safeHtmlContent:', safeHtmlContent);
         
         // Find the post and user by its ID
         const initialPost = await Post.findById(postId);

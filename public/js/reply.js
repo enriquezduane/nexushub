@@ -9,6 +9,11 @@ if (replyForm) {
         const postId = document.querySelector('input[name="postId"]').value;
 
         const isEmptyContent = content.ops.every(op => {
+            // Skip the check if the insert is an image
+            if (op.insert && typeof op.insert === 'object' && op.insert.image) {
+                return false;
+            }
+            
             // Remove leading and trailing whitespace from the insert
             const trimmedInsert = op.insert.trim();
             // Check if the trimmed insert is only newline characters

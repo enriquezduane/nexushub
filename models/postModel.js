@@ -9,7 +9,8 @@ const postSchema = new mongoose.Schema({
   title: { 
     type: String, 
     required: true, 
-    unique: true
+    unique: true,
+    maxlength: 90,
   },
   refBoard: { 
     type: mongoose.Schema.Types.ObjectId, 
@@ -24,7 +25,7 @@ const postSchema = new mongoose.Schema({
   content: { 
     type: String, 
     required: true,
-    minlength: 1,
+    maxlength: 150000,
   },
   upvotes: {
     type: Number,

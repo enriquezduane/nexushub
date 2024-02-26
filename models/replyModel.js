@@ -8,7 +8,8 @@ const replySchema = new mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
   title: { 
     type: String, 
-    required: true 
+    required: true,
+    maxlength: 95,
   },
   refPost: { 
     type: mongoose.Schema.Types.ObjectId, 
@@ -24,6 +25,7 @@ const replySchema = new mongoose.Schema({
     type: String, 
     required: true,
     minlength: 1,
+    maxlength: 150000,
   },
   upvotes: {
     type: Number,

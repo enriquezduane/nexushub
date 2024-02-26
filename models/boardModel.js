@@ -10,14 +10,20 @@ const boardSchema = new mongoose.Schema({
     type: String, 
     required: true,
     unique: true,
+    minlength: 4,
+    maxlength: 90,
   },
   description: { 
     type: String, 
-    required: true 
+    required: true,
+    minlength: 10,
+    maxlength: 85,
   },
   innerDescription: { 
     type: String, 
-    required: true 
+    required: true,
+    minlength: 10,
+    maxlength: 100,
   },
   category: { 
     type: mongoose.Schema.Types.ObjectId, 
