@@ -2467,12 +2467,8 @@ img[alt="candy pin gif"] {
   font-family: 'Romance', serif;
   font-size: 16px;
   color: #ffffff;
-  text-shadow: 2px 2px 4px #000000;
   padding: 10px;
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
 }
 
 .directory-bar span {
@@ -2505,4 +2501,9 @@ blockquote p {
 .create-post-block .ql-toolbar,
 .create-post-block .ql-container {
   width: 1439px;
+}
+
+.profile-icon img {
+  max-width: 120px;
+  max-height: 120px;
 }
