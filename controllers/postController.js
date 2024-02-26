@@ -3,7 +3,7 @@ const Post = require('../models/postModel');
 const Reply = require('../models/replyModel');
 const User = require('../models/userModel');
 const QuillDeltaToHtmlConverter = require('quill-delta-to-html').QuillDeltaToHtmlConverter;
-const { populatePost, populateReply, emoticonData } = require('./helper');
+const { populatePost, populateReply, emoticonData, handleValidationError } = require('./helper');
 
 const renderCreatePost = (req, res) => {
     try {
