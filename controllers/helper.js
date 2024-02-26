@@ -431,13 +431,16 @@ const hashPassword = (password) => {
 }
 
 const handleValidationError = (err) => {
+    if (err.code === 11000) {
+        const { keyValue } = err;
+        const key = Object.keys(keyValue)[0];
+        const value = keyValue[key];
+        return { status: 400, message: `${key} '${value}' already taken!` };
+    }
+
     if (err.name === 'ValidationError') {
         const errorMessage = Object.values(err.errors).map(error => error.message);
         return { status: 400, message: errorMessage };
-    }
-
-    if (err.code === 11000) {
-        return { status: 400, message: 'Username or email already exists!' };
     }
 
     return { status: 500, message: 'Internal Server Error!' };

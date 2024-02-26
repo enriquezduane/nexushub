@@ -1,6 +1,7 @@
 // Mock Database for NexusHub Forum
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+
 users = [
     { 
         _id: new mongoose.Types.ObjectId(),
@@ -112,6 +113,14 @@ users.forEach(async (user) => {
     } catch (error) {
         console.error(`Error hashing password for user ${user.username}:`, error);
     }
+});
+
+users.forEach(user => {
+    user.email = `${user.username}@gmail.com`;
+});
+
+users.forEach(user => {
+    user.updatedAt = user.createdAt;
 });
 
 replies = [
@@ -1201,11 +1210,6 @@ boards[4].category = categories[1]._id;
 boards[5].category = categories[2]._id;
 boards[6].category = categories[2]._id;
 boards[7].category = categories[3]._id;
-
-
-users.forEach(user => {
-    user.updatedAt = user.createdAt;
-});
 
 replies.forEach(reply => {
     reply.updatedAt = reply.createdAt;

@@ -28,13 +28,14 @@ const userSchema = new mongoose.Schema({
   },
   password: { 
     type: String, 
+    default: "default",
     required: true,
     minlength: [6, 'Password must be 6 characters or more']
   },
   email: { 
     type: String, 
-    default: "test@test.com",
     lowercase: true,
+    unique: true,
     required: true,
     maxlength: [320, 'Email must be 320 characters or less'],
     validate: [validator.isEmail, 'Invalid email address!'],
