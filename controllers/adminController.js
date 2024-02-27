@@ -11,14 +11,12 @@ const { highlightSubstring, handleValidationError } = require('./helper');
 
 const renderAdmin = (req, res) => {
     try {
-        /*
         if (!req.isAuthenticated() || req.user.role !== 'Forum Master') {
             return res.status(403).json({ message: 'Forbidden Access' });
         }
-        */
 
         res.render('admin', { 
-            loggedIn: true, 
+            loggedIn: req.isAuthenticated(), 
             title: "Forum Master Page", 
             action: req.query.action, 
             query: req.query.search, 
@@ -31,7 +29,7 @@ const renderAdmin = (req, res) => {
             filteredData: res.filteredData || [], 
             highlightSubstring, 
             forumRules: res.forumRules, 
-            userLoggedIn: res.users[0],
+            userLoggedIn: req.user,
         });
     } catch (error) {
         console.error('Error fetching data:', error);
