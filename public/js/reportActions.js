@@ -87,7 +87,7 @@ document.addEventListener('click', function(event) {
 
     if (clickedElement.classList.contains('delete-report-button')) {
         // warning
-        if (!confirm('Are you sure you want to delete this category?')) {
+        if (!confirm('Are you sure you want to delete this report?')) {
             return;
         }
 

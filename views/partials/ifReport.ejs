@@ -10,33 +10,56 @@
     </div>
 
     <% if (query) { %>
-        <% filteredData.forEach((category, index) => { %>
+        <% filteredData.forEach((report, index) => { %>
             <div class="category-container admin-container" data-index="<%= index + 1 %>">
                 <div class="category-actions">
                     <button class="category-button collapse-button"></button>
                     <div>
-                        <button class="category-button edit-category-button"
-                            data-id="<%= category._id %>"
-                            data-title="<%= category.title %>">
-                            Edit
-                        </button>
-                        <button class="category-button delete-category-button" data-id="<%= category._id %>">Delete</button>  
+                        <% if (report.status === 'Pending') { %>
+                            <button class="category-button resolve-report-button"
+                                data-id="<%= report._id %>"
+                                data-reporter="<%= report.reporter.username %>"
+                                data-reportedItem="<%= report.reportedItem.item.title %>"
+                                data-reportedItemPoster="<%= report.reportedItem.item.poster.username %>"
+                                data-posterId="<%= report.reportedItem.item.poster._id %>"
+                                data-itemType="<%= report.reportedItem.itemType %>"
+                                data-reason="<%= report.reason %>"
+                                data-description="<%= report.description %>"
+                                data-reportedAt="<%= report.createdAt %>">
+                                Resolve
+                            </button>
+                        <% } %>
+                        <button class="category-button delete-report-button" data-id="<%= report._id %>">Delete</button>  
                     </div>
                 </div>
                 <ul>
                     <li style="color: #fff; margin-bottom: 30px;">#<%= index + 1 %></li>
-                    <li>title : <span style="color: #fff;"><%- highlightSubstring(category.title, query) %></span></li>
-                    <li>- boards : <span><%= category.boardCount %></span> 
-                        <% if (category.boards.length > 0) { %>
-                            <ul class="board-list" style="display: none;"> 
-                                <% category.boards.forEach( (board, index) => { %>
-                                    <li><%= index + 1 %> : <%= board.title %></li>
-                                <% }) %>
-                            </ul>
-                        <% } %>
-                    </li>
-                    <li>Created At : <span><%= category.createdAt %></span></li>
-                    <li>Updated At : <span><%= category.updatedAt %></span></li>
+                    <li>Reporter : <span style="color: #fff;"><%= report.reporter.username %></span></li>
+                    <li>Reported Item : <span><%= report.reportedItem.item.title %></span></li>
+                    <li>Reported Item Poster : <span style="color: #fff;"><%= report.reportedItem.item.poster.username %></span></li>
+                    <li>Reason : <span><%= report.reason %></span></li>
+                    <li>Description : <span style="color: #ffffff">"<%= report.description %>"</span></li>
+                    <li>Item Type : <span><%= report.reportedItem.itemType %></span></li>
+                    <li>Reported At : <span><%= report.createdAt %></span></li>
+                    <% if (report.reportHandledAt) { %>
+                        <li>Handled At : <span><%= report.reportHandledAt %></span></li>
+                    <% } %>
+                    <%
+                        // Define the color variable based on the report status
+                        let color;
+                        switch (report.status) {
+                            case 'Resolved':
+                                color = '#92f075'; // Green color for Resolved status
+                                break;
+                            case 'Dismissed':
+                                color = 'red'; // Red color for Dismissed status
+                                break;
+                            case 'Pending':
+                                color = '#ae9c84'; // #ae9c84 color for Pending status
+                                break;
+                        }
+                    %>
+                    <li>Status : <span style="color: <%= color %>"><%= report.status %></span></li>
                 </ul>
             </div>
         <% }) %>
