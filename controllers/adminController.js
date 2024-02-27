@@ -7,15 +7,13 @@ const Reply = require('../models/replyModel');
 const Report = require('../models/reportModel');
 const bcrypt = require('bcrypt');
 
-const { highlightSubstring } = require('./helper');
+const { highlightSubstring, handleValidationError } = require('./helper');
 
 const renderAdmin = (req, res) => {
     try {
-        /*
         if (!req.isAuthenticated() || req.user.role !== 'Forum Master') {
             return res.status(403).json({ message: 'Forbidden Access' });
         }
-        */
 
         res.render('admin', { 
             loggedIn: req.isAuthenticated(), 
@@ -610,6 +608,40 @@ const deleteReport = async (req, res) => {
     }
 }
 
+const resolveReport = async (req, res) => {
+    try {
+        const { id, action, banUser, posterId } = req.body;
+
+        if (!req.isAuthenticated() || req.user.role !== 'Forum Master') {
+            return res.status(403).json({ message: 'Forbidden Access' });
+        }
+        
+        report = await Report.findById(id);
+
+        if (!report) {
+            return res.status(404).json({ message: 'Report not found' });
+        }
+
+        report.status = action;
+
+        if (banUser) {
+            const user = await User.findById(posterId);
+            user.banned = true;
+            await user.save();
+        }
+
+        report.reportHandledAt = Date.now();
+
+        await report.save();
+
+        res.status(200).json({message: 'Report resolved successfully'});
+    } catch (error) {
+        console.error('Error resolving report:', error);
+        const { status, message } = handleValidationError(error);
+        return res.status(status).json({ message });
+    }
+}
+
 module.exports = {
     renderAdmin,
     createCategory,
@@ -628,5 +660,6 @@ module.exports = {
     deleteUser,
     deletePost,
     deleteReply,
-    deleteReport
+    deleteReport,
+    resolveReport
 }

@@ -419,7 +419,8 @@ footer {
 .modal12,
 .modal13,
 .modal14,
-.modal15 {
+.modal15,
+.modal16 {
   visibility: hidden;
   position: fixed;
   z-index: 1;
@@ -461,7 +462,8 @@ footer {
 .user-modal-frame,
 .post-modal-frame,
 .reply-modal-frame,
-.report-frame {
+.report-frame,
+.resolve-report-frame {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -1909,7 +1911,8 @@ tbody td:nth-child(5) {
 .user-modal-frame,
 .post-modal-frame,
 .reply-modal-frame,
-.report-frame {
+.report-frame,
+.resolve-report-frame {
   background-color: #000032;
   padding: 20px;
   border: 2px solid #a361aa;
@@ -1928,6 +1931,7 @@ tbody td:nth-child(5) {
   color: #a361aa;
   background: none;
   border: none;
+  cursor: pointer;
 }
 
 /* Style for the modal title */
@@ -1936,7 +1940,8 @@ tbody td:nth-child(5) {
 .user-modal-frame h2,
 .post-modal-frame h2,
 .reply-modal-frame h2,
-.report-frame h2 {
+.report-frame h2,
+.resolve-report-frame h2 {
   font-family: "Yoster", sans-serif;
   font-size: 1.5rem;
   margin-bottom: 15px;
@@ -1974,7 +1979,8 @@ tbody td:nth-child(5) {
 .user-modal-frame button[type="submit"],
 .post-modal-frame button[type="submit"],
 .reply-modal-frame button[type="submit"],
-.report-frame button[type="submit"] {
+.report-frame button[type="submit"],
+.resolve-report-frame button[type="submit"] {
   background-color: #000033;
   /* Dark blue color to match your theme */
   color: #ffffff;
@@ -1996,7 +2002,8 @@ tbody td:nth-child(5) {
 .user-modal-frame button[type="submit"]:hover,
 .post-modal-frame button[type="submit"]:hover,
 .reply-modal-frame button[type="submit"]:hover,
-.report-frame button[type="submit"]:hover {
+.report-frame button[type="submit"]:hover,
+.resolve-report-frame button[type="submit"]:hover{
   color: #ffffff;
   background-color: #8f3e97;
 }
@@ -2542,4 +2549,46 @@ blockquote p {
   padding: 10px;
   font-size: 16px;
   margin-bottom: 10px;
+}
+
+#resolveReportForm {
+  background-color: #2d033a; /* Dark purple background */
+  padding: 20px; /* Padding around the form */
+  border-radius: 5px; /* Rounded corners */
+  color: #f8f8f8; /* Light green text */
+}
+
+#resolveReportForm ul {
+  list-style-type: none; /* Remove bullet points */
+  padding: 0; /* Remove padding */
+}
+
+#resolveReportForm li {
+  margin-bottom: 10px; /* Space between list items */
+}
+
+#resolveReportForm input[type="checkbox"] {
+  margin-right: 5px; /* Space between checkbox and label */
+}
+
+#resolveReportForm button {
+  background-color: #a3f7bf; 
+  color: #2d033a; 
+  border: none; 
+  padding: 10px 20px; 
+  text-align: center; 
+  text-decoration: none; 
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s; 
+}
+
+#banUser {
+  margin-bottom: 10px;
+}
+
+#resolveReportForm button:hover {
+  background-color: #ff3864; 
+  color: white; 
 }

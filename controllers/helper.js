@@ -23,8 +23,6 @@ const populateAll = async (req, res, next) => {
     res.users = users;
     res.reports = reports;
 
-    console.log(reports[0])
-
     next();
 }
 

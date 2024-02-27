@@ -27,7 +27,7 @@ const reportSchema = new mongoose.Schema({
     reportedItem: {
       itemType: {
           type: String,
-          enum: ['Post', 'Reply', 'User'], // Define the possible types
+          enum: ['Post', 'Reply'], // Define the possible types
           required: [true, 'Please specify the type of item being reported.']
       },
       item: { 
@@ -59,8 +59,14 @@ const reportSchema = new mongoose.Schema({
 });
 
 reportSchema.path('reporter').validate(async function(value) {
-  const existingReport = await this.constructor.findOne({ reporter: value, reportedItem: this.reportedItem });
-  return !existingReport;
+  // Check if the report is being updated
+  if (this.isNew || this.isModified('reporter') || this.isModified('reportedItem')) {
+    const existingReport = await this.constructor.findOne({ reporter: value, reportedItem: this.reportedItem });
+    return !existingReport;
+  }
+  
+  // If the report is not being updated, validation passes
+  return true;
 }, 'You have already reported this item.');
   
 module.exports = mongoose.model('Report', reportSchema);  

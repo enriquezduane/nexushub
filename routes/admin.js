@@ -10,7 +10,7 @@ const { populateAll, headerFooterData } = require('../controllers/helper');
 // import controller
 const { 
     renderAdmin, createCategory, searchFilter, createBoard, createUser, createPost, createReply, 
-    editCategory, editBoard, editUser, editPost, editReply,
+    editCategory, editBoard, editUser, editPost, editReply, resolveReport,
     deleteCategory, deleteBoard, deleteUser, deletePost, deleteReply, deleteReport 
     } = require('../controllers/adminController');
 
@@ -42,6 +42,7 @@ router.route('/reply')
     .delete(deleteReply);
 
 router.route('/report')
+    .patch(resolveReport)
     .delete(deleteReport);
 
 module.exports = router;
