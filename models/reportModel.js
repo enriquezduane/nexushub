@@ -68,5 +68,5 @@ reportSchema.path('reporter').validate(async function(value) {
   // If the report is not being updated, validation passes
   return true;
 }, 'You have already reported this item.');
-  
+
 module.exports = mongoose.model('Report', reportSchema);  

@@ -622,6 +622,10 @@ const resolveReport = async (req, res) => {
             return res.status(404).json({ message: 'Report not found' });
         }
 
+        if (report.status !== 'Pending') {
+            return res.status(400).json({ message: 'Report has already been handled!' });
+        }
+
         report.status = action;
 
         if (banUser) {
@@ -630,11 +634,15 @@ const resolveReport = async (req, res) => {
             await user.save();
         }
 
+        if (report.reportHandledAt) {
+            return res.status(400).json({ message: 'Report has already been handled!' });
+        }
+
         report.reportHandledAt = Date.now();
 
         await report.save();
 
-        res.status(200).json({message: 'Report resolved successfully'});
+        res.status(200).json({message: 'Report resolved successfully!'});
     } catch (error) {
         console.error('Error resolving report:', error);
         const { status, message } = handleValidationError(error);
