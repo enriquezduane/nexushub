@@ -73,8 +73,6 @@ if (editCategoryForm) {
     });
 }
 
-
-
 // delete
 document.addEventListener('click', function(event) {
     if (event.target.classList.contains('delete-category-button')) {

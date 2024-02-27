@@ -483,6 +483,13 @@ const handleValidationError = (err) => {
     return { status: 500, message: 'Internal Server Error!' };
 };
 
+function checkIfBanned(req, res, next) {
+    if (req.isAuthenticated() && req.user && req.user.banned) {
+        return res.status(403).send("You have been banned! You cannot perform this action.");
+    }
+    next();
+}
+
 module.exports = {
     populateAll,
     populateCategories,
@@ -500,5 +507,6 @@ module.exports = {
     headerFooterData,
     emoticonData,
     hashPassword,
-    handleValidationError
+    handleValidationError,
+    checkIfBanned
 }

@@ -12,6 +12,7 @@ const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const flash = require('express-flash');
 const session = require('express-session');
+const { checkIfBanned } = require('./controllers/helper');
 
 // config 
 const app = express(); 
@@ -48,6 +49,9 @@ app.set('layout', './layouts/default')
 
 // connect to database
 connectDatabase();
+
+// check if user is banned
+app.use(checkIfBanned);
 
 // import routers
 const indexRouter = require('./routes/index');

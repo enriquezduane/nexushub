@@ -103,6 +103,17 @@ const userSchema = new mongoose.Schema({
     type: String, 
     default: "None" 
   },
+  banned: {
+    type: Boolean,
+    default: false,
+    validate: {
+      validator: function(value) {
+        // If the user has 'Forum Master' role, prevent banning
+        return !(this.role === 'Forum Master' && value === true);
+      },
+      message: 'Cannot ban Forum Masters!'
+    }
+  },
   createdAt: { 
     type: Date, 
     default: () => Date.now(),
