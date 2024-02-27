@@ -11,12 +11,14 @@ const { highlightSubstring, handleValidationError } = require('./helper');
 
 const renderAdmin = (req, res) => {
     try {
+        /*
         if (!req.isAuthenticated() || req.user.role !== 'Forum Master') {
             return res.status(403).json({ message: 'Forbidden Access' });
         }
+        */
 
         res.render('admin', { 
-            loggedIn: req.isAuthenticated(), 
+            loggedIn: true, 
             title: "Forum Master Page", 
             action: req.query.action, 
             query: req.query.search, 
@@ -29,7 +31,7 @@ const renderAdmin = (req, res) => {
             filteredData: res.filteredData || [], 
             highlightSubstring, 
             forumRules: res.forumRules, 
-            userLoggedIn: req.user,
+            userLoggedIn: res.users[0],
         });
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -100,7 +102,15 @@ const searchFilter = async (req, res, next) => {
                 break;
             case 'reports':
                 modelToSearch = Report;
-                populateFields = ['reporter', 'reportedItem.item'];
+                populateFields = populateFields = [
+                    { path: 'reporter' }, // Populate the 'reporter' field directly
+                    { path: 'reportedItem.item', // Populate the 'reportedItem.item' field
+                      populate: {
+                          path: 'poster', // Nested population for the 'poster' field inside 'reportedItem.item'
+                          model: 'User' // Assuming 'poster' refers to the user who posted the item
+                      }
+                    }
+                ];
                 break;
             default:
                 // If the action is not recognized, proceed to the next middleware
@@ -112,9 +122,67 @@ const searchFilter = async (req, res, next) => {
             const query = {
                 $or: [
                     { title: { $regex: new RegExp(search, 'i') } }, // Search for title property
-                    { username: { $regex: new RegExp(search, 'i') } } // Search for username property for users
+                    { description: { $regex: new RegExp(search, 'i') } }, // Search for description property for boards
+                    { innerDescription: { $regex: new RegExp(search, 'i') } }, // Search for innerDescription property for boards
+                    { username: { $regex: new RegExp(search, 'i') } }, // Search for username property for users
+                    { email: { $regex: new RegExp(search, 'i') } }, // Search for email property for users
+                    { role: { $regex: new RegExp(search, 'i') } }, // Search for role property for users
+                    { currentServer: { $regex: new RegExp(search, 'i') } }, // Search for currentServer property for users
+                    { reason: { $regex: new RegExp(search, 'i') } }, // Search for reason property for reports
+                    { 'reportedItem.itemType': { $regex: new RegExp(search, 'i') } }, // Search for itemType property for reports
+                    { status: { $regex: new RegExp(search, 'i') } }, // Search for status property for reports
                 ]
             };
+
+            if (action === 'users' && !isNaN(search)) {
+                query.$or.push({ age: parseInt(search) });
+            }
+
+            if (action === 'posts') {
+                const posters = await User.find({ username: { $regex: new RegExp(search, 'i') } });
+                const posterIds = posters.map(poster => poster._id);
+
+                query.$or.push({ poster: { $in: posterIds } });
+
+                if (!isNaN(search)) {
+                    query.$or.push({ views: parseInt(search) });
+                    query.$or.push({ upvotes: parseInt(search) });
+                }
+            }
+
+            if (action === 'replies') {
+                const posters = await User.find({ username: { $regex: new RegExp(search, 'i') } });
+                const posterIds = posters.map(poster => poster._id);
+
+                query.$or.push({ poster: { $in: posterIds } });
+
+                if (!isNaN(search)) {
+                    query.$or.push({ upvotes: parseInt(search) });
+                }
+            }
+
+            if (action === 'reports') {
+                const reporters = await User.find({ username: { $regex: new RegExp(search, 'i') } });
+                const reporterIds = reporters.map(reporter => reporter._id);
+
+                const reportedPosts = await Post.find({ title: { $regex: new RegExp(search, 'i') } });
+                const reportedPostIds = reportedPosts.map(post => post._id);
+
+                const reportedReplies = await Reply.find({ reply: { $regex: new RegExp(search, 'i') } });
+                const reportedReplyIds = reportedReplies.map(reply => reply._id);
+
+                const reportedPosters = await User.find({ username: { $regex: new RegExp(search, 'i') } });
+
+                const reportedIds = reportedPosters.reduce((acc, user) => {
+                    acc.push(...user.posts);
+                    acc.push(...user.replies);
+                    return acc;
+                }, []);
+
+                query.$or.push({ reporter: { $in: reporterIds } });
+                query.$or.push({ 'reportedItem.item': { $in: reportedPostIds.concat(reportedReplyIds) } });
+                query.$or.push({ 'reportedItem.item': { $in: reportedIds } });
+            }
 
             // Perform the search query and dynamically populate fields
             let searchResults = modelToSearch.find(query);

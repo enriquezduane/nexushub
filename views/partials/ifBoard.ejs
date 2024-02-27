@@ -30,8 +30,8 @@
                 <ul>
                     <li style="color: #fff; margin-bottom: 30px;">#<%= index + 1 %></li>
                     <li>Title : <span style="color: #fff;"><%- highlightSubstring(board.title, query) %></span></li>
-                    <li>Description (Home Page) : <span>"<%= board.description %>"</span></li>
-                    <li>InnerDescription (Board Page) : <span>"<%= board.innerDescription %>"</span></li>
+                    <li>Description (Home Page) : <span>"<%- highlightSubstring(board.description, query) %>"</span></li>
+                    <li>InnerDescription (Board Page) : <span>"<%- highlightSubstring(board.innerDescription, query) %>"</span></li>
                     <li>Category : <span><%= board.category.title %></span></li>
                     <li>Last Post : <span><%= board.lastPost ? board.lastPost.title : 'No posts yet.' %></span></li>
                     <li>- Posts : <span><%= board.postCount %></span> 

@@ -3,7 +3,7 @@
     <form class="search-admin-form" action="/admin" method="GET">
         <input type="hidden" name="action" value="posts">
         <div class="search-bar">
-            <input type="text" class="search-input" placeholder="Search Title..." name="search">
+            <input type="text" class="search-input" placeholder="Search..." name="search">
             <button class="nav-button" type="submit">Search</button>
         </div>
     </form>
@@ -24,7 +24,7 @@
                     <li style="color: #fff; margin-bottom: 30px;">#<%= index + 1 %></li>
                     <li>Title : <span style="color: #fff;"><%- highlightSubstring(post.title, query) %></span></li>
                     <li>Board : <span><%= post.refBoard.title %></span></li>
-                    <li>Poster : <span><%= post.poster.username %></span></li>
+                    <li>Poster : <span><%- highlightSubstring(post.poster.username, query) %></span></li>
                     <li>Content : <br>
                         <span style="color: #faa;">"
                             <% if (post.content.length > 90) { %>
@@ -47,7 +47,8 @@
                             <% }) %>
                         </ul>
                     </li>
-                    <li>Views : <span><%= post.views %></span></li>
+                    <li>Views : <span><%- highlightSubstring(post.views.toString(), query) %></span></li>
+                    <li>Upvotes : <span><%- highlightSubstring(post.upvotes.toString(), query) %></span></li>
                     <li>Created At : <span><%= post.createdAt %></span></li>
                     <li>Updated At : <span><%= post.updatedAt %></span></li>
                 </ul>
@@ -94,6 +95,7 @@
                         </ul>
                     </li>
                     <li>Views : <span><%= post.views %></span></li>
+                    <li>Upvotes : <span><%= post.upvotes %></span></li>
                     <li>Created At : <span><%= post.createdAt %></span></li>
                     <li>Updated At : <span><%= post.updatedAt %></span></li>
                 </ul>

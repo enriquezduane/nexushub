@@ -3,7 +3,7 @@
         <form class="search-admin-form" action="/admin" method="GET">
             <input type="hidden" name="action" value="reports">
             <div class="search-bar">
-                <input type="text" class="search-input" placeholder="Search Reports..." name="search">
+                <input type="text" class="search-input" placeholder="Search..." name="search">
                 <button class="nav-button" type="submit">Search</button>
             </div>
         </form>
@@ -34,12 +34,12 @@
                 </div>
                 <ul>
                     <li style="color: #fff; margin-bottom: 30px;">#<%= index + 1 %></li>
-                    <li>Reporter : <span style="color: #fff;"><%= report.reporter.username %></span></li>
-                    <li>Reported Item : <span><%= report.reportedItem.item.title %></span></li>
-                    <li>Reported Item Poster : <span style="color: #fff;"><%= report.reportedItem.item.poster.username %></span></li>
-                    <li>Reason : <span><%= report.reason %></span></li>
-                    <li>Description : <span style="color: #ffffff">"<%= report.description %>"</span></li>
-                    <li>Item Type : <span><%= report.reportedItem.itemType %></span></li>
+                    <li>Reporter : <span style="color: #fff;"><%- highlightSubstring(report.reporter.username, query) %></span></li>
+                    <li>Reported Item : <span><%- highlightSubstring(report.reportedItem.item.title, query) %></span></li>
+                    <li>Reported Item Poster : <span style="color: #fff;"><%- highlightSubstring(report.reportedItem.item.poster.username, query) %></span></li>
+                    <li>Reason : <span><%- highlightSubstring(report.reason, query) %></span></li>
+                    <li>Description : <span style="color: #ffffff">"<%- highlightSubstring(report.description, query) %>"</span></li>
+                    <li>Item Type : <span><%- highlightSubstring(report.reportedItem.itemType, query) %></span></li>
                     <li>Reported At : <span><%= report.createdAt %></span></li>
                     <% if (report.reportHandledAt) { %>
                         <li>Handled At : <span><%= report.reportHandledAt %></span></li>
@@ -59,7 +59,7 @@
                                 break;
                         }
                     %>
-                    <li>Status : <span style="color: <%= color %>"><%= report.status %></span></li>
+                    <li>Status : <span style="color: <%= color %>"><%- highlightSubstring(report.status, query) %></span></li>
                 </ul>
             </div>
         <% }) %>
