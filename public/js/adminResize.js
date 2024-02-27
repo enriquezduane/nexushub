@@ -3,10 +3,8 @@ const editPostContent = document.getElementById('editPostContent');
 const editReplyContent = document.getElementById('editReplyContent');
 
 textareas.forEach(textarea => {
-    if (textarea.id !== 'editPostContent' && textarea.id !== 'editReplyContent') {
-        textarea.addEventListener('input', function() {
-            this.style.height = 'auto';
-            this.style.height = (this.scrollHeight) + 'px';
-        });
-    }
+    textarea.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight) + 'px';
+    });
 });

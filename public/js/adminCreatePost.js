@@ -51,7 +51,7 @@ if (createPostForm) {
         })
         .then(response => {
             if (!response.ok) {
-                response.json().then(error => {
+                return response.json().then(error => {
                     throw new Error(error.message);
                 });
             }

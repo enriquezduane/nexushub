@@ -438,6 +438,9 @@ const editUser = async (req, res) => {
         }
 
         if (role) {
+            if (user.role === 'Forum Master' && role !== 'Forum Master') {
+                return res.status(400).json({ message: 'Cannot demote Forum Masters!' });
+            }
             user.role = role;
         }
 

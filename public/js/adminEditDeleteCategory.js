@@ -54,7 +54,7 @@ if (editCategoryForm) {
         })
         .then(response => {
             if (!response.ok) {
-                response.json().then(error => {
+                return response.json().then(error => {
                     throw new Error(error.message);
                 });
             }
@@ -96,7 +96,7 @@ document.addEventListener('click', function(event) {
         })
         .then(response => {
             if (!response.ok) {
-                response.json().then(error => {
+                return response.json().then(error => {
                     throw new Error(error.message);
                 });
             }

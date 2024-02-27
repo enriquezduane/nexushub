@@ -9,7 +9,6 @@ if (openEditUserModalBtns) {
         button.addEventListener('click', function() {
             // Retrieve user data from data attributes
             const username = this.dataset.username;
-            const password = this.dataset.password;
             const role = this.dataset.role;
             const age = this.dataset.age;
             const description = this.dataset.description;
@@ -19,7 +18,6 @@ if (openEditUserModalBtns) {
             // Fill the edit user modal form with user data
             const editUserForm = document.querySelector('#editUserForm');
             const editUsernameInput = editUserForm.querySelector('#editUsername');
-            const editPasswordInput = editUserForm.querySelector('#editPassword');
             const editRoleInput = editUserForm.querySelector('#editRole');
             const editAgeInput = editUserForm.querySelector('#editAge');
             const editDescription = editUserForm.querySelector('#editDescription');
@@ -27,7 +25,6 @@ if (openEditUserModalBtns) {
 
             // Set the form values
             editUsernameInput.value = username;
-            editPasswordInput.value = password;
             editRoleInput.value = role;
             editAgeInput.value = age;
             editDescription.value = description;
@@ -80,17 +77,18 @@ if (editUserForm) {
         })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Failed to update user');
+                return response.json().then(error => {
+                    throw new Error(error.message);
+                });
             }
             return response.json();
         })
         .then(() => {
             alert('User updated successfully!');
-            window.location.reload(); 
         })
         .catch(error => {
             console.error('Error updating user:', error);
-            alert('Failed to update user. Please try again.');
+            alert(error.message);
         })
         .finally(() => {
             editUserModal.classList.remove('show');
@@ -119,18 +117,19 @@ document.addEventListener('click', function(event) {
         })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Failed to delete user');
+                return response.json().then(error => {
+                    throw new Error(error.message);
+                });
             }
-            // Reload the page or update the UI as needed
-            window.location.reload(); // For example, reload the page to reflect the changes
+            return response.json();
         })
         .then(() => {
             alert('User deleted successfully!');
+            window.location.reload();
         })
         .catch(error => {
             console.error('Error deleting user:', error);
-            // Handle the error (e.g., display an error message to the user)
-            alert('Failed to delete user. Please try again.');
+            alert(error.message);
         });
     }
 });
