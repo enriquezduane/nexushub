@@ -27,7 +27,7 @@ const renderPost = (req, res) => {
     try {
         // Render the dynamic boards pages with the fetched data
         res.render('post', { 
-            loggedIn: true,
+            loggedIn: req.isAuthenticated(),
             title: res.post.title, 
             post: res.post,
             replies: res.paginationResults,
@@ -35,7 +35,7 @@ const renderPost = (req, res) => {
             totalPages: res.totalPages,
             users: res.users, 
             forumRules: res.forumRules, 
-            userLoggedIn: res.users[0],
+            userLoggedIn: req.user,
         });
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -179,7 +179,7 @@ const createPost = async (req, res) => {
         const post = await initialPost.save();
 
         // send the post id to the client
-        res.status(200).json({ id: post.id });
+        res.status(201).json({ id: post.id });
     } catch (err) {
         console.error('Error:', err);
         const { status, message } = handleValidationError(err);

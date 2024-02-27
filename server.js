@@ -53,6 +53,7 @@ connectDatabase();
 const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth');
 const uploadRouter = require('./routes/upload');
+const reportRouter = require('./routes/report');
 const forumRouter = require('./routes/forum');
 const postRouter = require('./routes/post');
 const userRouter = require('./routes/user');
@@ -63,6 +64,7 @@ const adminRouter = require('./routes/admin');
 app.use('/', indexRouter)
 app.use('/auth', authRouter);
 app.use('/upload', uploadRouter);
+app.use('/report', reportRouter);
 app.use('/forum', forumRouter);
 app.use('/forum/:id', postRouter);
 app.use('/user', userRouter);

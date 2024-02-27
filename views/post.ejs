@@ -113,11 +113,13 @@
                             <button class="edit-button">Edit</button>
                             <button class="delete-button">Delete</button>
                         <% } %>
-                        <button class="report-button">
-                            <svg class="report-icon"xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                                <path fill="red" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM11 7h2v6h-2zm0 8h2v2h-2z"/>
-                            </svg> Report
-                        </button>
+                        <% if (post.poster.id.toString() !== userLoggedIn.id.toString()) { %>
+                            <button class="report-button">
+                                <svg class="report-icon"xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                                    <path fill="red" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM11 7h2v6h-2zm0 8h2v2h-2z"/>
+                                </svg> Report
+                            </button>
+                        <% } %>
                     <% } %>
                 </div>
             </div>
@@ -198,11 +200,13 @@
                             <button class="edit-button">Edit</button>
                             <button class="delete-button">Delete</button>
                         <% } %>
-                        <button class="report-button">
-                            <svg class="report-icon"xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
-                                <path fill="red" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM11 7h2v6h-2zm0 8h2v2h-2z"/>
-                            </svg> Report
-                        </button>
+                        <% if (reply.poster.id.toString() !== userLoggedIn.id.toString()) { %>
+                            <button class="report-button">
+                                <svg class="report-icon"xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                                    <path fill="red" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM11 7h2v6h-2zm0 8h2v2h-2z"/>
+                                </svg> Report
+                            </button>
+                        <% } %>
                     <% } %>
                 </div>
             </div>
@@ -241,6 +245,33 @@
             </form>
         </div>
     <% } %>
+
+    <div class="modal15">
+        <div class="report-frame">
+            <div class="report-content">
+                <span id="closeReportBtn"class="close">&times;</span>
+                <h2>Report Post</h2>
+                <form id="report-form">
+                    <select id="reason" name="reason">
+                        <option value="">Select a reason</option>
+                        <option value="Disrespectful Behavior">Disrespectful Behavior</option>
+                        <option value="Hate Speech or Offensive Content">Hate Speech or Offensive Content</option>
+                        <option value="Off-Topic Posts">Off-Topic Posts</option>
+                        <option value="Spam or Self-Promotion">Spam or Self-Promotion</option>
+                        <option value="Privacy Violations">Privacy Violations</option>
+                        <option value="Copyright Infringement">Copyright Infringement</option>
+                        <option value="Illegal Activities">Illegal Activities</option>
+                        <option value="Multiple Accounts">Multiple Accounts</option>
+                        <option value="Inappropriate Language or Tone">Inappropriate Language or Tone</option>
+                        <option value="Violation of Guidelines">Violation of Guidelines</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <textarea id="description" name="description" placeholder="Describe your report..."></textarea>
+                    <button type="submit" class="submit-report-button">Submit Report</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="js/quillEditor.js"></script>
@@ -248,3 +279,4 @@
 <script src="js/voteCount.js"></script>
 <script src="js/edit.js"></script>
 <script src="js/delete.js"></script>
+<script src="js/report.js"></script>
