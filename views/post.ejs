@@ -109,7 +109,7 @@
                 </div>
                 <div class="post-content-footer">
                     <% if (loggedIn) { %>
-                        <% if (loggedIn && post.poster.id.toString() === userLoggedIn.id.toString()) { %>
+                        <% if (post.poster.id.toString() === userLoggedIn.id.toString()) { %>
                             <button class="edit-button">Edit</button>
                             <button class="delete-button">Delete</button>
                         <% } %>
@@ -194,7 +194,7 @@
                 </div>
                 <div class="post-content-footer">
                     <% if (loggedIn) { %>
-                        <% if (loggedIn && post.poster.id.toString() === userLoggedIn.id.toString()) { %>
+                        <% if (reply.poster.id.toString() === userLoggedIn.id.toString()) { %>
                             <button class="edit-button">Edit</button>
                             <button class="delete-button">Delete</button>
                         <% } %>
