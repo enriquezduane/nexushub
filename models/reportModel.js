@@ -58,6 +58,7 @@ const reportSchema = new mongoose.Schema({
     reportHandledAt: Date // Timestamp indicating when the report was handled (resolved or dismissed)
 });
 
+// prevent duplicate reports from the same user to the same item
 reportSchema.path('reporter').validate(async function(value) {
   // Check if the report is being updated
   if (this.isNew || this.isModified('reporter') || this.isModified('reportedItem')) {
