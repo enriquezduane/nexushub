@@ -54,7 +54,9 @@ if (editCategoryForm) {
         })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Failed to update category');
+                response.json().then(error => {
+                    throw new Error(error.message);
+                });
             }
             return response.json();
         })
@@ -64,7 +66,7 @@ if (editCategoryForm) {
         })
         .catch(error => {
             console.error('Error updating category:', error);
-            alert('Failed to update category. Please try again.');
+            alert(error.message);
         })
         .finally(() => {
             editCategoryModal.classList.remove('show');
@@ -94,18 +96,18 @@ document.addEventListener('click', function(event) {
         })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Failed to delete category');
+                response.json().then(error => {
+                    throw new Error(error.message);
+                });
             }
-            // Reload the page or update the UI as needed
-            window.location.reload(); // For example, reload the page to reflect the changes
+            return response.json();
         })
         .then(() => {
             alert('Category deleted successfully!');
         })
         .catch(error => {
             console.error('Error deleting category:', error);
-            // Handle the error (e.g., display an error message to the user)
-            alert('Failed to delete category. Please try again.');
+            alert(error.message);
         });
     }
 });

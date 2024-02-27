@@ -65,7 +65,9 @@ if (editPostForm) {
         })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Failed to update post');
+                response.json().then(error => {
+                    throw new Error(error.message);
+                });
             }
             return response.json();
         })
@@ -75,7 +77,7 @@ if (editPostForm) {
         })
         .catch(error => {
             console.error('Error updating post:', error);
-            alert('Failed to update post. Please try again.');
+            alert(error.message);
         })
         .finally(() => {
             editPostModal.classList.remove('show');
@@ -104,18 +106,18 @@ document.addEventListener('click', function(event) {
         })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Failed to delete post');
+                response.json().then(error => {
+                    throw new Error(error.message);
+                });
             }
-            // Reload the page or update the UI as needed
-            window.location.reload(); // For example, reload the page to reflect the changes
+            return response.json();
         })
         .then(() => {
             alert('Post deleted successfully!');
         })
         .catch(error => {
             console.error('Error deleting post:', error);
-            // Handle the error (e.g., display an error message to the user)
-            alert('Failed to delete post. Please try again.');
+            alert(error.message);
         });
     }
 });

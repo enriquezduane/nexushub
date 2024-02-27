@@ -38,11 +38,9 @@ if (createCategoryForm) {
         })
         .then(response => {
             if (!response.ok) {
-                if (response.status === 409) {
-                    throw new Error('Category already exists');
-                } else {
-                    throw new Error('Failed to create category');
-                }
+                response.json().then(error => {
+                    throw new Error(error.message);
+                });
             }
             return response.json();
         })
@@ -55,11 +53,7 @@ if (createCategoryForm) {
         })
         .catch(error => {
             console.error('Error creating category:', error);
-            if (error.message === 'Category already exists') {
-                alert('Registration failed. Category already exists!'); // Display specific error message for username already taken
-            } else {
-                alert('Registration failed. Please try again.'); // Display general error message
-            }
+            alert(error.message);
         })
         .finally(() => {
             modal5.classList.remove('show');

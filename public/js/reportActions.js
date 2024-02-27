@@ -14,21 +14,29 @@ window.addEventListener('click', (event) => {
     }
 });
 
-document.getElementById('resolveButton').addEventListener('click', function(event) {
-    // Prevent the default form submission behavior
-    event.preventDefault();
+const resolveReportButton = document.getElementById('resolveButton');
 
-    // Call the handleFormSubmission function with the 'resolve' parameter
-    handleFormSubmission('Resolved');
-});
+if (resolveReportButton) {
+    resolveReportButton.addEventListener('click', function(event) {
+        // Prevent the default form submission behavior
+        event.preventDefault();
 
-document.getElementById('dismissButton').addEventListener('click', function(event) {
-    // Prevent the default form submission behavior
-    event.preventDefault();
+        // Call the handleFormSubmission function with the 'resolve' parameter
+        handleFormSubmission('Resolved');
+    });
+}
 
-    // Call the handleFormSubmission function with the 'dismiss' parameter
-    handleFormSubmission('Dismissed');
-});
+const dismissReportButton = document.getElementById('dismissButton');
+
+if (dismissReportButton) {
+    dismissReportButton.addEventListener('click', function(event) {
+        // Prevent the default form submission behavior
+        event.preventDefault();
+
+        // Call the handleFormSubmission function with the 'dismiss' parameter
+        handleFormSubmission('Dismissed');
+    });
+}
 
 async function handleFormSubmission(action) {
     const banUser = document.getElementById('banUser').checked;

@@ -48,7 +48,9 @@ if (createReplyForm) {
         })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Failed to create reply');
+                response.json().then(error => {
+                    throw new Error(error.message);
+                });
             }
             return response.json();
         })
@@ -61,7 +63,7 @@ if (createReplyForm) {
         })
         .catch(error => {
             console.error('Error creating reply:', error);
-            alert('Reply creation failed. Please try again!');
+            alert(error.message);
         })
         .finally(() => {
             // Reset form fields and hide modal

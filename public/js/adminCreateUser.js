@@ -60,7 +60,9 @@ if (createUserForm) {
         })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Failed to create user');
+                response.json().then(error => {
+                    throw new Error(error.message);
+                });
             }
             return response.json();
         })
@@ -73,7 +75,7 @@ if (createUserForm) {
         })
         .catch(error => {
             console.error('Error creating user:', error);
-            alert('User creation failed. Please try again!');
+            alert(error.message);
         })
         .finally(() => {
             // Reset form fields and hide modal

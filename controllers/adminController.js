@@ -39,37 +39,6 @@ const renderAdmin = (req, res) => {
     }
 }
 
-const createCategory = async (req, res) => {
-    try {
-        const {title} = req.body;
-
-        if (!req.isAuthenticated() || req.user.role !== 'Forum Master') {
-            return res.status(403).json({ message: 'Forbidden Access' });
-        }
-
-        // check if category already exists
-        const categoryExists = await Category.findOne({ title: title });
-
-        if (categoryExists) {
-            return res.status(409).json({ message: 'Category already exists' });
-        }
-
-        const category = new Category({
-            _id: new mongoose.Types.ObjectId(),
-            title: title.trim(),
-            createdAt: Date.now(),
-            updatedAt: Date.now(),
-        })
-
-        await category.save();
-        
-        res.status(201).json({message: 'Category created successfully'});
-    } catch (error) {
-        console.error('Error creating category:', error);
-        res.status(500).json({ message: error.message });
-    }
-}
-
 const searchFilter = async (req, res, next) => {
     // Extract the action and query from the request query string
     const { action, search } = req.query;
@@ -207,18 +176,37 @@ const searchFilter = async (req, res, next) => {
     }
 };
 
+const createCategory = async (req, res) => {
+    try {
+        const {title} = req.body;
+
+        if (!req.isAuthenticated() || req.user.role !== 'Forum Master') {
+            return res.status(403).json({ message: 'Forbidden Access' });
+        }
+
+        const category = new Category({
+            _id: new mongoose.Types.ObjectId(),
+            title: title.trim(),
+            createdAt: Date.now(),
+            updatedAt: Date.now(),
+        })
+
+        await category.save();
+        
+        res.status(201).json({message: 'Category created successfully'});
+    } catch (error) {
+        console.error('Error creating category:', error);
+        const { status, message } = handleValidationError(error);
+        return res.status(status).json({ message });
+    }
+}
+
 const createBoard = async (req, res) => {
     try {
         const {title, description, innerDescription, category} = req.body;
 
         if (!req.isAuthenticated() || req.user.role !== 'Forum Master') {
             return res.status(403).json({ message: 'Forbidden Access' });
-        }
-
-        const boardExists = await Board.findOne({ title: title });                      
-
-        if (boardExists) {
-            return res.status(409).json({ message: 'Board already exists' });
         }
 
         const board = new Board({
@@ -236,7 +224,8 @@ const createBoard = async (req, res) => {
         res.status(201).json({message: 'Board created successfully'});
     } catch (error) {
         console.error('Error creating board:', error);
-        res.status(500).json({ message: error.message });
+        const { status, message } = handleValidationError(error);
+        return res.status(status).json({ message });
     }
 }
 
@@ -298,12 +287,6 @@ const createPost = async (req, res) => {
             return res.status(403).json({ message: 'Forbidden Access' });
         }
 
-        const titleExists = await Post.findOne({ title: title });
-
-        if (titleExists) {
-            return res.status(409).json({ message: 'Post already exists' });
-        }
-
         const post = new Post({
             _id: new mongoose.Types.ObjectId(),
             title: title,
@@ -320,7 +303,8 @@ const createPost = async (req, res) => {
     
     } catch (error) {
         console.error('Error creating post:', error);
-        res.status(500).json({ message: error.message });
+        const { status, message } = handleValidationError(error);
+        return res.status(status).json({ message });
     }
 }
 
@@ -353,7 +337,8 @@ const createReply = async (req, res) => {
         res.status(201).json({message: 'Reply created successfully'});
     } catch (error) {
         console.error('Error creating reply:', error);
-        res.status(500).json({ message: error.message });
+        const { status, message } = handleValidationError(error);
+        return res.status(status).json({ message });
     }
 }
 
@@ -379,7 +364,8 @@ const editCategory = async (req, res) => {
         res.status(201).json({message: 'Category created successfully'});
     } catch (error) {
         console.error('Error creating category:', error);
-        res.status(500).json({ message: error.message });
+        const { status, message } = handleValidationError(error);
+        return res.status(status).json({ message });
     }
 }
 
@@ -414,7 +400,8 @@ const editBoard = async (req, res) => {
         res.status(201).json({message: 'Board updated successfully'});
     } catch (error) {
         console.error('Error updating board:', error);
-        res.status(500).json({ message: error.message });
+        const { status, message } = handleValidationError(error);
+        return res.status(status).json({ message });
     }
 }
 
@@ -479,7 +466,8 @@ const editUser = async (req, res) => {
         res.status(201).json({message: 'User updated successfully'});
     } catch (error) {
         console.error('Error updating user:', error);
-        res.status(500).json({ message: error.message });
+        const { status, message } = handleValidationError(error);
+        return res.status(status).json({ message });
     }
 }
 
@@ -506,7 +494,8 @@ const editPost = async (req, res) => {
         res.status(201).json({message: 'Post updated successfully'});
     } catch (error) {
         console.error('Error updating post:', error);
-        res.status(500).json({ message: error.message });
+        const { status, message } = handleValidationError(error);
+        return res.status(status).json({ message });
     }
 }  
 
@@ -532,7 +521,8 @@ const editReply = async (req, res) => {
         res.status(201).json({message: 'Reply updated successfully'});
     } catch (error) {
         console.error('Error updating reply:', error);
-        res.status(500).json({ message: error.message });
+        const { status, message } = handleValidationError(error);
+        return res.status(status).json({ message });
     }
 }
 
@@ -557,7 +547,8 @@ const deleteCategory = async (req, res) => {
         res.status(200).json({message: 'Category deleted successfully'});
     } catch (error) {
         console.error('Error deleting category:', error);
-        res.status(500).json({ message: error.message });
+        const { status, message } = handleValidationError(error);
+        return res.status(status).json({ message });
     }
 }
 
@@ -580,7 +571,8 @@ const deleteBoard = async (req, res) => {
         res.status(200).json({message: 'Board deleted successfully'});
     } catch (error) {
         console.error('Error deleting board:', error);
-        res.status(500).json({ message: error.message });
+        const { status, message } = handleValidationError(error);
+        return res.status(status).json({ message });
     }
 }
 
@@ -603,7 +595,8 @@ const deleteUser = async (req, res) => {
         res.status(200).json({message: 'User deleted successfully'});
     } catch (error) {
         console.error('Error deleting user:', error);
-        res.status(500).json({ message: error.message });
+        const { status, message } = handleValidationError(error);
+        return res.status(status).json({ message });
     }
 }
 
@@ -626,7 +619,8 @@ const deletePost = async (req, res) => {
         res.status(200).json({message: 'Post deleted successfully'});
     } catch (error) {
         console.error('Error deleting post:', error);
-        res.status(500).json({ message: error.message });
+        const { status, message } = handleValidationError(error);
+        return res.status(status).json({ message });
     }
 }
 
@@ -649,7 +643,8 @@ const deleteReply = async (req, res) => {
         res.status(200).json({message: 'Reply deleted successfully'});
     } catch (error) {
         console.error('Error deleting reply:', error);
-        res.status(500).json({ message: error.message });
+        const { status, message } = handleValidationError(error);
+        return res.status(status).json({ message });
     }
 }
 
@@ -672,7 +667,8 @@ const deleteReport = async (req, res) => {
         res.status(200).json({message: 'Report deleted successfully'});
     } catch (error) {
         console.error('Error deleting report:', error);
-        res.status(500).json({ message: error.message });
+        const { status, message } = handleValidationError(error);
+        return res.status(status).json({ message });
     }
 }
 

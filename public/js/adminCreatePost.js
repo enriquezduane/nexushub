@@ -51,7 +51,9 @@ if (createPostForm) {
         })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Failed to create post');
+                response.json().then(error => {
+                    throw new Error(error.message);
+                });
             }
             return response.json();
         })
@@ -64,7 +66,7 @@ if (createPostForm) {
         })
         .catch(error => {
             console.error('Error creating post:', error);
-            alert('Post creation failed. Please try again!');
+            alert(error.message);
         })
         .finally(() => {
             // Reset form fields and hide modal

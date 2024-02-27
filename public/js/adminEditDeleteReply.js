@@ -56,7 +56,9 @@ if (editReplyForm) {
         })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Failed to update reply');
+                response.json().then(error => {
+                    throw new Error(error.message);
+                });
             }
             return response.json();
         })
@@ -66,10 +68,47 @@ if (editReplyForm) {
         })
         .catch(error => {
             console.error('Error updating reply:', error);
-            alert('Failed to update reply. Please try again.');
+            alert(error.message);
         })
         .finally(() => {
             editReplyModal.classList.remove('show');
         });
     });
 }
+
+document.addEventListener('click', function(event) {
+    if (event.target.classList.contains('delete-reply-button')) {
+        // Warn the user before deleting
+        if (!confirm('Are you sure you want to delete this reply?')) {
+            return;
+        }
+
+        // Retrieve the post ID from the data-id attribute
+        const postId = event.target.dataset.id;
+
+        // Send an AJAX request to delete the post
+        fetch('/admin/reply', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: postId })
+        })
+        .then(response => {
+            if (!response.ok) {
+                response.json().then(error => {
+                    throw new Error(error.message);
+                });
+            }
+            return response.json();
+        })
+        .then(() => {
+            alert('Post deleted successfully!');
+            window.location.reload();
+        })
+        .catch(error => {
+            console.error('Error deleting reply:', error);
+            alert(error.message);
+        });
+    }
+});

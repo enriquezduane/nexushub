@@ -51,11 +51,9 @@ if (createBoardForm) {
         })
         .then(response => {
             if (!response.ok) {
-                if (response.status === 409) {
-                    throw new Error('Board already exists');
-                } else {
-                    throw new Error('Failed to create board');
-                }
+                response.json().then(error => {
+                    throw new Error(error.message);
+                });
             }
             return response.json();
         })
@@ -68,11 +66,7 @@ if (createBoardForm) {
         })
         .catch(error => {
             console.error('Error creating board:', error);
-            if (error.message === 'Board already exists') {
-                alert('Registration failed. Board already exists!'); // Display specific error message for username already taken
-            } else {
-                alert('Registration failed. Please try again!'); // Display generic error message
-            }
+            alert(error.message);
         })
         .finally(() => {
             // Reset form fields and hide modal

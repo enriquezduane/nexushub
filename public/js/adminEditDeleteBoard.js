@@ -63,7 +63,9 @@ if (editBoardForm) {
         })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Failed to update board');
+                response.json().then(error => {
+                    throw new Error(error.message);
+                });
             }
             return response.json();
         })
@@ -73,7 +75,7 @@ if (editBoardForm) {
         })
         .catch(error => {
             console.error('Error updating board:', error);
-            alert('Failed to update board. Please try again.');
+            alert(error.message);
         })
         .finally(() => {
             editBoardModal.classList.remove('show');
@@ -105,18 +107,19 @@ document.addEventListener('click', function(event) {
         })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Failed to delete board');
+                response.json().then(error => {
+                    throw new Error(error.message);
+                });
             }
-            // Reload the page or update the UI as needed
-            window.location.reload(); // For example, reload the page to reflect the changes
+            return response.json();
         })
         .then(() => {
             alert('Board deleted successfully!');
+            window.location.reload();
         })
         .catch(error => {
             console.error('Error deleting board:', error);
-            // Handle the error (e.g., display an error message to the user)
-            alert('Failed to delete board. Please try again.');
+            alert(error.message);
         });
     }
 });
