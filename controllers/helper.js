@@ -23,6 +23,8 @@ const populateAll = async (req, res, next) => {
     res.users = users;
     res.reports = reports;
 
+    console.log(reports[0])
+
     next();
 }
 
@@ -412,7 +414,13 @@ const populateReport = async (report) => {
                 }
             ]
         })
-        .populate('reportedItem.item');
+        .populate({
+            path: 'reportedItem.item',
+            populate: {
+                path: 'poster',
+                model: 'User' // Assuming 'poster' refers to the user who posted the item
+            }
+        });;
     return report;
 }
 

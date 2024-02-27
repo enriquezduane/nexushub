@@ -22,18 +22,19 @@ document.addEventListener('click', function(event) {
         })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Failed to delete report');
+                return response.json().then(error => {
+                    throw new Error(error.message);
+                });
             }
-            // Reload the page or update the UI as needed
-            window.location.reload(); // For example, reload the page to reflect the changes
+            return response.json();
         })
         .then(() => {
-            alert('report deleted successfully!');
+            alert('Report deleted successfully!');
+            window.location.reload();
         })
         .catch(error => {
-            console.error('Error deleting report:', error);
-            // Handle the error (e.g., display an error message to the user)
-            alert('Failed to delete report. Please try again.');
+            console.error('Error deleting Report:', error);
+            alert(error.message);
         });
     }
 });

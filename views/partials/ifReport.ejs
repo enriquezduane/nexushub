@@ -1,4 +1,4 @@
-<% if (action === 'reports' || !action) { %>
+<% if (action === 'reports') { %>
     <div class="content-header">
         <form class="search-admin-form" action="/admin" method="GET">
             <input type="hidden" name="action" value="reports">
@@ -57,6 +57,7 @@
                     <li style="color: #fff; margin-bottom: 30px;">#<%= index + 1 %></li>
                     <li>Reporter : <span style="color: #fff;"><%= report.reporter.username %></span></li>
                     <li>Reported Item : <span><%= report.reportedItem.item.title %></span></li>
+                    <li>Reported Item Poster : <span style="color: #fff;"><%= report.reportedItem.item.poster.username %></span></li>
                     <li>Reason : <span><%= report.reason %></span></li>
                     <li>Description : <span style="color: #ffffff">"<%= report.description %>"</span></li>
                     <li>Item Type : <span><%= report.reportedItem.itemType %></span></li>
@@ -82,3 +83,5 @@
         <% }) %>
     <% } %>
 <% } %>
+
+<script src="js/reportActions.js"></script>

@@ -18,7 +18,7 @@ const renderAdmin = (req, res) => {
         */
 
         res.render('admin', { 
-            loggedIn: true, 
+            loggedIn: req.isAuthenticated(), 
             title: "Forum Master Page", 
             action: req.query.action, 
             query: req.query.search, 
@@ -31,7 +31,7 @@ const renderAdmin = (req, res) => {
             filteredData: res.filteredData || [], 
             highlightSubstring, 
             forumRules: res.forumRules, 
-            userLoggedIn: res.users[0],
+            userLoggedIn: req.user,
         });
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -587,6 +587,29 @@ const deleteReply = async (req, res) => {
     }
 }
 
+const deleteReport = async (req, res) => {
+    try {
+        const { id } = req.body;
+
+        if (!req.isAuthenticated() || req.user.role !== 'Forum Master') {
+            return res.status(403).json({ message: 'Forbidden Access' });
+        }
+        
+        report = await Report.findById(id);
+
+        if (!report) {
+            return res.status(404).json({ message: 'Report not found' });
+        }
+
+        await report.deleteOne();
+
+        res.status(200).json({message: 'Report deleted successfully'});
+    } catch (error) {
+        console.error('Error deleting report:', error);
+        res.status(500).json({ message: error.message });
+    }
+}
+
 module.exports = {
     renderAdmin,
     createCategory,
@@ -605,4 +628,5 @@ module.exports = {
     deleteUser,
     deletePost,
     deleteReply,
+    deleteReport
 }
