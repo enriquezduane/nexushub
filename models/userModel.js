@@ -84,12 +84,12 @@ const userSchema = new mongoose.Schema({
       itemType: {
         type: String,
         enum: ['Post', 'Reply'], // Define the possible types
-        required: true
+        required: [true, 'Please specify the type of item being downvoted.']
       },
       item: { 
         type: mongoose.Schema.Types.ObjectId,
         refPath: 'downvoted.itemType', // Reference either 'Post' or 'Reply'
-        required: true
+        required: [true, 'Please specify the item being downvoted.']
       }
     }
   ],

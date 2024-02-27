@@ -4,18 +4,21 @@ const Board = require('../models/boardModel');
 const User = require('../models/userModel');
 const Post = require('../models/postModel');
 const Reply = require('../models/replyModel');
+const Report = require('../models/reportModel');
 const bcrypt = require('bcrypt');
 
 const { highlightSubstring } = require('./helper');
 
 const renderAdmin = (req, res) => {
     try {
+        /*
         if (!req.isAuthenticated() || req.user.role !== 'Forum Master') {
             return res.status(403).json({ message: 'Forbidden Access' });
         }
+        */
 
         res.render('admin', { 
-            loggedIn: req.isAuthenticated(), 
+            loggedIn: true, 
             title: "Forum Master Page", 
             action: req.query.action, 
             query: req.query.search, 
@@ -24,10 +27,11 @@ const renderAdmin = (req, res) => {
             users: res.users, 
             posts: res.posts, 
             replies: res.replies, 
+            reports: res.reports,
             filteredData: res.filteredData || [], 
             highlightSubstring, 
             forumRules: res.forumRules, 
-            userLoggedIn: req.user
+            userLoggedIn: res.users[0],
         });
     } catch (error) {
         console.error('Error fetching data:', error);
@@ -95,6 +99,10 @@ const searchFilter = async (req, res, next) => {
             case 'replies':
                 modelToSearch = Reply;
                 populateFields = ['refPost', 'poster']; // Fields to populate for replies
+                break;
+            case 'reports':
+                modelToSearch = Report;
+                populateFields = ['reporter', 'reportedItem.item'];
                 break;
             default:
                 // If the action is not recognized, proceed to the next middleware

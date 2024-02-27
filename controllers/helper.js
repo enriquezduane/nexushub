@@ -5,6 +5,7 @@ const User = require('../models/userModel');
 const Reply = require('../models/replyModel');
 const Board = require('../models/boardModel');
 const Category = require('../models/categoryModel');
+const Report = require('../models/reportModel');
 const bcrypt = require('bcrypt');
 
 const populateAll = async (req, res, next) => {
@@ -13,12 +14,14 @@ const populateAll = async (req, res, next) => {
     const posts = await populatePosts(await Post.find());
     const replies = await populateReplies(await Reply.find());
     const users = await populateUsers(await User.find());
+    const reports = await populateReports(await Report.find());
 
     res.categories = categories;
     res.boards = boards;
     res.posts = posts;
     res.replies = replies;
     res.users = users;
+    res.reports = reports;
 
     next();
 }
@@ -386,6 +389,32 @@ const populateUser = async (user) => {
     return user;
 }
 
+const populateReports = async (reports) => {
+    for (let i = 0; i < reports.length; i++) {
+        reports[i] = await populateReport(reports[i]);
+    }
+    return reports;
+}
+
+const populateReport = async (report) => {
+    report = await Report.findById(report.id)
+        .populate({
+            path: 'reporter',
+            model: 'User',
+            populate: [
+                {
+                    path: 'posts',
+                    model: 'Post',
+                },
+                {
+                    path: 'replies',
+                    model: 'Reply',
+                }
+            ]
+        })
+        .populate('reportedItem.item');
+    return report;
+}
 
 const highlightSubstring = (content, searchText) => {
     // Split the content into parts where the search query occurs

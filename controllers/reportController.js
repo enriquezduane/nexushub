@@ -18,8 +18,10 @@ const createReport = async (req, res) => {
         const report = new Report({
             _id: new mongoose.Types.ObjectId(),
             reporter: user.id,
-            reportedItem: id,
-            itemType: type,
+            reportedItem: {
+                itemType: type,
+                item: id
+            },
             reason: reason,
         });
 

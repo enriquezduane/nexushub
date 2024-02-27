@@ -25,13 +25,16 @@ const reportSchema = new mongoose.Schema({
       required: [true, 'Please specify the user reporting the item.']
     },
     reportedItem: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: [true, 'Please specify the item being reported.']
-    },
-    itemType: {
-      type: String,
-      enum: ['Post', 'Reply', 'User'], // Adjust as needed
-      required: [true, 'Please specify the type of item being reported.']
+      itemType: {
+          type: String,
+          enum: ['Post', 'Reply', 'User'], // Define the possible types
+          required: [true, 'Please specify the type of item being reported.']
+      },
+      item: { 
+          type: mongoose.Schema.Types.ObjectId,
+          required: [true, 'Please specify the item being reported.'],
+          refPath: 'reportedItem.itemType' // Reference either 'Post' or 'Reply'
+      }
     },
     reason: {
       type: String,
@@ -45,8 +48,8 @@ const reportSchema = new mongoose.Schema({
     },
     status: {
       type: String,
-      enum: ['pending', 'resolved', 'dismissed'],
-      default: 'pending'
+      enum: ['Pending', 'Resolved', 'Dismissed'],
+      default: 'Pending'
     },
     createdAt: {
       type: Date,
@@ -59,9 +62,5 @@ reportSchema.path('reporter').validate(async function(value) {
   const existingReport = await this.constructor.findOne({ reporter: value, reportedItem: this.reportedItem });
   return !existingReport;
 }, 'You have already reported this item.');
-
-reportSchema.virtual('createdAtSGT').get(function() {
-    return moment(this.createdAt).tz('Asia/Singapore').format('MMM YYYY hh:mm A'); // Format SGT createdAt
-});
   
 module.exports = mongoose.model('Report', reportSchema);  
