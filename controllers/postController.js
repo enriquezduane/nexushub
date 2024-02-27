@@ -27,7 +27,7 @@ const renderPost = (req, res) => {
     try {
         // Render the dynamic boards pages with the fetched data
         res.render('post', { 
-            loggedIn: req.isAuthenticated(),
+            loggedIn: true,
             title: res.post.title, 
             post: res.post,
             replies: res.paginationResults,
@@ -35,7 +35,7 @@ const renderPost = (req, res) => {
             totalPages: res.totalPages,
             users: res.users, 
             forumRules: res.forumRules, 
-            userLoggedIn: req.user 
+            userLoggedIn: res.users[0],
         });
     } catch (error) {
         console.error('Error fetching data:', error);

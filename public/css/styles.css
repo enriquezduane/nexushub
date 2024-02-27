@@ -1110,7 +1110,8 @@ tbody {
 .create-post-button,
 .cancel-button,
 .nav-button,
-.category-button {
+.category-button,
+.report-button {
   background-color: #000033;
   /* Dark blue color to match your theme */
   color: #ffffff;
@@ -1135,7 +1136,8 @@ tbody {
 .save-button:hover,
 .cancel-button:hover,
 .nav-button:hover,
-.category-button:hover {
+.category-button:hover,
+.report-button:hover {
   color: #ffffff;
   background-color: #8f3e97;
   /* Purple color for hover effect */
@@ -2506,4 +2508,10 @@ blockquote p {
 .profile-icon img {
   max-width: 120px;
   max-height: 120px;
+}
+
+.report-button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
