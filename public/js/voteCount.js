@@ -41,8 +41,10 @@ function handleUpvote(event) {
         body: JSON.stringify({ action: 'upvote', active: active, type: (isReply ? 'reply' : 'post'), id: id, count: currentCount }),
     })
     .then(response => {
-        if (!response.ok) {
-            throw new Error('Failed to upvote post');
+        if(!response.ok) {
+            return response.json().then(data => {
+                throw new Error(data.message);
+            });
         }
         return response.json();
     })
@@ -51,6 +53,7 @@ function handleUpvote(event) {
     })
     .catch(error => {
         console.error('Error upvoting post:', error);
+        alert(error.message);
     })
 }
 
@@ -97,8 +100,10 @@ function handleDownvote(event) {
         body: JSON.stringify({ action: 'downvote', active: active, type: (isReply ? 'reply' : 'post'), id: id, count: currentCount }),
     })
     .then(response => {
-        if (!response.ok) {
-            throw new Error('Failed to upvote post');
+        if(!response.ok) {
+            return response.json().then(data => {
+                throw new Error(data.message);
+            });
         }
         return response.json();
     })
@@ -106,7 +111,8 @@ function handleDownvote(event) {
         voteCount.textContent = currentCount;
     })
     .catch(error => {
-        console.error('Error upvoting post:', error.message);
+        console.error('Error upvoting post:', error);
+        alert(error.message);
     })
 }
 
