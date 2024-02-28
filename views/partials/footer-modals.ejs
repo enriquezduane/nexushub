@@ -110,17 +110,21 @@
 
 
 
-<div class="modal4">
+  <div class="modal4">
     <div class="search-container">
       <div class="search-header">
-        Search for Posts
+        Search 
       </div>
       <div class="search-box">
         <form action="/search">
+          <select name="target" class="filter-select">
+            <option value="Posts">Posts</option>
+            <option value="Users">Users</option>
+            </select>
           <input type="text" name="query" class="search-input" placeholder="Search...">
           <button class="search-button" type="submit">Search</button>
         </form>
       </div>
       <p>e.g. Orwell "Animal Farm" -movie</p>
-    </div>
+  </div>
 </div>

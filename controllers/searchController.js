@@ -1,5 +1,6 @@
 const Post = require('../models/postModel');
-const { populatePosts, highlightSubstring } = require('./helper');
+const User = require('../models/userModel');
+const { populatePosts, highlightSubstring, populateUsers } = require('./helper');
 
 const renderSearch = (req, res) => {
     try {
@@ -7,7 +8,9 @@ const renderSearch = (req, res) => {
         res.render('search', { 
             loggedIn: req.isAuthenticated(), 
             title: 'Search Results', 
+            target: req.query.target,
             posts: res.posts, 
+            users: res.users,
             query: req.query.query, 
             highlightSubstring, 
             forumRules: res.forumRules, 
@@ -21,12 +24,20 @@ const renderSearch = (req, res) => {
 }
 
 // Get post by query and highlight the query in the post title
-const getPostByQuery = async (req, res, next) => {
+const searchFilter = async (req, res, next) => {
     try {
         const query = req.query.query;
-        const posts = await Post.find({ title: { $regex: new RegExp(query, 'i') } });
-        res.posts = await populatePosts(posts);
+        const target = req.query.target;
 
+        if (query !== "") {
+            if (target.toLowerCase() === 'posts') {
+            const posts = await Post.find({ title: { $regex: new RegExp(query, 'i') } });
+            res.posts = await populatePosts(posts);
+            } else if (target.toLowerCase() === 'users') {
+                const users = await User.find({ username: { $regex: new RegExp(query, 'i') } });
+                res.users = await populateUsers(users);
+            }
+        }
         next();
     }
     catch (err) {
@@ -36,5 +47,5 @@ const getPostByQuery = async (req, res, next) => {
 
 module.exports = {
     renderSearch,
-    getPostByQuery,
+    searchFilter,
 }

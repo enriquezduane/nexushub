@@ -5,11 +5,11 @@ const router = express.Router();
 router.use(express.static('public'));
 
 // initialize database
-const { populateAll, headerFooterData } = require('../controllers/helper');
+const { headerFooterData } = require('../controllers/helper');
 
 // import controller
-const { renderSearch, getPostByQuery } = require('../controllers/searchController');
+const { renderSearch, searchFilter } = require('../controllers/searchController');
 
-router.get('/', populateAll, getPostByQuery, headerFooterData, renderSearch);
+router.get('/', searchFilter, headerFooterData, renderSearch);
 
 module.exports = router;

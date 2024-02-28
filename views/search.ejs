@@ -23,7 +23,7 @@
       </div>
   </div>
 
-  <% if (posts.length > 0) { %>
+  <% if (posts && posts.length > 0) { %>
       <% posts.forEach( (post, index) => { %>
           <div class="search-result-container post-section post-container-template">
               <div class="search-result-content">
@@ -41,13 +41,34 @@
                 </span>
               </div>
               <p>
-                  <span style="font-size: 15px;"><%= post.createdAtSGT %></span> by <a href="<%= post.poster.href %>"><%= post.poster.username %></a>
+                <a href="<%= post.href %>"><span style="font-size: 15px;"><%= post.createdAtSGT %></span></a> by <a href="<%= post.poster.href %>"><%= post.poster.username %></a>
               </p>
           </div>
       <% }) %>
+  <% } else if (users && users.length > 0) { %>
+    <% users.forEach((user, index) => { %>
+        <div class="search-result-container post-section post-container-template">
+            <div class="search-result-content">
+                <div>
+                    <a href="<%= user.href %>">
+                        <strong style="font-size: 24px;"><%- highlightSubstring(user.username, query) %></strong>
+                    </a>
+                </div>
+                <span>
+                    <strong>#<%= index + 1 %></strong>
+                </span>
+            </div>
+            <ul>
+                Posts: 
+                <% for (let i = 0; i < 5; i++) { %>
+                    <li><%= user.posts[i] ? user.posts[i].title : '' %></li>
+                <%  } %>
+            </ul>
+        </div>
+    <% }); %>
   <% } else { %>
       <div class="search-result-container post-section post-container-template">
-          <p>No results found for <strong style="color: #FFF; font-size: 18px;"><%= query %></strong>.</p>
+          <p>No <%= target %> results found for <strong style="color: #FFF; font-size: 18px;"><%= query %></strong>.</p>
       </div>
   <% } %>
 

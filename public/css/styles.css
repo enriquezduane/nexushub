@@ -1390,6 +1390,15 @@ tbody {
   width: 250px;
 }
 
+.filter-select {
+  background-color: #000;
+  border: none;
+  color: #fff;
+  font-family: "Press Start 2P", cursive;
+  font-size: 13px;
+  padding: 5px;
+}
+
 .search-button {
   background-color: #444;
   border: none;
@@ -2691,4 +2700,13 @@ textarea[name="content"],
   fill: #FF1493;
   width: 18px;
   height: 18px;
+}
+
+.search-result-container ul {
+  list-style-type: none;
+}
+.search-result-container ul li {
+  color: #fff;
+  margin-left: 30px;
+  text-decoration: none;
 }
