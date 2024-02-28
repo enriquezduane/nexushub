@@ -27,19 +27,7 @@
                 </svg>
                 Go Down
             </a>
-            <div class="pagination">
-                <% if (page !== 1) { %>
-                    <a class="page-button" href="<%= post.href %>?page=1">«</a>
-                <% } %>
-                <% for(let i = 1; i <= totalPages; i++) { %>
-                    <a class="page-button <%= i === page ? 'currentPage' : '' %>" href="<%= post.href %>?page=<%= i %>">
-                        <%= i %>
-                    </a>
-                <% } %>
-                <% if (page !== totalPages) { %>
-                    <a class="page-button" href="<%= post.href %>?page=<%= totalPages %>">»</a>
-                <% } %>
-            </div>
+            <%- include('partials/postPagination.ejs') %>
         </div>
         <div class="right-side-buttons">
             <% if (loggedIn) { %>
@@ -160,8 +148,8 @@
             <div class="post-area">
                 <div class="post-info">
                     <div class="post-info-top">
-                        <div class="post-name">
-                        <a href="<%= post.href %>">
+                        <div id="<%= reply.id %>" class="post-name">
+                            <a href="<%= page !== 1 ? post.href + '?page=' + page : post.href %>#<%= reply.id %>">
                             <strong><%= reply.title %></strong>
                         </a>
                         </div>
@@ -234,19 +222,7 @@
               </svg>
                 Go Up
             </a>
-            <div class="pagination">
-                <% if (page !== 1) { %>
-                    <a class="page-button" href="<%= post.href %>?page=1">«</a>
-                <% } %>
-                <% for(let i = 1; i <= totalPages; i++) { %>
-                    <a class="page-button <%= i === page ? 'currentPage' : '' %>" href="<%= post.href %>?page=<%= i %>">
-                        <%= i %>
-                    </a>
-                <% } %>
-                <% if (page !== totalPages) { %>
-                    <a class="page-button" href="<%= post.href %>?page=<%= totalPages %>">»</a>
-                <% } %>
-            </div>
+            <%- include('partials/postPagination.ejs') %>
         </div>
     </div>
     <% if (loggedIn) { %>
@@ -255,7 +231,7 @@
                 Reply
             </div>
             <form id="replyForm">
-                <input type="hidden" name="postId" value="<%= post.id %>">
+                <input type="hidden" data-page="<%= page %>" data-totalpages="<%= totalPages %>" data-lastlimitreached="<%= lastLimitReached %>" name="postId" value="<%= post.id %>">
                 <div class="reply-area">
                     <div id="editor-container"></div>
                     <button type="submit" class="post-button">Post</button>

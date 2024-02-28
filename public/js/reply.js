@@ -6,7 +6,12 @@ if (replyForm) {
 
         // Collect reply content and post ID
         const content = postQuill.getContents(); 
-        const postId = document.querySelector('input[name="postId"]').value;
+        const hiddenInput = document.querySelector('input[name="postId"]');
+        const postId = hiddenInput.value;
+        
+        const page = hiddenInput.dataset.page;
+        const totalPages = hiddenInput.dataset.totalpages;
+        const lastLimitReached = hiddenInput.dataset.lastlimitreached;
 
         const isEmptyContent = content.ops.every(op => {
             // Check if op.insert is a string before attempting to trim
@@ -26,7 +31,7 @@ if (replyForm) {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ content: content, postId: postId })
+                body: JSON.stringify({ content: content, postId: postId, page: page })
             })
             .then(response => {
                 if (!response.ok) {
@@ -38,6 +43,17 @@ if (replyForm) {
             })
             .then( reply => {
                 // On successful response, update the page with the new reply
+
+                const newPage = parseInt(totalPages) + 1;
+
+                if (lastLimitReached) {
+                    window.location.href = window.location.pathname + '?page=' + newPage;
+                }
+                
+                if (page !== totalPages && !lastLimitReached) {
+                    window.location.href = window.location.pathname + '?page=' + totalPages;
+                }
+
                 const replyContainer = document.querySelector('.content-container');
                 const newReplySection = document.createElement('div');
                 const repliesSectionFooter = document.querySelector('.reply-section-top');

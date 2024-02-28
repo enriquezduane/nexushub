@@ -26,6 +26,12 @@ const renderCreatePost = (req, res) => {
 const renderPost = (req, res) => {
     try {
         // Render the dynamic boards pages with the fetched data
+        if (req.query.page) {
+            if (req.query.page < 1 || req.query.page > res.totalPages || isNaN(req.query.page)) {
+                return res.status(404).json({ message: 'Page not found' });
+            }
+        }
+
         res.render('post', { 
             loggedIn: req.isAuthenticated(),
             title: res.post.title, 
@@ -33,6 +39,7 @@ const renderPost = (req, res) => {
             replies: res.paginationResults,
             page: res.page,
             totalPages: res.totalPages,
+            lastLimitReached: res.lastLimitReach,
             users: res.users, 
             forumRules: res.forumRules, 
             userLoggedIn: req.user,
@@ -84,7 +91,7 @@ const incrementViews = async (req, res, next) => {
 
 const getPagination = (req, res, next) => {
     const page = parseInt(req.query.page) || 1;
-    const limit = 10; 
+    const limit = 1; 
 
     let startIndex = (page - 1) * limit;
     let endIndex = startIndex + limit;
@@ -105,6 +112,19 @@ const getPagination = (req, res, next) => {
         res.paginationResults = repliesOnly;
         res.totalPages = totalPages;
         res.page = page;
+        res.limit = limit;
+
+        const lastPageStartIndex = (totalPages - 1) * limit;
+        const lastPageEndIndex = lastPageStartIndex + limit;
+
+        const lastResults = allReplies.slice(lastPageStartIndex, lastPageEndIndex);
+
+        if (lastResults.length === limit) {
+            res.lastLimitReach = true;
+        } else {
+            res.lastLimitReach = false;
+        }
+
         next();
     } catch (error) {
         console.error('Error:', error);

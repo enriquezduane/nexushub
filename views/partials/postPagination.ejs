@@ -1,0 +1,15 @@
+<div class="pagination">
+    <% if (page !== 1 && page !== 2) { %>
+        <a class="page-button" href="<%= post.href %>">«</a>
+    <% } %>
+    <% for(let i = page - 1; i <= page + 1; i++) { %>
+        <% if (i !== 0 && i !== totalPages + 1) { %>
+            <a class="page-button <%= i === page ? 'currentPage' : '' %>" href="<%= post.href %>?page=<%= i %>">
+            <%= i %>
+            </a>
+        <% } %>
+    <% } %>
+    <% if (page !== totalPages && page !== totalPages - 1) { %>
+        <a class="page-button" href="<%= post.href %>?page=<%= totalPages %>">»</a>
+    <% } %>
+</div>
