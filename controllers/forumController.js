@@ -5,6 +5,12 @@ const { populateBoard, populatePosts } = require('./helper');
 const renderBoard = (req, res) => {
     try {
         // Render the dynamic boards pages with the fetched data
+        if (req.query.page) {
+            if (req.query.page < 1 || req.query.page > res.totalPages || isNaN(req.query.page)) {
+                return res.status(404).json({ message: 'Page not found' });
+            }
+        }
+
         res.render('board', { 
             loggedIn: req.isAuthenticated(), 
             title: res.board.title, 

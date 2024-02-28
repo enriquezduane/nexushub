@@ -68,17 +68,19 @@
     </div>
     <div class="navigation-buttons" style="margin-bottom: 10px">
       <div class="pagination">
-        <% if (page !== 1) { %>
-            <a class="page-button" href="<%= board.href %>?page=1">«</a>
-        <% } %>
-        <% for(let i = 1; i <= totalPages; i++) { %>
-            <a class="page-button <%= i === page ? 'currentPage' : '' %>" href="<%= board.href %>?page=<%= i %>">
-                <%= i %>
-            </a>
-        <% } %>
-        <% if (page !== totalPages) { %>
-            <a class="page-button" href="<%= board.href %>?page=<%= totalPages %>">»</a>
-        <% } %>
+        <% if (page !== 1 && page !== 2) { %>
+          <a class="page-button" href="<%= board.href %>">«</a>
+      <% } %>
+        <% for(let i = page - 1; i <= page + 1; i++) { %>
+          <% if (i !== 0 && i !== totalPages + 1) { %>
+              <a class="page-button <%= i === page ? 'currentPage' : '' %>" href="<%= board.href %>?page=<%= i %>">
+              <%= i %>
+              </a>
+          <% } %>
+      <% } %>
+      <% if (page !== totalPages && page !== totalPages - 1) { %>
+        <a class="page-button" href="<%= board.href %>?page=<%= totalPages %>">»</a>
+    <% } %>
       </div>
     </div>
 
