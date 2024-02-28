@@ -259,9 +259,9 @@ header div {
   }
 }
 
-header img {
-  margin-left: 10px;
-  margin-right: 10px;
+header svg {
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 .ragnarok-logo-frame a {
@@ -2003,7 +2003,7 @@ tbody td:nth-child(5) {
 .post-modal-frame button[type="submit"]:hover,
 .reply-modal-frame button[type="submit"]:hover,
 .report-frame button[type="submit"]:hover,
-.resolve-report-frame button[type="submit"]:hover{
+.resolve-report-frame button[type="submit"]:hover {
   color: #ffffff;
   background-color: #8f3e97;
 }
@@ -2476,7 +2476,7 @@ img[alt="candy pin gif"] {
 }
 
 .ql-snow .ql-fill {
-  fill:  #fff !important;
+  fill: #fff !important;
 }
 
 .directory-bar {
@@ -2552,36 +2552,44 @@ blockquote p {
 }
 
 #resolveReportForm {
-  background-color: #2d033a; /* Dark purple background */
-  padding: 20px; /* Padding around the form */
-  border-radius: 5px; /* Rounded corners */
-  color: #f8f8f8; /* Light green text */
+  background-color: #2d033a;
+  /* Dark purple background */
+  padding: 20px;
+  /* Padding around the form */
+  border-radius: 5px;
+  /* Rounded corners */
+  color: #f8f8f8;
+  /* Light green text */
 }
 
 #resolveReportForm ul {
-  list-style-type: none; /* Remove bullet points */
-  padding: 0; /* Remove padding */
+  list-style-type: none;
+  /* Remove bullet points */
+  padding: 0;
+  /* Remove padding */
 }
 
 #resolveReportForm li {
-  margin-bottom: 10px; /* Space between list items */
+  margin-bottom: 10px;
+  /* Space between list items */
 }
 
 #resolveReportForm input[type="checkbox"] {
-  margin-right: 5px; /* Space between checkbox and label */
+  margin-right: 5px;
+  /* Space between checkbox and label */
 }
 
 #resolveReportForm button {
-  background-color: #a3f7bf; 
-  color: #2d033a; 
-  border: none; 
-  padding: 10px 20px; 
-  text-align: center; 
-  text-decoration: none; 
+  background-color: #a3f7bf;
+  color: #2d033a;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
   display: inline-block;
   font-size: 16px;
   margin: 4px 2px;
-  transition-duration: 0.4s; 
+  transition-duration: 0.4s;
 }
 
 #banUser {
@@ -2589,11 +2597,12 @@ blockquote p {
 }
 
 #resolveReportForm button:hover {
-  background-color: #ff3864; 
-  color: white; 
+  background-color: #ff3864;
+  color: white;
 }
 
-textarea[name="boardDescription"], textarea[name="editBoardDescription"] {
+textarea[name="boardDescription"],
+textarea[name="editBoardDescription"] {
   width: 100%;
   border-radius: 5px;
   max-height: 80px;
@@ -2604,7 +2613,9 @@ textarea[name="boardDescription"], textarea[name="editBoardDescription"] {
   margin-bottom: 10px;
 }
 
-textarea[name="innerDescription"], textarea[name="editInnerDescription"], #editDescription {
+textarea[name="innerDescription"],
+textarea[name="editInnerDescription"],
+#editDescription {
   border-radius: 5px;
   max-height: 100px;
   resize: none;
@@ -2624,7 +2635,10 @@ textarea[name="innerDescription"], textarea[name="editInnerDescription"], #editD
   font-size: 20px;
 }
 
-textarea[name="content"], #editPostContent, #replyContent, #editReplyContent {
+textarea[name="content"],
+#editPostContent,
+#replyContent,
+#editReplyContent {
   border-radius: 5px;
   max-height: 500px;
   resize: none;
@@ -2632,4 +2646,49 @@ textarea[name="content"], #editPostContent, #replyContent, #editReplyContent {
   padding: 10px;
   font-size: 16px;
   margin-bottom: 10px;
+}
+
+.up-arrow-container {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #FFD700;
+}
+
+.up-arrow-svg {
+  margin-right: 5px;
+  fill: none;
+  stroke: #FFD700;
+  stroke-width: 2;
+  width: 18px;
+  height: 18px;
+}
+
+.down-arrow-container {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #FFD700;
+}
+
+.down-arrow-svg {
+  margin-right: 5px;
+  fill: none;
+  stroke: #FFD700;
+  stroke-width: 2;
+  width: 18px;
+  height: 18px;
+}
+
+.right-side-buttons .reply-button-container {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.right-side-buttons .reply-arrow-svg {
+  margin-right: 5px;
+  fill: #FF1493;
+  width: 18px;
+  height: 18px;
 }
