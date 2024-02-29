@@ -2556,13 +2556,9 @@ blockquote p {
 
 #resolveReportForm {
   background-color: #2d033a;
-  /* Dark purple background */
   padding: 20px;
-  /* Padding around the form */
   border-radius: 5px;
-  /* Rounded corners */
   color: #f8f8f8;
-  /* Light green text */
 }
 
 #resolveReportForm ul {
