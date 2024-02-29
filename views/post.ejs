@@ -51,7 +51,7 @@
                    <%= post.poster.role %>
                 </div>
                 <div class="poster-icon">
-                    <img src="images/jejeling.gif" alt="jejeling">
+                    <img id="profileImage" src="<%= post.poster.profilePicture %>" alt="profile picture">
                 </div>
                 <div class="poster-join-date">
                     Join Date: <%= post.poster.joinDateMonth %>
@@ -136,7 +136,7 @@
                     <%= reply.poster.role %>
                 </div>
                 <div class="poster-icon">
-                    <img src="images/jejeling.gif" alt="jejeling">
+                    <img src="<%= reply.poster.profilePicture %>" alt="profile picture">
                 </div>
                 <div class="poster-join-date">
                     Join Date: <%= reply.poster.joinDateMonth %>

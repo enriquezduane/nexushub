@@ -20,8 +20,15 @@
           <%= user.role %>
         </div>
         <div class="profile-icon">
-          <img src="images/jejeling.gif" alt="jejeling">
+          <img id="profileImage" src="<%= user.profilePicture %>" alt="profile picture">
         </div>
+        <% if(loggedIn && user.id === userLoggedIn.id) { %>
+          <form id="updatePictureForm" enctype="multipart/form-data">
+            <input id="profilePictureInput" type="file" name="image">
+            <button class="update-button" type="submit">Update Profile Picture</button>
+            <button id="cancelUpdate" type="button" style="display: none;">Cancel</button>
+          </form>
+        <% } %>
       </div>
       <div class="profile-right">
         <div class="edit-profile-container">
@@ -63,3 +70,5 @@
     </div>
   </div>
 </div>
+
+<script src="js/updateProfilePicture.js"></script>

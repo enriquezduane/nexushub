@@ -1,6 +1,8 @@
 // Mock Database for NexusHub Forum
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const fs = require('fs');
+const path = require('path');
 
 users = [
     { 
@@ -98,6 +100,25 @@ users = [
         currentServer: "HiraniRO" 
     },
 ]
+
+users.forEach(user => {
+    // Construct the directory path of the profile pictures
+    const profilePicturesDir = path.join(__dirname, '..', '..', 'public', 'profilePictures');
+    
+    // Read the files in the profilePicturesDir
+    fs.readdirSync(profilePicturesDir).forEach(file => {
+        // Construct the full file path
+        const filePath = path.join(profilePicturesDir, file);
+        
+        // Check if the file contains the user's username and if it exists
+        if (file.includes(user.username) && fs.existsSync(filePath)) {
+            // If the file exists, add its path to the user object
+            user.profilePicture = `/profilePictures/${file}`;
+        }
+    });
+});
+
+
 
 users.forEach(async (user) => {
     try {

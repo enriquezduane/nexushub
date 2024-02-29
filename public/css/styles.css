@@ -1147,12 +1147,6 @@ tbody {
   /* Purple color for hover effect */
 }
 
-.prev-button:disabled,
-.next-button:disabled {
-  color: #666666;
-  cursor: not-allowed;
-}
-
 .post-container-template {
   background-color: #000033;
   border: 1px transparent;
@@ -2528,9 +2522,9 @@ blockquote p {
   width: 1439px;
 }
 
-.profile-icon img {
-  max-width: 120px;
-  max-height: 120px;
+#profileImage {
+  max-width: 120px !important;
+  max-height: 120px !important;
 }
 
 .report-button {

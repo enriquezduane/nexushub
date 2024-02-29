@@ -51,6 +51,10 @@ const userSchema = new mongoose.Schema({
     default: "No description.",
     maxlength: [50, 'Short Description must be 50 characters or less']
   },
+  profilePicture: {
+    type: String,
+    default: "images/jejeling.gif"
+  },
   posts: [
     { 
       type: mongoose.Schema.Types.ObjectId, 
