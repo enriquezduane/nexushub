@@ -1,6 +1,7 @@
 const profilePictureInput = document.getElementById('profilePictureInput');
 const cancelUpdate = document.getElementById('cancelUpdate');
 const updatePictureForm = document.getElementById('updatePictureForm');
+const confirmButton = document.querySelector('.update-button');
 
 let originalImage = document.getElementById('profileImage').src;
 
@@ -12,7 +13,9 @@ if (profilePictureInput) {
         reader.onload = function() {
           const profileImage = document.getElementById('profileImage');
           profileImage.src = reader.result;
+
           cancelUpdate.style.display = 'block';
+          confirmButton.style.display = 'block';
         }
         reader.readAsDataURL(input.files[0]);
     })
@@ -25,6 +28,7 @@ if (cancelUpdate) {
 
         updatePictureForm.reset();
         this.style.display = 'none';
+        confirmButton.style.display = 'none';
     })
 }
 

@@ -21,12 +21,13 @@
         </div>
         <div class="profile-icon">
           <img id="profileImage" src="<%= user.profilePicture %>" alt="profile picture">
+          <button id="cancelUpdate" class="button-style" type="button" style="display: none;">X</button>
         </div>
         <% if(loggedIn && user.id === userLoggedIn.id) { %>
           <form id="updatePictureForm" enctype="multipart/form-data">
             <input id="profilePictureInput" type="file" name="image">
-            <button class="update-button" type="submit">Update Profile Picture</button>
-            <button id="cancelUpdate" type="button" style="display: none;">Cancel</button>
+            <label for="profilePictureInput" class="button-style file-choose-button" style="margin-top: 20px;">Choose File</label>
+            <button class="button-style update-button" type="submit" style="display: none;">Confirm</button>
           </form>
         <% } %>
       </div>
