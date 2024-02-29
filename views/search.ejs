@@ -19,8 +19,7 @@
             Go Down
           </a>
           <div class="pagination">
-            <% if (page === true) { %>
-                <% if (page && page !== 1 && page !== 2) { %>
+                <% if (page !== 1 && page !== 2) { %>
                     <a class="page-button" href="<%= url %>">«</a>
                 <% } %>
                 <% for(let i = page - 1; i <= page + 1; i++) { %>
@@ -33,7 +32,6 @@
                 <% if (page !== totalPages && page !== totalPages - 1) { %>
                     <a class="page-button" href="<%= url %>&page=<%= totalPages %>">»</a>
                 <% } %>
-            <% } %>
            </div>
       </div>
   </div>
