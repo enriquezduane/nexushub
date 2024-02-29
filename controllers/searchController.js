@@ -60,7 +60,10 @@ const searchFilter = async (req, res, next) => {
                 res.users = await populateUsers(results);
                 res.totalPages = totalPages;
                 res.page = page;
-            }
+            } 
+        } else {
+            res.page = 1;
+            res.totalPages = 1;
         }
         next();
     } catch (err) {
