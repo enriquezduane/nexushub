@@ -26,10 +26,13 @@
         <% if(loggedIn && user.id === userLoggedIn.id) { %>
           <form id="updatePictureForm" enctype="multipart/form-data">
             <input id="profilePictureInput" type="file" name="image">
-            <label for="profilePictureInput" class="button-style file-choose-button" style="margin-top: 20px;">Choose File</label>
+            <label for="profilePictureInput" class="button-style file-choose-button" style="margin-top: 20px;">Choose Picture</label>
             <button class="button-style update-button" type="submit" style="display: none;">Confirm</button>
           </form>
         <% } %>
+        <div style="margin-top: 20px;">
+          <a id="showPosts" class="button-style" href="/user/posts=<%= user.id %>">Show Posts</a>
+        </div>
       </div>
       <div class="profile-right">
         <div class="edit-profile-container">

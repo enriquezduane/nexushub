@@ -71,11 +71,22 @@
                     <strong>#<%= index + 1 %></strong>
                 </span>
             </div>
+            <div class="<%= user.roleClass %>">
+                <%- user.role %>
+            </div>
+            <p style="margin: 5px 0;">Joined : <%= user.createdAtSGT %></p>
             <ul>
                 Posts: 
-                <% for (let i = 0; i < 5; i++) { %>
-                    <li><%= user.posts[i] ? user.posts[i].title : '' %></li>
-                <%  } %>
+                <% let endIndex = user.posts.length; %>
+                <% while (endIndex > 0 && endIndex > user.posts.length - 5) { %>
+                    <% endIndex--; %>
+                <% } %>
+
+                <% for (let i = user.posts.length - 1; i >= endIndex; i--) { %>
+                    <% if (user.posts[i]) { %>
+                        <li><a href="<%= user.posts[i].href %>"><%= user.posts[i].title %></a></li>
+                    <% } %>
+                <% } %>
             </ul>
         </div>
     <% }); %>

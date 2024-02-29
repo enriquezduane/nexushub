@@ -204,6 +204,7 @@ header div {
   overflow: hidden;
   margin-top: 14px;
   margin-left: 10px;
+  font-size: 15px;
 }
 
 .cyberpunk-nav .dropdown-content a {
@@ -1296,7 +1297,7 @@ tbody {
 .profile-area {
   font-size: 25px;
   display: flex;
-  padding: 25px 250px;
+  padding: 25px 150px;
 }
 
 .profile-left {
@@ -1317,11 +1318,11 @@ tbody {
   flex-direction: column;
   justify-content: space-between;
   font-size: 18px;
-  margin-left: 5rem;
 }
 
 .profile-block {
-  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #fff;
 }
 
 .profile-info {
@@ -2768,4 +2769,8 @@ textarea[name="content"],
   z-index: 10;
   transition: background-color 0.3s ease;
   text-transform: uppercase;
+}
+
+#showPosts {
+  width: 80%;
 }

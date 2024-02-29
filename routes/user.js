@@ -5,14 +5,16 @@ const router = express.Router();
 router.use(express.static('public'));
 
 // initialize database
-const { populateAll, headerFooterData } = require('../controllers/helper');
+const { headerFooterData } = require('../controllers/helper');
 
 // import controller
-const { renderUpdateProfile, renderUser, getUserByUrl, updateUser, createUser } = require('../controllers/userController');
+const { renderUpdateProfile, renderPosts, renderUser, getUserByUrl, getPagination, updateUser, createUser } = require('../controllers/userController');
 
-router.get('/update=:id', headerFooterData, renderUpdateProfile);
+router.get('/update=:id', getUserByUrl, headerFooterData, renderUpdateProfile);
 
-router.get('/:id', populateAll, getUserByUrl, headerFooterData, renderUser);
+router.get('/posts=:id', getUserByUrl, getPagination, headerFooterData, renderPosts);
+
+router.get('/:id', getUserByUrl, headerFooterData, renderUser);
 
 router.post('/new', createUser);
 

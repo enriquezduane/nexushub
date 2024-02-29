@@ -38,7 +38,7 @@ const searchFilter = async (req, res, next) => {
         const query = req.query.query;
         const target = req.query.target;
         const page = parseInt(req.query.page) || 1;
-        const limit = 1;
+        const limit = 10;
 
         let startIndex = (page - 1) * limit;
         let endIndex = startIndex + limit;

@@ -14,8 +14,37 @@ const renderUpdateProfile = (req, res) => {
       loggedIn: req.isAuthenticated(), 
       title: 'Update Profile', 
       userId: req.params.id, 
+      user: res.user,
       forumRules: res.forumRules, 
       userLoggedIn: req.user
+    });
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    res.status(500).json({ message: err.message });
+  }
+}
+
+const renderPosts = (req, res) => {
+  try {
+    // Render the users posts page
+
+    if (req.query.page) {
+      if (req.query.page < 1 || req.query.page > res.totalPages || isNaN(req.query.page)) {
+          return res.status(404).json({ message: 'Page not found' });
+      }
+    }
+
+    const posts = res.user.posts.sort((a, b) => b.createdAt - a.createdAt);
+
+    res.render('myPosts', { 
+      loggedIn: req.isAuthenticated(),
+      title: `Posts by ${res.user.username}`, 
+      user: res.user, 
+      posts: posts,
+      page: res.page,
+      totalPages: res.totalPages,
+      forumRules: res.forumRules, 
+      userLoggedIn: req.user 
     });
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -26,7 +55,13 @@ const renderUpdateProfile = (req, res) => {
 const renderUser = (req, res) => {
   try {
     // Render the users page
-    res.render('user', { loggedIn: req.isAuthenticated(), title: res.user.username, user: res.user, forumRules: res.forumRules, userLoggedIn: req.user });
+    res.render('user', { 
+      loggedIn: req.isAuthenticated(), 
+      title: res.user.username, 
+      user: res.user, forumRules: 
+      res.forumRules, 
+      userLoggedIn: req.user 
+    });
   } catch (error) {
     console.error('Error fetching data:', error);
     res.status(500).json({ message: err.message });
@@ -49,6 +84,35 @@ const getUserByUrl = async (req, res, next) => {
   }
   next();
 }
+
+const getPagination = (req, res, next) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = 10; 
+
+  let startIndex = (page - 1) * limit;
+  let endIndex = startIndex + limit;
+
+  try {
+      const user = res.user;
+
+      if (!user) {
+          return res.status(404).json({ message: 'User not found' });
+      }
+
+      const totalPages = Math.ceil(user.posts.length / limit);
+      const results = user.posts.slice(startIndex, endIndex);
+
+      res.posts = results;
+      res.totalPages = totalPages ? totalPages : 1;
+      res.page = page;
+
+      next();
+  } catch (error) {
+      console.error('Error:', error);
+      res.status(500).json({ message: error.message });
+  }
+}
+
 
 const createUser = async (req, res) => {
   try {
@@ -140,8 +204,10 @@ const updateUser = async (req, res) => {
 
 module.exports = {
   renderUpdateProfile,
+  renderPosts,
   renderUser,
   getUserByUrl,
+  getPagination,
   createUser,
   updateUser,
 }
