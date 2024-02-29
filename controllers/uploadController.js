@@ -55,8 +55,6 @@ const updateProfilePicture = async (req, res) => {
       if (!req.isAuthenticated()) {
         return res.status(403).json({ message: 'User not logged in!' });
       }
-      
-      console.log(req.file);
   
       if (!req.file) {
         return res.status(400).json({ message: 'No file uploaded!' });
@@ -76,14 +74,11 @@ const updateProfilePicture = async (req, res) => {
         if (fs.existsSync(oldProfilePicturePath)) {
             // Delete the old profile picture file
             fs.unlinkSync(oldProfilePicturePath);
-            console.log('Old profile picture deleted:', oldProfilePicturePath);
         }
     }
 
       // get file path and save to user
       user.profilePicture = req.file.path.substring(req.file.path.indexOf('public/') + 7);
-
-      console.log(req.file);
 
       await user.save();
         
