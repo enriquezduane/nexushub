@@ -91,6 +91,11 @@ const createUser = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const { userId, email, age, description, newPassword } = req.body;
+
+    if (!req.isAuthenticated() || req.user.id !== userId) {
+      return res.status(403).json({ message: 'User not logged in!' });
+    }
+
     const user = await User.findById(userId);
 
     if (!user) {

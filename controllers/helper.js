@@ -475,6 +475,7 @@ const handleValidationError = (err) => {
 
     if (err.name === 'ValidationError') {
         const errorMessage = Object.values(err.errors).map(error => error.message);
+        console.log('Error Message:', errorMessage);
         return { status: 400, message: errorMessage };
     }
 

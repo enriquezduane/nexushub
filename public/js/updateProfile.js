@@ -4,6 +4,7 @@ form.addEventListener('submit', async (event) => {
     event.preventDefault();
 
     const profileForm = document.querySelector('.edit-profile-form');
+    const email = document.getElementById('user-email').value;
     const age = document.getElementById('user-age').value;
     const description = document.getElementById('user-description').value;
     const newPassword = document.getElementById('user-password').value;
@@ -18,6 +19,7 @@ form.addEventListener('submit', async (event) => {
             },
             body: JSON.stringify({
                 userId: userId,
+                email: email,
                 age: age,
                 description: description,
                 newPassword: newPassword
@@ -30,12 +32,12 @@ form.addEventListener('submit', async (event) => {
         }
 
         // alert user that profile has been updated
-        alert('Profile updated successfully');
+        alert('Profile updated successfully!');
 
         // redirect to user profile page
         window.location.href = `/user/${userId}`; 
     } catch (error) {
         console.error('Error:', error.message);
-        alert('Failed to update profile. ' + error.message);
+        alert(error.message);
     }
 });
