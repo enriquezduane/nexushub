@@ -6,11 +6,11 @@
         <span>&gt;</span>
         <a href="<%= user.href %>"><%= user.username %></a>
         <span>&gt;</span>
-        <a href="/user/posts=<%= user.id %>">Posts</a>
+        <a href="/user/replies=<%= user.id %>">Replies</a>
     </div>
 
     <div class="profile-header topic-header post-container-template">
-        Posts - <%= user.username %>
+        Replies - <%= user.username %>
     </div>
 
     <div class="post-section-top">
@@ -23,34 +23,34 @@
               </a>
               <div class="pagination">
                 <% if (page !== 1 && page !== 2) { %>
-                    <a class="page-button" href="/user/posts=<%= user.id %>">«</a>
+                    <a class="page-button" href="/user/replies=<%= user.id %>">«</a>
                 <% } %>
                 <% for(let i = page - 1; i <= page + 1; i++) { %>
                     <% if (i !== 0 && i !== totalPages + 1) { %>
-                        <a class="page-button <%= i === page ? 'currentPage' : '' %>" href="/user/posts=<%= user.id %>?page=<%= i %>">
+                        <a class="page-button <%= i === page ? 'currentPage' : '' %>" href="/user/replies=<%= user.id %>?page=<%= i %>">
                         <%= i %>
                         </a>
                     <% } %>
                 <% } %>
                 <% if (page !== totalPages && page !== totalPages - 1) { %>
-                    <a class="page-button" href="/user/posts=<%= user.id %>?page=<%= totalPages %>">»</a>
+                    <a class="page-button" href="/user/replies=<%= user.id %>?page=<%= totalPages %>">»</a>
                 <% } %>
             </div>
         </div>
         
     </div>
 
-    <% if (posts && posts.length > 0) { %>
-        <% posts.forEach( (post, index) => { %>
+    <% if (replies && replies.length > 0) { %>
+        <% replies.forEach( (reply, index) => { %>
             <div class="search-result-container post-section post-container-template">
                 <div class="search-result-content">
                 <div>
-                    <a href="<%= post.refBoard.href %>">
-                        <%- post.refBoard.title %>
+                    <a href="<%= reply.refPost.refBoard.href %>">
+                        <%- reply.refPost.refBoard.title %>
                     </a>
                     <span>&gt;</span>
-                    <a href="<%= post.href %>">
-                        <%= post.title %>
+                    <a href="<%= reply.href %>">
+                        <%= reply.title %>
                     </a>
                 </div>
                 <span>
@@ -58,10 +58,10 @@
                 </span>
                 </div>
                 <p style="border-bottom: 1px solid #fff; padding-bottom: 10px;">
-                <a href="<%= post.href %>"><span style="font-size: 15px;"><%= post.createdAtSGT %></span></a>
+                <a href="<%= reply.href %>"><span style="font-size: 15px;"><%= reply.createdAtSGT %></span></a>
                 </p>
                 <div class="post-content">
-                    <%- post.content %>
+                    <%- reply.reply %>
                 </div>
                 <div class="post-content-footer">
                     <% if (loggedIn) { %>
@@ -86,17 +86,17 @@
             </a>
             <div class="pagination">
                 <% if (page !== 1 && page !== 2) { %>
-                    <a class="page-button" href="/user/posts=<%= user.id %>">«</a>
+                    <a class="page-button" href="/user/replies=<%= user.id %>">«</a>
                 <% } %>
                 <% for(let i = page - 1; i <= page + 1; i++) { %>
                     <% if (i !== 0 && i !== totalPages + 1) { %>
-                        <a class="page-button <%= i === page ? 'currentPage' : '' %>" href="/user/posts=<%= user.id %>?page=<%= i %>">
+                        <a class="page-button <%= i === page ? 'currentPage' : '' %>" href="/user/replies=<%= user.id %>?page=<%= i %>">
                         <%= i %>
                         </a>
                     <% } %>
                 <% } %>
                 <% if (page !== totalPages && page !== totalPages - 1) { %>
-                    <a class="page-button" href="/user/posts=<%= user.id %>?page=<%= totalPages %>">»</a>
+                    <a class="page-button" href="/user/replies=<%= user.id %>?page=<%= totalPages %>">»</a>
                 <% } %>
             </div>
         </div>

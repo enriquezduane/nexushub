@@ -1,6 +1,6 @@
 const Board = require('../models/boardModel');
 const Post = require('../models/postModel');
-const { populateBoard, populatePosts } = require('./helper');
+const { populateBoard, populatePosts, paginationLimit } = require('./helper');
 
 const renderBoard = (req, res) => {
     try {
@@ -66,7 +66,7 @@ const getBoardPosts = async (req, res, next) => {
 
 const getPagination = (req, res, next) => {
     const page = parseInt(req.query.page) || 1;
-    const limit = 10;
+    const limit = paginationLimit;
 
     let startIndex = (page - 1) * limit;
     let endIndex = startIndex + limit;

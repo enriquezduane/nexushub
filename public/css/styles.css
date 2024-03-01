@@ -1297,7 +1297,7 @@ tbody {
 .profile-area {
   font-size: 25px;
   display: flex;
-  padding: 25px 150px;
+  padding: 25px 175px;
 }
 
 .profile-left {
@@ -2722,7 +2722,7 @@ textarea[name="content"],
   cursor: pointer;
   border: 1px solid #8f3e97;
   display: block;
-  width: 100%;
+  width: 50%;
   margin-top: 5px;
   /* Adjust button width to take full width */
   text-transform: uppercase;

@@ -3,7 +3,7 @@ const Post = require('../models/postModel');
 const Reply = require('../models/replyModel');
 const User = require('../models/userModel');
 const QuillDeltaToHtmlConverter = require('quill-delta-to-html').QuillDeltaToHtmlConverter;
-const { populatePost, populateReply, emoticonData, handleValidationError } = require('./helper');
+const { populatePost, populateReply, emoticonData, handleValidationError, paginationLimit } = require('./helper');
 
 const renderCreatePost = (req, res) => {
     try {
@@ -40,6 +40,7 @@ const renderPost = (req, res) => {
             page: res.page,
             totalPages: res.totalPages,
             lastLimitReached: res.lastLimitReach,
+            paginationLimit: paginationLimit,
             users: res.users, 
             forumRules: res.forumRules, 
             userLoggedIn: req.user,
@@ -91,7 +92,7 @@ const incrementViews = async (req, res, next) => {
 
 const getPagination = (req, res, next) => {
     const page = parseInt(req.query.page) || 1;
-    const limit = 1; 
+    const limit = paginationLimit; 
 
     let startIndex = (page - 1) * limit;
     let endIndex = startIndex + limit;
@@ -290,6 +291,7 @@ const createReply = async (req, res) => {
             joinDate: populatedReply.poster.joinDateMonth,
             role: populatedReply.poster.role,
             roleClass: populatedReply.poster.roleClass,
+            profilePicture: populatedReply.poster.profilePicture,
             postCount: populatedReply.poster.postCount,
             edited: populatedReply.edited,
             updatedAtSGT: populatedReply.updatedAtSGT

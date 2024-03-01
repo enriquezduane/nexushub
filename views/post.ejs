@@ -127,7 +127,7 @@
     <% } %>
 
     <% for(const reply of replies) { %>
-        <div class="reply-section post-section post-container-template" data-id="<%= reply.id %>">
+        <div class="reply-section post-section post-container-template" data-id="<%= reply.id %>" data-index="<%= page === 1 ? replies.indexOf(reply) + 2: replies.indexOf(reply) + 1 %>">
             <div class="poster-info">
                 <div class="poster-name">
                     <strong><a href="<%= reply.poster.href %>"><%= reply.poster.username %></a></strong>
@@ -231,7 +231,9 @@
                 Reply
             </div>
             <form id="replyForm">
-                <input type="hidden" data-page="<%= page %>" data-totalpages="<%= totalPages %>" data-lastlimitreached="<%= lastLimitReached %>" name="postId" value="<%= post.id %>">
+                <input type="hidden" name="postId" value="<%= post.id %>"
+                data-page="<%= page %>" data-totalpages="<%= totalPages %>" data-lastlimitreached="<%= lastLimitReached %>" 
+                data-pageitems="<%= replies.length + (page === 1 ? 1 : 0)%>" data-paginationlimit="<%= paginationLimit %>">
                 <div class="reply-area">
                     <div id="editor-container"></div>
                     <button type="submit" class="post-button">Post</button>

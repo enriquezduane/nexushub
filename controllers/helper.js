@@ -491,6 +491,8 @@ function checkIfBanned(req, res, next) {
     next();
 }
 
+const paginationLimit = 10;
+
 module.exports = {
     populateAll,
     populateCategories,
@@ -509,5 +511,6 @@ module.exports = {
     emoticonData,
     hashPassword,
     handleValidationError,
-    checkIfBanned
+    checkIfBanned,
+    paginationLimit
 }

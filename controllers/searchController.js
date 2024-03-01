@@ -1,6 +1,6 @@
 const Post = require('../models/postModel');
 const User = require('../models/userModel');
-const { populatePosts, highlightSubstring, populateUsers } = require('./helper');
+const { populatePosts, highlightSubstring, populateUsers, paginationLimit} = require('./helper');
 
 const renderSearch = (req, res) => {
     try {
@@ -38,7 +38,7 @@ const searchFilter = async (req, res, next) => {
         const query = req.query.query;
         const target = req.query.target;
         const page = parseInt(req.query.page) || 1;
-        const limit = 10;
+        const limit = paginationLimit;
 
         let startIndex = (page - 1) * limit;
         let endIndex = startIndex + limit;

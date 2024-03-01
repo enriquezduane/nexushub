@@ -12,6 +12,8 @@ if (replyForm) {
         const page = hiddenInput.dataset.page;
         const totalPages = hiddenInput.dataset.totalpages;
         const lastLimitReached = hiddenInput.dataset.lastlimitreached;
+        let pageItems = hiddenInput.dataset.pageitems;
+        const paginationLimit = hiddenInput.dataset.paginationlimit;
 
         const isEmptyContent = content.ops.every(op => {
             // Check if op.insert is a string before attempting to trim
@@ -43,16 +45,24 @@ if (replyForm) {
             })
             .then( reply => {
                 // On successful response, update the page with the new reply
-
                 const newPage = parseInt(totalPages) + 1;
 
-                if (lastLimitReached) {
+                if (lastLimitReached === "true") {
                     window.location.href = window.location.pathname + '?page=' + newPage;
+                    alert('Reply added successfully!');
+                    return;
                 }
                 
-                if (page !== totalPages && !lastLimitReached) {
-                    window.location.href = window.location.pathname + '?page=' + totalPages;
+                if (page !== totalPages && lastLimitReached === "false") {
+                    window.location.href = window.location.pathname + '?page=' + totalPages + "#" + reply.id;
+                    alert('Reply added successfully!');
+                    return;
                 }
+
+                pageItems = parseInt(pageItems) + 1;
+
+                hiddenInput.dataset.pageitems = pageItems;
+                hiddenInput.dataset.lastlimitreached = pageItems === paginationLimit ? "true" : "false";
 
                 const replyContainer = document.querySelector('.content-container');
                 const newReplySection = document.createElement('div');
@@ -69,7 +79,7 @@ if (replyForm) {
                                 ${reply.role}
                             </div>
                             <div class="poster-icon">
-                                <img src="images/jejeling.gif" alt="jejeling">
+                                <img id="profileImage" src="${reply.profilePicture}" alt="profile picture">
                             </div>
                             <div class="poster-join-date">
                                 Join Date: ${reply.joinDate}
@@ -82,7 +92,7 @@ if (replyForm) {
                             <div class="post-info">
                                 <div class="post-info-top">
                                     <div class="post-name">
-                                    <a href="${reply.href}"><strong>${reply.title}</strong></a>
+                                    <a href="${reply.href}#${reply.id}"><strong>${reply.title}</strong></a>
                                     </div>
                                     <div class="vote-container">
                                         <button class="upvote-btn">Upvote</button>

@@ -30,8 +30,11 @@
             <button class="button-style update-button" type="submit" style="display: none;">Confirm</button>
           </form>
         <% } %>
-        <div style="margin-top: 20px;">
+        <div style="margin-top: 20px; width: 50%;">
           <a id="showPosts" class="button-style" href="/user/posts=<%= user.id %>">Show Posts</a>
+        </div>
+        <div style="margin-top: 20px; width: 50%;">
+          <a id="showPosts" class="button-style" href="/user/replies=<%= user.id %>">Show Replies</a>
         </div>
       </div>
       <div class="profile-right">

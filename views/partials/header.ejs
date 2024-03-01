@@ -12,6 +12,7 @@
           <div class="dropdown-content">
             <a href="<%= userLoggedIn.href %>">Profile</a>
             <a href="/user/posts=<%= userLoggedIn.id %>">My Posts</a>
+            <a href="/user/replies=<%= userLoggedIn.id %>">My Replies</a>
             <a href="/user/update=<%= userLoggedIn.id %>">Update Profile</a>
             <% if (loggedIn && userLoggedIn.role === 'Forum Master') { %>
               <a href="/admin">Master Area</a>

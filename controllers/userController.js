@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const User = require('../models/userModel');
 const bcrypt = require('bcrypt');
-const { populateUser, handleValidationError } = require('./helper');
+const { populateUser, handleValidationError, paginationLimit } = require('./helper');
 
 const renderUpdateProfile = (req, res) => {
   try {
@@ -34,13 +34,37 @@ const renderPosts = (req, res) => {
       }
     }
 
-    const posts = res.user.posts.sort((a, b) => b.createdAt - a.createdAt);
-
     res.render('myPosts', { 
       loggedIn: req.isAuthenticated(),
       title: `Posts by ${res.user.username}`, 
       user: res.user, 
-      posts: posts,
+      posts: res.posts.sort((a, b) => b.createdAt - a.createdAt),
+      page: res.page,
+      totalPages: res.totalPages,
+      forumRules: res.forumRules, 
+      userLoggedIn: req.user 
+    });
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    res.status(500).json({ message: error.message });
+  }
+}
+
+const renderReplies = (req, res) => {
+  try {
+    // Render the users replies page
+
+    if (req.query.page) {
+      if (req.query.page < 1 || req.query.page > res.totalPages || isNaN(req.query.page)) {
+          return res.status(404).json({ message: 'Page not found' });
+      }
+    }
+
+    res.render('myReplies', { 
+      loggedIn: req.isAuthenticated(),
+      title: `Replies by ${res.user.username}`, 
+      user: res.user, 
+      replies: res.replies.sort((a, b) => b.createdAt - a.createdAt),
       page: res.page,
       totalPages: res.totalPages,
       forumRules: res.forumRules, 
@@ -87,32 +111,64 @@ const getUserByUrl = async (req, res, next) => {
 
 const getPagination = (req, res, next) => {
   const page = parseInt(req.query.page) || 1;
-  const limit = 10; 
-
-  let startIndex = (page - 1) * limit;
-  let endIndex = startIndex + limit;
+  const limit = paginationLimit;
 
   try {
-      const user = res.user;
+    const user = res.user;
 
-      if (!user) {
-          return res.status(404).json({ message: 'User not found' });
-      }
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
 
-      const totalPages = Math.ceil(user.posts.length / limit);
-      const results = user.posts.slice(startIndex, endIndex);
+    
+    
+    // Extract pagination type and user ID from the URL path
+    const pathSegments = req.originalUrl.split('/');
+    const paginationType = pathSegments[pathSegments.length - 1].split('=')[0]; // "posts" or "replies"
 
+    dataToPaginate = paginationType === 'posts' ? user.posts : user.replies;
+
+    const totalPages = Math.ceil(dataToPaginate.length / limit);
+    
+    // Calculate startIndex and endIndex in reverse order
+    let endIndex = dataToPaginate.length - (page - 1) * limit;
+    let startIndex = Math.max(0, endIndex - limit);
+
+    const results = dataToPaginate.slice(startIndex, endIndex);
+
+    if (paginationType === 'posts') {
       res.posts = results;
-      res.totalPages = totalPages ? totalPages : 1;
-      res.page = page;
+    } else {
+      res.replies = results;
+    }
 
-      next();
+    res.totalPages = totalPages ? totalPages : 1;
+    res.page = page;
+
+    next();
   } catch (error) {
-      console.error('Error:', error);
-      res.status(500).json({ message: error.message });
+    console.error('Error:', error);
+    res.status(500).json({ message: error.message });
   }
 }
 
+const setReplyHrefs = (req, res, next) => {
+  const limit = paginationLimit;
+  const replies = res.replies;
+
+  try {
+      replies.forEach(reply => {
+      // index + 2 to account for the post which is page 1 and array indexing starting at 0
+      const page = Math.ceil((reply.refPost.replies.findIndex(item => item.id === reply.id)) + 2 / limit);
+      reply.href = `/forum/${reply.refPost.refBoard._id}/${reply.refPost._id}?page=${page}#${reply._id}`;
+    });
+
+    next();
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ message: error.message });
+  }
+}
 
 const createUser = async (req, res) => {
   try {
@@ -205,9 +261,11 @@ const updateUser = async (req, res) => {
 module.exports = {
   renderUpdateProfile,
   renderPosts,
+  renderReplies,
   renderUser,
   getUserByUrl,
   getPagination,
+  setReplyHrefs,
   createUser,
   updateUser,
 }

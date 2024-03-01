@@ -53,10 +53,6 @@ replySchema.virtual('updatedAtSGT').get(function() {
   return moment(this.updatedAt).tz('Asia/Singapore').format('MMM DD, YYYY hh:mm A'); // Format SGT updatedAt
 });
 
-replySchema.virtual('href').get(function() {
-  return `${this.refPost.href}#reply-${this._id}`;
-});
-
 replySchema.pre('save', async function(next) {
   try {
     // Check if the document is new (i.e., being created)
