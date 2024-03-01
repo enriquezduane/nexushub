@@ -91,7 +91,7 @@ const incrementViews = async (req, res, next) => {
 
 const getPagination = (req, res, next) => {
     const page = parseInt(req.query.page) || 1;
-    const limit = 10; 
+    const limit = 1; 
 
     let startIndex = (page - 1) * limit;
     let endIndex = startIndex + limit;
