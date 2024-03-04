@@ -24,7 +24,6 @@ const initializePassport = (passport) => {
             return done(error);
         }
     };
-    
 
     passport.use(new LocalStrategy(authenticateUser));
 

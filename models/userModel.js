@@ -118,6 +118,9 @@ const userSchema = new mongoose.Schema({
       message: 'Cannot ban Forum Masters!'
     }
   },
+  rememberToken: {
+    type: String,
+  },
   createdAt: { 
     type: Date, 
     default: () => Date.now(),
