@@ -1,6 +1,6 @@
 const Post = require('../models/postModel');
 const User = require('../models/userModel');
-const { populatePosts, highlightSubstring, populateUsers, paginationLimit} = require('./helper');
+const { populatePosts, highlightSubstring, getHighlightedSnippet, populateUsers, paginationLimit} = require('./helper');
 
 const renderSearch = (req, res) => {
     try {
@@ -22,6 +22,7 @@ const renderSearch = (req, res) => {
             totalPages: res.totalPages,
             url: req.originalUrl,
             highlightSubstring, 
+            getHighlightedSnippet,
             forumRules: res.forumRules, 
             userLoggedIn: req.user
         });
@@ -45,7 +46,7 @@ const searchFilter = async (req, res, next) => {
 
         if (query !== "") {
             if (target.toLowerCase() === 'posts') {
-                const posts = await Post.find({ title: { $regex: new RegExp(query, 'i') } });
+                const posts = await Post.find( { $or: [ { title: { $regex: new RegExp(query, 'i') } }, { content: { $regex: new RegExp(query, 'i') } } ] } );
                 const totalPosts = posts.length;
                 const totalPages = Math.ceil(totalPosts / limit);
                 const results = posts.slice(startIndex, endIndex);

@@ -430,6 +430,51 @@ const highlightSubstring = (content, searchText) => {
     return parts.map(part => part.toLowerCase() === searchText.toLowerCase() ? `<strong style="color: #ff9200;">${part}</strong>` : part).join('');
 }
 
+const getHighlightedSnippet = (content, searchText) => {
+    // Replace <br> tags with spaces
+    content = content.replace(/<br>/g, ' ');
+    
+    // Find the index of the query text in the content
+    const index = content.toLowerCase().indexOf(searchText.toLowerCase());
+    if (index === -1) {
+        // If query text is not found, return an empty string
+        return '';
+    }
+
+    // Define the length of the snippet to show before and after the query text
+    const snippetLength = 100;
+
+    // Calculate the start and end positions of the snippet
+    let start = Math.max(0, index - snippetLength / 2);
+    let end = Math.min(content.length, index + snippetLength / 2 + searchText.length);
+    
+    // Add a space to the start and end of the snippet
+    if (start !== 0) {
+        start++; // Add space at the start
+    }
+    if (end !== content.length) {
+        end++; // Add space at the end
+    }
+
+    // Get the snippet of the content
+    let snippet = content.substring(start, end);
+
+    // Add ellipsis if the snippet doesn't end at the actual end of the content
+    if (end !== content.length) {
+        snippet += '...';
+    }
+
+    // Add ellipsis to the start if snippet doesn't start at the actual start of the content
+    if (start !== 0) {
+        snippet = `...${snippet}`;
+    }
+
+    // Encapsulate the snippet in <p> tags with the provided style attribute
+    snippet = `<p style="color: #b0faff; margin-bottom: 10px;">"${snippet}"</p>`;
+
+    return snippet;
+}
+
 const formatLatestPostDate = (post) => {
     return moment(post.createdAt).tz('Asia/Singapore').format('MMM DD [at] hh:mm A');
 }
@@ -506,6 +551,7 @@ module.exports = {
     populateUsers,
     populateUser,
     highlightSubstring,
+    getHighlightedSnippet,
     formatLatestPostDate,
     headerFooterData,
     emoticonData,

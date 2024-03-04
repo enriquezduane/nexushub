@@ -53,6 +53,7 @@
                     <strong>#<%= index + 1 %></strong>
                 </span>
               </div>
+                <%- highlightSubstring(getHighlightedSnippet(post.content, query), query) %>
               <p>
                 <a href="<%= post.href %>"><span style="font-size: 15px;"><%= post.createdAtSGT %></span></a> by <a href="<%= post.poster.href %>"><%= post.poster.username %></a>
               </p>
