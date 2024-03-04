@@ -7,6 +7,7 @@ if (loginForm) {
         // Get username and password from the form
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
+        const rememberMe = document.getElementById('remember-me').checked;
         
         // Send form data to the server via AJAX
         fetch('/auth/login', {
@@ -14,7 +15,7 @@ if (loginForm) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ username, password })
+            body: JSON.stringify({ username, password, rememberMe })
         })
         .then(response => {
             return response.json();

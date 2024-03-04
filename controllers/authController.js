@@ -1,7 +1,15 @@
 const passport = require('passport');
+const uuid = require('uuid');
+
+const issueRememberToken = async (user) => {
+    const token = uuid.v4(); // Generate a random token
+    user.rememberToken = token;
+    await user.save();
+    return token;
+};
 
 const authenticateUser = (req, res, next) => {
-    passport.authenticate('local', (err, user, info) => {
+    passport.authenticate('local', async (err, user, info) => {
         if (err) {
             return next(err);
         }
@@ -17,15 +25,44 @@ const authenticateUser = (req, res, next) => {
             // If there's no specific message, use a generic one
             return res.status(401).json({ error: 'Authentication failed. Please try again.' });
         }
+
         // Authentication successful
-        req.logIn(user, (err) => {
+        req.logIn(user, async (err) => {
             if (err) {
                 return next(err);
             }
+
+            // If remember me option is selected, issue remember me token
+            if (req.body.rememberMe) {
+                const token = await issueRememberToken(user);
+
+                // Store remember me token in cookie
+                res.cookie('remember_me', token, { path: '/', httpOnly: true, maxAge: 30 * 24 * 60 * 60 * 1000 }); // 30 days expiration time
+            }
+
             // Send JSON response indicating successful login
-            res.json({ success: true });
+            return res.json({ success: true });
         });
     })(req, res, next);
 };
 
-module.exports = { authenticateUser };
+const logoutUser = async (req, res) => {
+    // Remove the rememberToken from the user
+    try {
+        if (req.user) {
+            await req.user.updateOne({ $unset: { rememberToken: 1 } });
+        }
+    } catch (error) {
+        console.error(error);
+    }
+
+    // Clear the remember_me cookie
+    res.clearCookie('remember_me');
+
+    // Logout the user
+    req.logout(() => {
+        res.redirect('/');
+    });
+};
+
+module.exports = { authenticateUser, logoutUser };

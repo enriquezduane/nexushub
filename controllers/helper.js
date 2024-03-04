@@ -536,6 +536,36 @@ function checkIfBanned(req, res, next) {
     next();
 }
 
+const verifyRememberMeToken = async (req, res, next) => {
+    if (!req.cookies.remember_me) {
+        // If the remember_me cookie doesn't exist, proceed to the next middleware
+        return next();
+    }
+
+    const token = req.cookies.remember_me;
+
+    try {
+        const user = await User.findOne({ rememberToken: token });
+        if (!user) {
+            // No user found with the given remember-me token
+            res.clearCookie('remember_me');
+            return next();
+        }
+
+        // Log in the user to make them authenticated
+        req.login(user, (err) => {
+            if (err) {
+                return next(err);
+            }
+            // Authentication successful, continue to the next middleware
+            next();
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+
 const paginationLimit = 10;
 
 module.exports = {
@@ -558,5 +588,6 @@ module.exports = {
     hashPassword,
     handleValidationError,
     checkIfBanned,
-    paginationLimit
+    paginationLimit,
+    verifyRememberMeToken
 }

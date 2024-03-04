@@ -47,7 +47,3 @@ Whether you're here to relive your best Ragnarok moments or to carve new ones, N
 ---
 
 Note: NexusHub is currently in development as part of a school project for a major course. It's a work in progress, blending academic goals with the engaging world of Ragnarok. Your participation and feedback are invaluable as we continue to develop NexusHub! 🚀📚
-
-## 🌟 TODO 
-- search posts based on post content and show snippet of the post content based on the part searched
-- add remember me login functionality
