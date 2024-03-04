@@ -131,6 +131,8 @@ postSchema.pre('deleteOne', async function (next) {
       await mongoose.model('Reply').deleteMany({ _id: { $in: post.replies } });
     }
 
+    await mongoose.model('Report').deleteMany({ 'reportedItem.item': post._id });
+
     next();
   } catch (error) {
     next(error);
@@ -162,6 +164,8 @@ postSchema.pre('deleteMany', async function (next) {
       if (post.replies && post.replies.length > 0) {
         await mongoose.model('Reply').deleteMany({ _id: { $in: post.replies } });
       }
+
+      await mongoose.model('Report').deleteMany({ 'reportedItem.item': post._id });
     }
 
     next();

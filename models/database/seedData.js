@@ -1085,7 +1085,7 @@ users[3].replies = [];
 users[4].replies = [replies[0]._id, replies[2]._id, replies[5]._id, replies[6]._id, replies[8]._id, replies[10]._id];
 users[5].replies = [replies[1]._id, replies[3]._id, replies[7]._id, replies[9]._id];
 users[6].replies = [replies[4]._id, replies[11]._id];
-users[7].replies = [replies[0]._id, replies[12]._id], replies[13]._id;
+users[7].replies = [replies[12]._id, replies[13]._id];
 users[8].replies = [];
 users[9].replies = [];
 users[10].replies = [];
@@ -1248,11 +1248,74 @@ categories.forEach(category => {
     category.updatedAt = category.createdAt;
 });
 
+reports = [
+    {
+        _id: new mongoose.Types.ObjectId(),
+        reporter: users[4]._id,
+        reportedItem: {
+            itemType: "Post",
+            item: posts[9]._id
+        },
+        reason: "Disrespectful Behavior",
+        description: "Very disrespectful",
+        createdAt: new Date("Mar 04, 2024, 4:33 PM"),
+    },
+
+    {
+        _id: new mongoose.Types.ObjectId(),
+        reporter: users[0]._id,
+        reportedItem: {
+            itemType: "Reply",
+            item: replies[1]._id
+        },
+        reason: "Multiple Accounts",
+        description: "I think he is multi accounting",
+        createdAt: new Date("Mar 04, 2024, 4:34 PM"),
+    },
+
+    {
+        _id: new mongoose.Types.ObjectId(),
+        reporter: users[0]._id,
+        reportedItem: {
+            itemType: "Reply",
+            item: replies[0]._id
+        },
+        reason: "Other",
+        description: "I think he looks like an idiot",
+        createdAt: new Date("Mar 04, 2024, 4:35 PM"),
+    },
+
+    {
+        _id: new mongoose.Types.ObjectId(),
+        reporter: users[0]._id,
+        reportedItem: {
+            itemType: "Reply",
+            item: replies[11]._id
+        },
+        reason: "Spam or Self-Promotion",
+        description: "He is trying to self promote",
+        createdAt: new Date("Mar 04, 2024, 4:36 PM"),
+    },
+
+    {
+        _id: new mongoose.Types.ObjectId(),
+        reporter: users[0]._id,
+        reportedItem: {
+            itemType: "Post",
+            item: posts[3]._id
+        },
+        reason: "Illegal Activities",
+        description: "He is an illegal logger",
+        createdAt: new Date("Mar 04, 2024, 4:37 PM"),
+    },
+]
+
 
 module.exports = {
     users,
     posts,
     replies,
     boards,
-    categories
+    categories,
+    reports
 };

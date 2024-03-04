@@ -11,7 +11,7 @@ const { populateAll, headerFooterData } = require('../controllers/helper');
 const { 
     renderAdmin, createCategory, searchFilter, createBoard, createUser, createPost, createReply, 
     editCategory, editBoard, editUser, editPost, editReply, resolveReport,
-    deleteCategory, deleteBoard, deleteUser, deletePost, deleteReply, deleteReport 
+    deleteCategory, deleteBoard, deleteUser, deletePost, deleteReply, deleteReport, unbanUser,
     } = require('../controllers/adminController');
 
 router.get('/', populateAll, searchFilter, headerFooterData, renderAdmin);
@@ -44,5 +44,9 @@ router.route('/reply')
 router.route('/report')
     .patch(resolveReport)
     .delete(deleteReport);
+
+router.route('/banned')
+    .patch(unbanUser)
+    .delete(deleteUser);
 
 module.exports = router;

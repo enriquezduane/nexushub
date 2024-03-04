@@ -33,4 +33,9 @@
     <% } else { %>
         <a href="/admin?action=reports"><button class="nav-button">Reports</button></a>
     <% } %>
+    <% if (action === 'banned') { %>
+        <a href="/admin?action=banned"><button class="nav-button active">Ban List</button></a>
+    <% } else { %>
+        <a href="/admin?action=banned"><button class="nav-button">Ban List</button></a>
+    <% } %>
 </nav>

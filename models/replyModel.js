@@ -98,6 +98,8 @@ replySchema.pre('deleteOne', async function(next) {
       await poster.save();
     }
 
+    await mongoose.model('Report').deleteMany({ 'reportedItem.item': reply._id });
+
     next();
   } catch (error) {
     next(error);
@@ -122,6 +124,8 @@ replySchema.pre('deleteMany', async function(next) {
         poster.replies.pull(reply._id);
         await poster.save();
       }
+
+      await mongoose.model('Report').deleteMany({ 'reportedItem.item': reply._id });
     }
 
     next();

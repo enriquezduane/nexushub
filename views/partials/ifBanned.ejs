@@ -1,0 +1,82 @@
+<% if (action === 'banned') { %>
+    <div class="content-header">
+        <form class="search-admin-form" action="/admin" method="GET">
+            <input type="hidden" name="action" value="users">
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="Search..." name="search">
+                <button class="nav-button" type="submit">Search</button>
+            </div>
+        </form>
+    </div>
+
+    <% if (query) { %>
+        <% filteredData = filteredData.filter( user => user.banned === true) %>
+        <% filteredData.forEach( (user, index) => { %>
+            <% if (user.banned === true) { %>
+            <div class="category-container admin-container">
+                <div class="category-actions">
+                    <button class="category-button collapse-button"></button>
+                    <div>
+                        <button class="category-button unban-user-button"data-id="<%= user._id %>">Unban</button>
+                        <button class="category-button delete-banned-user-button" data-id="<%= user._id %>">Delete</button>
+                    </div>
+                </div>
+                <ul>
+                    <li style="color: #fff; margin-bottom: 30px;">#<%= index + 1 %></li>
+                    <li>Username : <span style="color: #fff;"><%- highlightSubstring(user.username, query) %></span></li>
+                    <li>Password : <span><%= user.password %></span></li>
+                    <li>Email : <span><%- highlightSubstring(user.email, query) %></span></li>
+                    <li>Role : <span><%- highlightSubstring(user.role, query) %></span></li>
+                    <li>- Posts : <span><%= user.postCount %></span> <ul class="board-list" style="display: none;"> <% user.posts.forEach( (post, index) => { %>
+                        <li><%= index + 1 %> : <%= post.title %></li>
+                    <% }) %></ul>
+                    <li>- Replies : <span><%= user.replyCount %></span><ul class="board-list" style="display: none;"> <% user.replies.forEach( (reply, index) => { %>
+                        <li><%= index + 1 %> : <%= reply.title %></li>
+                    <% }) %></ul>
+                    </li>
+                    <li>Age : <span><%- highlightSubstring(user.age.toString(), query) %></span></li>
+                    <li>Current Server : <span><%- highlightSubstring(user.currentServer, query) %></span></li>
+                    <li>Created At : <span><%= user.createdAt %></span></li>
+                    <li>Updated At : <span><%= user.updatedAt %></span></li>
+                </ul>
+            </div>
+            <% } %>
+        <% }) %>
+    <% } else { %>
+        <% users = users.filter( user => user.banned === true) %>
+        <% users.forEach( (user, index) => { %>
+            <% if (user.banned === true) { %>
+            <div class="category-container admin-container">
+                <div class="category-actions">
+                    <button class="category-button collapse-button"></button>
+                    <div>
+                        <button class="category-button unban-user-button"data-id="<%= user._id %>">Unban</button>
+                        <button class="category-button delete-banned-user-button" data-id="<%= user._id %>">Delete</button>
+                    </div>
+                </div>
+                <ul>
+                    <li style="color: #fff; margin-bottom: 30px;">#<%= index + 1 %></li>
+                    <li>Username : <span style="color: #fff;"><%= user.username %></span></li>
+                    <li>Password : <span><%= user.password %></span></li>
+                    <li>Email : <span><%= user.email %></span></li>
+                    <li>Role : <span><%= user.role %></span></li>
+                    <li>Description: <span><%= user.description %></span></li>
+                    <li>- Posts : <span><%= user.postCount %></span> <ul class="board-list" style="display: none;">  <% user.posts.forEach( (post, index) => { %>
+                        <li><%= index + 1 %> : <%= post.title %></li>
+                    <% }) %></ul>
+                    <li>- Replies : <span><%= user.replyCount %></span> <ul class="board-list" style="display: none;">  <% user.replies.forEach( (reply, index) => { %>
+                        <li><%= index + 1 %> : <%= reply.title %></li>
+                    <% }) %></ul>
+                    </li>
+                    <li>Age : <span><%= user.age %></span></li>
+                    <li>Current Server : <span><%= user.currentServer %></span></li>
+                    <li>Created At : <span><%= user.createdAt %></span></li>
+                    <li>Updated At : <span><%= user.updatedAt %></span></li>
+                </ul>
+            </div>
+            <% } %>
+        <% }) %>
+    <% } %>
+<% } %>
+
+<script src="js/adminUnbanDeleteUser.js"></script>

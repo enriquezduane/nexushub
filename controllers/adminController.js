@@ -591,6 +591,10 @@ const deleteUser = async (req, res) => {
             return res.status(404).json({ message: 'User not found' });
         }
 
+        if (user.role === 'Forum Master') {
+            return res.status(400).json({ message: 'Cannot delete Forum Masters!' });
+        }
+
         await user.deleteOne();
 
         res.status(200).json({message: 'User deleted successfully'});
@@ -715,6 +719,36 @@ const resolveReport = async (req, res) => {
     }
 }
 
+const unbanUser = async (req, res) => {
+    try {
+        const { id } = req.body;
+
+        if (!req.isAuthenticated() || req.user.role !== 'Forum Master') {
+            return res.status(403).json({ message: 'Forbidden Access' });
+        }
+        
+        user = await User.findById(id);
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        if (user.banned === false) {
+            return res.status(400).json({ message: 'User is already unbanned!' });
+        }
+
+        user.banned = false;
+
+        await user.save();
+
+        res.status(200).json({message: 'User unbanned successfully!'});
+    } catch (error) {
+        console.error('Error unbanning user:', error);
+        const { status, message } = handleValidationError(error);
+        return res.status(status).json({ message });
+    }
+}
+
 module.exports = {
     renderAdmin,
     createCategory,
@@ -734,5 +768,6 @@ module.exports = {
     deletePost,
     deleteReply,
     deleteReport,
-    resolveReport
+    resolveReport,
+    unbanUser
 }

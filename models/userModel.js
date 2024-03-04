@@ -200,6 +200,8 @@ userSchema.pre('deleteOne', async function(next) {
       await mongoose.model('Reply').deleteMany({ _id: { $in: user.replies } });
     }
 
+    await mongoose.model('Report').deleteMany({ reporter: user._id });
+
     next();
   } catch (error) {
     next(error);
@@ -218,6 +220,8 @@ userSchema.pre('deleteMany', async function(next) {
       if (user.replies && user.replies.length > 0) {
         await mongoose.model('Reply').deleteMany({ _id: { $in: user.replies } });
       }
+
+      await mongoose.model('Report').deleteMany({ reporter: user._id });
     }
 
     next();

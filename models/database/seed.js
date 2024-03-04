@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { users, replies, posts, boards, categories } = require('./seedData');
+const { users, replies, posts, boards, categories, reports } = require('./seedData');
 const User = require('../userModel');
 const Reply = require('../replyModel');
 const Post = require('../postModel');
@@ -33,6 +33,7 @@ async function seedDatabase() {
         await Post.insertMany(posts);
         await Board.insertMany(boards);
         await Category.insertMany(categories);
+        await Report.insertMany(reports);
 
         console.log(`\nDatabase ${connection.connection.name} on ${connection.connection.host} seeded succesfully\n`);
     } catch (error) {

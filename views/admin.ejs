@@ -23,6 +23,9 @@
         <% } else if (action === 'reports') { %>
             <span>&gt;</span>
             <a href="/admin?action=reports">Reports</a>
+        <% } else if (action === 'banned') { %>
+            <span>&gt;</span>
+            <a href="/admin?action=reports">Ban List</a>
         <% } %>
     </div>
 
@@ -33,14 +36,16 @@
             <img id="torch-gif" src="/images/torch.gif" alt="icon">
         </div>
     </div>
-
-    <%- include('partials/admin-nav.ejs') %>
+    <div style="display: grid; place-items: center;">
+        <%- include('partials/admin-nav.ejs') %>
+    </div>
     <%- include('partials/ifCategory.ejs') %>
     <%- include('partials/ifBoard.ejs') %>
     <%- include('partials/ifUser.ejs') %>
     <%- include('partials/ifPost.ejs') %>
     <%- include('partials/ifReply.ejs') %>
     <%- include('partials/ifReport.ejs') %>
+    <%- include('partials/ifBanned.ejs') %>
 </div>
 
 <script src="js/adminResize.js"></script>
