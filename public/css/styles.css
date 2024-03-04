@@ -2189,7 +2189,7 @@ textarea {
   background: linear-gradient(to right, #010e29, #1f2a4e, #000033);
 }
 
-.post-section:nth-child(even) {
+.post-section:nth-child(even), .user-table {
   background: linear-gradient(to right, rgba(12, 12, 49, 0.7), rgba(84, 42, 109, 0.7), rgba(81, 35, 90, 0.7), rgba(3, 3, 48, 0.7));
 }
 
@@ -2773,4 +2773,10 @@ textarea[name="content"],
 
 #showPosts {
   width: 80%;
+}
+
+.letter-loop {
+  float: right;
+  padding-top: 5px;
+  font-size: smaller;
 }

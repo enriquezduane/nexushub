@@ -36,7 +36,7 @@ Requirements
 1. Redirect your terminal to the path NexusHub/models/database.
   - ("cd models" > "cd database")
 2. run "node seed.js" to initialize the MongoDB Database locally with seed (initial) data.
-3. run "npm run devStart" to run the server on localhost:8000 
+3. run "npm run devStart" to run the server on localhost:3000 
 
 ## 🌟 Join the NexusHub Odyssey
 
@@ -48,3 +48,7 @@ Whether you're here to relive your best Ragnarok moments or to carve new ones, N
 
 Note: NexusHub is currently in development as part of a school project for a major course. It's a work in progress, blending academic goals with the engaging world of Ragnarok. Your participation and feedback are invaluable as we continue to develop NexusHub! 🚀📚
 
+## 🌟 TODO 
+- banned user list page in admin area
+- forum roles accessibility to features (determine what each role can do)
+- search posts based on post content and show snippet of the post content based on the part searched

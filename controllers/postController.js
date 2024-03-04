@@ -111,7 +111,7 @@ const getPagination = (req, res, next) => {
 
         res.post = post;
         res.paginationResults = repliesOnly;
-        res.totalPages = totalPages;
+        res.totalPages = totalPages ? totalPages : 1;
         res.page = page;
         res.limit = limit;
 

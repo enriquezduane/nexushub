@@ -79,7 +79,7 @@ const getPagination = (req, res, next) => {
         const results = boardPosts.slice(startIndex, endIndex);
 
         res.paginationResults = results;
-        res.totalPages = totalPages;
+        res.totalPages = totalPages ? totalPages : 1;
         res.page = page;
 
         next();

@@ -1,0 +1,70 @@
+<%- include('partials/logo.ejs') %>
+
+<div class="content-container dashed-black-container container-margin">
+    <div class="directory-bar">
+        <a href="/">NexusHub Forum</a> 
+        <span>&gt;</span>
+        <a href="/user/all">All Users</a>
+    </div>
+
+    <div class="content-frame">
+        <table>
+            <thead>
+              <tr class="boards-header">
+                <td colspan="5">All Users</td>
+              </tr>
+              <tr>
+                <td colspan="5" class="index-subheading">
+                  Find some friends along the way here!
+                  <span class="letter-loop">
+                    <% for (let i = 97; i <= 122; i++) { %>
+                        <a href="?letter=<%= String.fromCharCode(i) %>"><%= String.fromCharCode(i).toUpperCase() %></a>
+                    <% } %>
+                  </span>
+                </td>
+              </tr>
+              <tr class="topics">
+                <th>Username</th>
+                <th>Role</th>
+                <th style="width: 20%">Join Date</th>
+                <th style="width: 15%">Posts</th>
+              </tr>
+            </thead>
+            <tbody>
+                <% users.forEach((user) => { %>
+                    <tr class="user-table" style="color: #ffffff">
+                        <td style="text-align: center">
+                            <a href="<%= user.href %>"><strong><%= user.username %></strong></a>
+                        </td>
+                        <td class="center-table-data">
+                            <div class="role <%= user.roleClass %>">
+                                <%= user.role %>
+                            </div>
+                        </td>
+                        <td class="center-table-data"><%= user.joinDateMonth %></td>
+                        <td class="center-table-data"><%= user.postCount %></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+
+        <div class="navigation-buttons" style="margin-top: 10px;">
+            <div class="pagination">
+                <% if (page !== 1 && page !== 2) { %>
+                    <a class="page-button" href="<%= letter ? '/user/all?letter=' + letter : '/user/all' %>">«</a>
+                <% } %>
+                <% for(let i = page - 1; i <= page + 1; i++) { %>
+                    <% if (i !== 0 && i !== totalPages + 1) { %>
+                        <a class="page-button <%= i === page ? 'currentPage' : '' %>" href="<%= letter ? '/user/all?letter=' + letter + '&page=' + i : '/user/all?page=' + i %>">
+                            <%= i %>
+                        </a>
+                    <% } %>
+                <% } %>
+                <% if (page !== totalPages && page !== totalPages - 1) { %>
+                    <a class="page-button" href="<%= letter ? '/user/all?letter=' + letter + '&page=' + totalPages : '/user/all?page=' + totalPages %>">»</a>
+                <% } %>
+        </div>
+
+        </div>
+    </div>
+</div>

@@ -50,7 +50,7 @@ const searchFilter = async (req, res, next) => {
                 const totalPages = Math.ceil(totalPosts / limit);
                 const results = posts.slice(startIndex, endIndex);
                 res.posts = await populatePosts(results);
-                res.totalPages = totalPages;
+                res.totalPages = totalPages ? totalPages : 1;
                 res.page = page;
             } else if (target.toLowerCase() === 'users') {
                 const users = await User.find({ username: { $regex: new RegExp(query, 'i') } });
@@ -58,7 +58,7 @@ const searchFilter = async (req, res, next) => {
                 const totalPages = Math.ceil(totalUsers / limit);
                 const results = users.slice(startIndex, endIndex);
                 res.users = await populateUsers(results);
-                res.totalPages = totalPages;
+                res.totalPages = totalPages ? totalPages : 1;
                 res.page = page;
             } 
         } else {

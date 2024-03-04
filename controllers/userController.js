@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const User = require('../models/userModel');
 const bcrypt = require('bcrypt');
-const { populateUser, handleValidationError, paginationLimit } = require('./helper');
+const { populateUser, populateUsers, handleValidationError, paginationLimit } = require('./helper');
 
 const renderUpdateProfile = (req, res) => {
   try {
@@ -88,7 +88,36 @@ const renderUser = (req, res) => {
     });
   } catch (error) {
     console.error('Error fetching data:', error);
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: error.message });
+  }
+}
+
+const renderUsers = (req, res) => {
+  try {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ message: 'User is not logged in!' });
+    }
+
+    // Render all users page
+    if (req.query.page) {
+      if (req.query.page < 1 || req.query.page > res.totalPages || isNaN(req.query.page)) {
+          return res.status(404).json({ message: 'Page not found' });
+      }
+    }
+
+    res.render('allUsers', { 
+      loggedIn: req.isAuthenticated(), 
+      title: 'All Users', 
+      users: res.paginationResults, 
+      letter: req.query.letter,
+      page: res.page,
+      totalPages: res.totalPages,
+      forumRules: res.forumRules, 
+      userLoggedIn: req.user 
+    });
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    res.status(500).json({ message: error.message });
   }
 }
 
@@ -101,12 +130,60 @@ const getUserByUrl = async (req, res, next) => {
       } else {
           res.user = await populateUser(user);
       }
-  }
-  catch (err) {
+      next();
+  } catch (err) {
       console.log('Error fetching user:', err.message)
       res.status(500).json({ message: err.message });
   }
-  next();
+}
+
+const getUsers = async (req, res, next) => {
+  try {
+    let query = {};
+    if (req.query.letter) {
+      const letterRegex = new RegExp(`^${req.query.letter}`, 'i');
+      query = { username: { $regex: letterRegex } };
+    }
+
+    const users = await User.find(query).collation({ locale: 'en', strength: 2 }).sort({ username: 1 });
+
+    if (!users) {
+      return res.status(404).json({ message: 'Users not found' });
+    } else {
+      res.users = await populateUsers(users);
+    }
+
+    next();
+  } catch (err) {
+    console.log('Error fetching users:', err.message)
+    res.status(500).json({ message: err.message });
+  }
+}
+
+
+const getUsersPagination = async (req, res, next) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = paginationLimit;
+
+  const startIndex = (page - 1) * limit;
+  const endIndex = startIndex + limit;
+
+  try {
+    const users = res.users;
+
+    const totalPages = Math.ceil(users.length / limit);
+
+    const paginatedUsers = users.slice(startIndex, endIndex);
+
+    res.paginationResults = paginatedUsers;
+    res.totalPages = totalPages ? totalPages : 1;
+    res.page = page;
+
+    next();
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ message: error.message });
+  }
 }
 
 const getPagination = (req, res, next) => {
@@ -119,8 +196,6 @@ const getPagination = (req, res, next) => {
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
-
-    
     
     // Extract pagination type and user ID from the URL path
     const pathSegments = req.originalUrl.split('/');
@@ -262,8 +337,11 @@ module.exports = {
   renderUpdateProfile,
   renderPosts,
   renderReplies,
+  renderUsers,
   renderUser,
   getUserByUrl,
+  getUsers,
+  getUsersPagination,
   getPagination,
   setReplyHrefs,
   createUser,
