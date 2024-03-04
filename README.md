@@ -50,3 +50,4 @@ Note: NexusHub is currently in development as part of a school project for a maj
 
 ## 🌟 TODO 
 - search posts based on post content and show snippet of the post content based on the part searched
+- add remember me login functionality
