@@ -2780,3 +2780,58 @@ textarea[name="content"],
   padding-top: 5px;
   font-size: smaller;
 }
+
+.remember-me-container {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  width: 100%;
+  /* Dark background for contrast */
+  /* Ensure some padding inside the container */
+  /* Space below the container */
+}
+
+.remember-me-container input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: #292929;
+  /* Dark background for checkbox */
+  width: 20px;
+  height: 20px;
+  border: 2px solid #c45aeb;
+  /* Neon pink border */
+  border-radius: 3px;
+  cursor: pointer;
+  margin-right: 10px;
+  position: relative;
+  /* Necessary for absolute positioning of the before element */
+}
+
+.remember-me-container input[type="checkbox"]:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.2s ease;
+  /* Smooth transition for the appearance of the X */
+}
+
+.remember-me-container input[type="checkbox"]:checked:before {
+  content: '×';
+  color: white;
+  /* Neon pink for the X */
+  font-size: 20px;
+  /* Adjust size as needed for visibility */
+  /* line-height: 20px; */
+  /* Ensure the line height matches the height of the checkbox for vertical alignment */
+  transform: translate(-45%, -45%) scale(1);
+  /* Ensure it scales up properly when checked */
+}
+
+.remember-me-container label {
+  color: #c45aeb;
+  /* Neon pink color for the label */
+  font-size: 16px;
+  cursor: pointer;
+}
