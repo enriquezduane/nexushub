@@ -12,6 +12,7 @@ const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const flash = require('express-flash');
 const session = require('express-session');
+const MemoryStore = require('memorystore')(session);
 const { checkIfBanned, verifyRememberMeToken } = require('./controllers/helper');
 
 // config 
@@ -23,11 +24,16 @@ const initializePassport = require('./controllers/passportConfig');
 initializePassport(passport);
 
 app.use(flash());
+
 app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false
-}));
+    cookie: { maxAge: 86400000 },
+    store: new MemoryStore({
+      checkPeriod: 86400000 // prune expired entries every 24h
+    }),
+    resave: false,
+    secret: process.env.SESSION_SECRET,
+    saveUninitialized: false,
+}))
 
 app.use(passport.initialize());
 app.use(passport.session());
