@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-const MONGODB_URL = process.env.MONGODB_URL;
+const MONGODB_URL = process.env.MONGODB_URL || 'mongodb+srv://joshuatating-windows:nprnJWaALuh9VRjC@nexushub.lj3y5hg.mongodb.net/?retryWrites=true&w=majority&appName=NexusHub';
 
 const connectDatabase = async () => {
     try {
