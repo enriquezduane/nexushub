@@ -9,7 +9,7 @@ const Report = require('../reportModel');
 const dotenv = require('dotenv');
 dotenv.config();
 
-MONGODB_URL = process.env.MONGODB_URL || 'mongodb://localhost:27017/NexusHub';
+MONGODB_URL = process.env.MONGODB_URL;
 
 async function seedDatabase() {
     try {
