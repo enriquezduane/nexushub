@@ -1223,7 +1223,7 @@ tbody {
 }
 
 .post-area {
-  width: 90%;
+  width: 80%;
 }
 
 .post-info {
@@ -1236,8 +1236,19 @@ tbody {
 }
 
 .post-content {
+  width: 100%;
   line-height: 1.5rem;
   padding: 10px 10px 10px 0;
+}
+
+.post-content p {
+  overflow-wrap: break-word; 
+  word-wrap: break-word;
+}
+
+.post-content p img {
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .post-content-footer {
