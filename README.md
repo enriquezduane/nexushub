@@ -47,9 +47,3 @@ Whether you're here to relive your best Ragnarok moments or to carve new ones, N
 ---
 
 Note: NexusHub is currently in development as part of a school project for a major course. It's a work in progress, blending academic goals with the engaging world of Ragnarok. Your participation and feedback are invaluable as we continue to develop NexusHub! 🚀📚
-
-## TODO
--fix load times on every page
-- fix text box view in create post
-- fix misleading server roles post (update the serve roles post content)
-- fix server roles in editing a user in admin page

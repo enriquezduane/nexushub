@@ -376,19 +376,19 @@ posts = [
             <br><br>
             <strong>Novice Adventurer</strong> - Newly joined members
             <br>
-            <strong>Initiate Acolyte</strong> - 10 Posts
+            <strong>Initiate Acolyte</strong> - 2 Posts
             <br>
-            <strong>Rookie Blacksmith</strong> - 25 Posts
+            <strong>Rookie Blacksmith</strong> - 5 Posts
             <br>
-            <strong>Journeyman Wizard</strong> - 50 Posts
+            <strong>Journeyman Wizard</strong> - 10 Posts
             <br>
-            <strong>Veteran Archer</strong> - 100 Posts
+            <strong>Veteran Archer</strong> - 20 Posts
             <br>
-            <strong>Elite Knight</strong> - 200 Posts
+            <strong>Elite Knight</strong> - 40 Posts
             <br>
-            <strong>Master Assassin</strong> - 500 Posts
+            <strong>Master Assassin</strong> - 75 Posts
             <br>
-            <strong>Grandmaster Scholar</strong> - 1000 Posts
+            <strong>Grandmaster Scholar</strong> - 150 Posts
             <br>
             <strong>Forum Master</strong> - Admins only / Unobtainable
             <br><br>
