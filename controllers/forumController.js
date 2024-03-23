@@ -18,7 +18,6 @@ const renderBoard = (req, res) => {
             posts: res.paginationResults, 
             page: res.page,
             totalPages: res.totalPages,
-            users: res.users, 
             forumRules: res.forumRules, 
             userLoggedIn: req.user
         });

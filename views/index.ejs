@@ -98,15 +98,15 @@
     <p>
       <span style="color: #fff"><%= postCount %></span> Posts and <span style="color: #fff"><%= replyCount %></span> Replies by 
       <span style="color: #fff"><%= userCount %></span> Members - Latest Member:
-      <a href="<%= users[users.length - 1].href %>">
-        <%= users[users.length - 1].username %>
+      <a href="<%= latestUser.href %>">
+        <%= latestUser.username %>
       </a>
       <br>
       Latest Post:
-      <a href="<%= posts[posts.length - 1].href %>">
-        <%= posts[posts.length - 1].title %>
+      <a href="<%= latestPosts[0].href %>">
+        <%= latestPosts[0].title %>
       </a>
-      (<span style="color: #fff"><%= formatLatestPostDate(posts[posts.length-1]) %></span>)
+      (<span style="color: #fff"><%= formatLatestPostDate(latestPosts[0]) %></span>)
     </p>
     <div>
       Users Online
@@ -115,7 +115,7 @@
       <span style="color: #fff">Online: 10 Guests, 1 User</span>
       - Most Online Today: <span style="color: #fff">16</span> - Most Online Ever: <span style="color: #fff">34</span> (<span style="color: #fff">Feb 01, 2024 09:23 PM</span>)
       <br>
-      Users active in past 15 minutes: <a href="<%= users[0].href %>"><%= users[0].username %></a>
+      Users active in past 15 minutes: <a href="<%= latestUser.href %>"><%= latestUser.username %></a>
     </p>
   </div>
 </div>

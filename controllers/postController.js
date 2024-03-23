@@ -79,7 +79,7 @@ const incrementViews = async (req, res, next) => {
             post.views += 1;
             await post.save();
 
-            // Set a cookie to expire in desired time in milliseconds (CURRENT: 1 minute)
+            // Set a cookie to expire in desired time in milliseconds (CURRENT: 1 hour)
             res.cookie(`viewed_${id}`, true, { maxAge: 1000 * 60 * 60 });
         }
         next();

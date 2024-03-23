@@ -28,13 +28,70 @@ const populateAll = async (req, res, next) => {
 
 const populateCategories = async (categories) => {
     for (let i = 0; i < categories.length; i++) {
-        categories[i] = await populateCategory(categories[i]);
+        categories[i] = await Category.findById(categories[i].id).populate(
+            {
+                path: 'boards',
+                populate: [
+                    { 
+                        path: 'posts', 
+                        model: 'Post', 
+                        populate: [
+                            { 
+                                path: 'poster', 
+                                model: 'User', 
+                                populate: [
+                                    {
+                                        path: 'posts',
+                                        model: 'Post',
+                                    },
+                                    {
+                                        path: 'replies',
+                                        model: 'Reply',
+                                    }
+                                ]
+                            },
+                            {
+                                path: 'replies',
+                                model: 'Reply',
+                                populate: [
+                                    {
+                                        path: 'refPost',
+                                        model: 'Post'
+                                    },
+                                    {
+                                        path: 'poster',
+                                        model: 'User',
+                                        populate: [
+                                            {
+                                                path: 'posts',
+                                                model: 'Post',
+                                            },
+                                            {
+                                                path: 'replies',
+                                                model: 'Reply',
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                path: 'refBoard',
+                                model: 'Board',
+                            }
+                        ]
+                    },
+                    {
+                        path: 'category',
+                        model: 'Category',
+                    }
+                ]
+            });
     }
     return categories;
 }
 
 const populateCategory = async (category) => {
-    post = await Category.findById(category.id).populate(
+    category = await Category.findById(category.id).populate(
         {
             path: 'boards',
             populate: [
@@ -92,12 +149,50 @@ const populateCategory = async (category) => {
                 }
             ]
         });
-    return post;
+    return category;
 }
 
 const populateBoards = async (boards) => {
     for (let i = 0; i < boards.length; i++) {
-        boards[i] = await populateBoard(boards[i]);
+        boards[i] = await Board.findById(boards[i]).populate(
+            { 
+                path: 'posts', 
+                model: 'Post', 
+                populate: [
+                    { 
+                        path: 'poster', 
+                        model: 'User', 
+                        populate: [
+                            {
+                                path: 'posts',
+                                model: 'Post',
+                            },
+                            {
+                                path: 'replies',
+                                model: 'Reply',
+                            }
+                        ]
+                    },
+                    {
+                        path: 'replies',
+                        model: 'Reply',
+                        populate: [
+                            {
+                                path: 'refPost',
+                                model: 'Post'
+                            },
+                            {
+                                path: 'poster',
+                                model: 'User'
+                            }
+                        ]
+                    },
+                    {
+                        path: 'refBoard',
+                        model: 'Board',
+                    }
+                ]
+            }).populate('category');
     }
 
     return boards;
@@ -150,7 +245,86 @@ const populateBoard = async (board) => {
 
 const populatePosts = async (posts) => {
     for (let i = 0; i < posts.length; i++) {
-        posts[i] = await populatePost(posts[i]);
+        posts[i] = await Post.findById(posts[i]).populate(
+            { 
+                path: 'poster', 
+                model: 'User', 
+                populate: [
+                    {
+                        path: 'posts',
+                        model: 'Post',
+                        populate: [
+                            { 
+                                path: 'poster', 
+                                model: 'User', 
+                            },
+                            {
+                                path: 'replies',
+                                model: 'Reply',
+                            },
+                            {
+                                path: 'refBoard',
+                                model: 'Board',
+                            }
+                        ]
+                    },
+                    {
+                        path: 'replies',
+                        model: 'Reply',
+                        populate: [
+                            {
+                                path: 'refPost',
+                                model: 'Post'
+                            },
+                            {
+                                path: 'poster',
+                                model: 'User'
+                            }
+                        ]
+                    }
+                ]
+            }).populate(
+            {
+                path: 'replies',
+                model: 'Reply',
+                populate: [
+                    {
+                        path: 'refPost',
+                        model: 'Post',
+                        populate: [
+                            { 
+                                path: 'poster', 
+                                model: 'User', 
+                            },
+                            {
+                                path: 'replies',
+                                model: 'Reply',
+                                populate: [
+                                    {
+                                        path: 'refPost',
+                                        model: 'Post'
+                                    },
+                                    {
+                                        path: 'poster',
+                                        model: 'User'
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        path: 'poster',
+                        model: 'User'
+                    }
+                ]
+        }).populate({
+            path: 'refBoard',
+            model: 'Board',
+            populate: {
+                path: 'category',
+                model: 'Category'
+            }
+        });
     }
     return posts;
 }
@@ -241,7 +415,57 @@ const populatePost = async (post) => {
 
 const populateReplies = async (replies) => {
     for (let i = 0; i < replies.length; i++) {
-        replies[i] = await populateReply(replies[i]);
+        replies[i] = await Reply.findById(replies[i].id).populate({
+            path: 'refPost',
+            model: 'Post',
+            populate: [
+                { 
+                    path: 'poster', 
+                    model: 'User', 
+                    populate: [
+                        {
+                            path: 'posts',
+                            model: 'Post',
+                        },
+                        {
+                            path: 'replies',
+                            model: 'Reply',
+                        }
+                    ]
+                },
+                {
+                    path: 'replies',
+                    model: 'Reply',
+                    populate: [
+                        {
+                            path: 'refPost',
+                            model: 'Post'
+                        },
+                        {
+                            path: 'poster',
+                            model: 'User'
+                        }
+                    ]
+                }, 
+                {
+                    path: 'refBoard',
+                    model: 'Board',
+                }
+            ]
+        }).populate({
+            path: 'poster',
+            model: 'User',
+            populate: [
+                {
+                    path: 'posts',
+                    model: 'Post',
+                },
+                {
+                    path: 'replies',
+                    model: 'Reply',
+                }
+            ]
+        });
     }
     return replies;
 }
@@ -303,7 +527,83 @@ const populateReply = async (reply) => {
 
 const populateUsers = async (users) => {
     for (let i = 0; i < users.length; i++) {
-        users[i] = await populateUser(users[i]);
+        users[i] = await User.findById(users[i].id).populate(
+            { 
+                path: 'posts', 
+                model: 'Post', 
+                populate: [
+                    { 
+                        path: 'poster', 
+                        model: 'User', 
+                        populate: [
+                            {
+                                path: 'posts',
+                                model: 'Post',
+                            },
+                            {
+                                path: 'replies',
+                                model: 'Reply',
+                            }
+                        ]
+                    },
+                    {
+                        path: 'replies',
+                        model: 'Reply',
+                        populate: [
+                            {
+                                path: 'refPost',
+                                model: 'Post'
+                            },
+                            {
+                                path: 'poster',
+                                model: 'User'
+                            }
+                        ]
+                    },
+                    {
+                        path: 'refBoard',
+                        model: 'Board',
+                    }
+                ]
+            }).populate(
+                {
+                    path: 'replies',
+                    model: 'Reply',
+                    populate: [
+                        {
+                            path: 'refPost',
+                            model: 'Post',
+                            populate: [
+                                { 
+                                    path: 'poster', 
+                                    model: 'User', 
+                                },
+                                {
+                                    path: 'replies',
+                                    model: 'Reply',
+                                    populate: [
+                                        {
+                                            path: 'refPost',
+                                            model: 'Post'
+                                        },
+                                        {
+                                            path: 'poster',
+                                            model: 'User'
+                                        }
+                                    ]
+                                },
+                                {
+                                    path: 'refBoard',
+                                    model: 'Board',
+                                }
+                            ]
+                        },
+                        {
+                            path: 'poster',
+                            model: 'User'
+                        }
+                    ]
+                });
     }
     return users;
 }
@@ -391,7 +691,28 @@ const populateUser = async (user) => {
 
 const populateReports = async (reports) => {
     for (let i = 0; i < reports.length; i++) {
-        reports[i] = await populateReport(reports[i]);
+        reports[i] = await Report.findById(reports[i].id)
+        .populate({
+            path: 'reporter',
+            model: 'User',
+            populate: [
+                {
+                    path: 'posts',
+                    model: 'Post',
+                },
+                {
+                    path: 'replies',
+                    model: 'Reply',
+                }
+            ]
+        })
+        .populate({
+            path: 'reportedItem.item',
+            populate: {
+                path: 'poster',
+                model: 'User' // Assuming 'poster' refers to the user who posted the item
+            }
+        });
     }
     return reports;
 }
@@ -418,7 +739,7 @@ const populateReport = async (report) => {
                 path: 'poster',
                 model: 'User' // Assuming 'poster' refers to the user who posted the item
             }
-        });;
+        });
     return report;
 }
 
@@ -580,6 +901,8 @@ module.exports = {
     populateReply,
     populateUsers,
     populateUser,
+    populateReports,
+    populateReport,
     highlightSubstring,
     getHighlightedSnippet,
     formatLatestPostDate,

@@ -1,8 +1,9 @@
 const { formatLatestPostDate } = require('../controllers/helper');
+const Category = require('../models/categoryModel');
 const Post = require('../models/postModel');
 const Reply = require('../models/replyModel');
 const User = require('../models/userModel');
-const { populatePosts } = require('../controllers/helper');
+const { populatePosts, populateCategories, populateUser } = require('../controllers/helper');
 
 const renderIndex = (req, res) => {
     try {
@@ -12,7 +13,7 @@ const renderIndex = (req, res) => {
             categories: res.categories, 
             boards: res.boards, 
             posts: res.posts, 
-            users: res.users, 
+            latestUser: res.latestUser, 
             formatLatestPostDate, 
             latestPosts: res.latestPosts,
             postCount: res.postCount,
@@ -80,10 +81,34 @@ const getTotalCounts = async (req, res, next) => {
     }
 };
 
+const getIndexPageItems = async (req, res, next) => {
+    try {
+        // Query the database to get all categories 
+        const categories = await Category.find();
+
+        const populatedCategories = await populateCategories(categories);
+
+        // Query the latest user 
+
+        const latestUser = await User.findOne().sort({ createdAt: -1 });
+
+        const populatedLatestUser = await populateUser(latestUser);
+
+        res.categories = populatedCategories;
+        res.latestUser = populatedLatestUser;
+
+        next();
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({ message: error.message });
+    }
+}
+
 
 module.exports = {
     renderIndex,
     renderTerms,
     getLatestPosts,
-    getTotalCounts
+    getTotalCounts,
+    getIndexPageItems,
 }

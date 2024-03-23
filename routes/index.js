@@ -5,12 +5,12 @@ const router = express.Router();
 router.use(express.static('public'));
 
 // initialize database
-const { populateAll, headerFooterData } = require('../controllers/helper');
+const { headerFooterData } = require('../controllers/helper');
 
 // import controller
-const { renderIndex, renderTerms, getLatestPosts, getTotalCounts } = require('../controllers/indexController');
+const { renderIndex, renderTerms, getLatestPosts, getTotalCounts, getIndexPageItems } = require('../controllers/indexController');
 
-router.get('/', populateAll, getLatestPosts, getTotalCounts, headerFooterData, renderIndex);
+router.get('/', getIndexPageItems, getLatestPosts, getTotalCounts, headerFooterData, renderIndex);
 
 router.get('/terms-and-conditions', headerFooterData, renderTerms);
 

@@ -5,7 +5,7 @@ const router = express.Router();
 router.use(express.static('public'));
 
 // initialize database
-const { populateAll, headerFooterData } = require('../controllers/helper');
+const { headerFooterData } = require('../controllers/helper');
 
 // import controller
 const { renderCreatePost, renderPost, getPostByUrl, incrementViews, getPagination,
@@ -13,7 +13,7 @@ const { renderCreatePost, renderPost, getPostByUrl, incrementViews, getPaginatio
 
 router.get('/create', headerFooterData, renderCreatePost);
 
-router.get('/:id', populateAll, getPostByUrl, incrementViews, getPagination, headerFooterData, renderPost);
+router.get('/:id', getPostByUrl, incrementViews, getPagination, headerFooterData, renderPost);
 
 router.post('/post', createPost);
 

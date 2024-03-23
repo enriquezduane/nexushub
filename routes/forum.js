@@ -5,11 +5,11 @@ const router = express.Router();
 router.use(express.static('public'));
 
 // initialize database
-const { populateAll, headerFooterData } = require('../controllers/helper');
+const { headerFooterData } = require('../controllers/helper');
 
 // import controller
 const { renderBoard, getBoardByUrl, getBoardPosts, getPagination } = require('../controllers/forumController');
 
-router.get('/:id', populateAll, getBoardByUrl, getBoardPosts, getPagination, headerFooterData, renderBoard);
+router.get('/:id', getBoardByUrl, getBoardPosts, getPagination, headerFooterData, renderBoard);
 
 module.exports = router;
