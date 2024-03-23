@@ -2734,6 +2734,7 @@ textarea[name="content"],
   border: 1px solid #8f3e97;
   display: block;
   width: 50%;
+  line-height: 1rem;
   margin-top: 5px;
   /* Adjust button width to take full width */
   text-transform: uppercase;
