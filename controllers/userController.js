@@ -233,8 +233,8 @@ const setReplyHrefs = (req, res, next) => {
 
   try {
       replies.forEach(reply => {
-      // index + 2 to account for the post which is page 1 and array indexing starting at 0
-      const page = Math.ceil((reply.refPost.replies.findIndex(item => item.id === reply.id)) + 2 / limit);
+      // index + 2 to account for the post which is 1 item already and array indexing starting at 0 so + 1 is the next item
+      const page = Math.ceil(((reply.refPost.replies.findIndex(item => item.id === reply.id)) + 2) / limit);
       reply.href = `/forum/${reply.refPost.refBoard._id}/${reply.refPost._id}?page=${page}#${reply._id}`;
     });
 
