@@ -2532,7 +2532,7 @@ blockquote p {
 
 .create-post-block .ql-toolbar,
 .create-post-block .ql-container {
-  width: 1439px;
+  width: 100%;
 }
 
 #profileImage {
