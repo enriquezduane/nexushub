@@ -5,16 +5,16 @@ const router = express.Router();
 router.use(express.static('public'));
 
 // initialize database
-const { populateAll, headerFooterData } = require('../controllers/helper');
+const { headerFooterData } = require('../controllers/helper');
 
 // import controller
 const { 
     renderAdmin, createCategory, searchFilter, createBoard, createUser, createPost, createReply, 
     editCategory, editBoard, editUser, editPost, editReply, resolveReport,
-    deleteCategory, deleteBoard, deleteUser, deletePost, deleteReply, deleteReport, unbanUser,
+    deleteCategory, deleteBoard, deleteUser, deletePost, deleteReply, deleteReport, unbanUser, getAdminPageItems
     } = require('../controllers/adminController');
 
-router.get('/', populateAll, searchFilter, headerFooterData, renderAdmin);
+router.get('/', getAdminPageItems, searchFilter, headerFooterData, renderAdmin);
 
 router.route('/category')
     .post(createCategory)

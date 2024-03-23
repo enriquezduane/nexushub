@@ -7,7 +7,8 @@ const Reply = require('../models/replyModel');
 const Report = require('../models/reportModel');
 const bcrypt = require('bcrypt');
 
-const { highlightSubstring, handleValidationError } = require('./helper');
+const { highlightSubstring, handleValidationError, populateCategories, populateBoards, 
+    populatePosts, populateReplies, populateUsers, populateReports } = require('./helper');
 
 const renderAdmin = (req, res) => {
     try {
@@ -749,6 +750,50 @@ const unbanUser = async (req, res) => {
     }
 }
 
+const getAdminPageItems = async (req, res, next) => {
+    try {
+        const action = req.query.action ? req.query.action : 'categories';
+
+        if (action === 'categories') {
+            res.categories = await populateCategories(await Category.find());
+        }
+
+        if (action === 'boards') {
+            res.boards = await populateBoards(await Board.find());
+            res.categories = await Category.find();
+        }
+
+        if (action === 'users') {
+            res.users = await populateUsers(await User.find());
+        }
+
+        if (action === 'posts') {
+            res.posts = await populatePosts(await Post.find());
+            res.boards = await Board.find();
+            res.users = await User.find();
+        }
+
+        if (action === 'replies') {
+            res.replies = await populateReplies(await Reply.find());
+            res.posts = await Post.find();
+            res.users = await User.find();
+        }
+
+        if (action === 'reports') {
+            res.reports = await populateReports(await Report.find());
+        }
+
+        if (action === 'banned') {
+            res.users = await populateUsers(await User.find({ banned: true }));
+        }
+
+        next();
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({ message: error.message });
+    }
+}
+
 module.exports = {
     renderAdmin,
     createCategory,
@@ -769,5 +814,6 @@ module.exports = {
     deleteReply,
     deleteReport,
     resolveReport,
-    unbanUser
+    unbanUser,
+    getAdminPageItems
 }

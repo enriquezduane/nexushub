@@ -8,84 +8,9 @@ const Category = require('../models/categoryModel');
 const Report = require('../models/reportModel');
 const bcrypt = require('bcrypt');
 
-const populateAll = async (req, res, next) => {
-    const categories = await populateCategories(await Category.find());
-    const boards = await populateBoards(await Board.find());
-    const posts = await populatePosts(await Post.find());
-    const replies = await populateReplies(await Reply.find());
-    const users = await populateUsers(await User.find());
-    const reports = await populateReports(await Report.find());
-
-    res.categories = categories;
-    res.boards = boards;
-    res.posts = posts;
-    res.replies = replies;
-    res.users = users;
-    res.reports = reports;
-
-    next();
-}
-
 const populateCategories = async (categories) => {
     for (let i = 0; i < categories.length; i++) {
-        categories[i] = await Category.findById(categories[i].id).populate(
-            {
-                path: 'boards',
-                populate: [
-                    { 
-                        path: 'posts', 
-                        model: 'Post', 
-                        populate: [
-                            { 
-                                path: 'poster', 
-                                model: 'User', 
-                                populate: [
-                                    {
-                                        path: 'posts',
-                                        model: 'Post',
-                                    },
-                                    {
-                                        path: 'replies',
-                                        model: 'Reply',
-                                    }
-                                ]
-                            },
-                            {
-                                path: 'replies',
-                                model: 'Reply',
-                                populate: [
-                                    {
-                                        path: 'refPost',
-                                        model: 'Post'
-                                    },
-                                    {
-                                        path: 'poster',
-                                        model: 'User',
-                                        populate: [
-                                            {
-                                                path: 'posts',
-                                                model: 'Post',
-                                            },
-                                            {
-                                                path: 'replies',
-                                                model: 'Reply',
-                                            }
-                                        ]
-                                    }
-                                ]
-                            },
-                            {
-                                path: 'refBoard',
-                                model: 'Board',
-                            }
-                        ]
-                    },
-                    {
-                        path: 'category',
-                        model: 'Category',
-                    }
-                ]
-            });
+        categories[i] = await populateCategory(categories[i]);
     }
     return categories;
 }
@@ -154,45 +79,7 @@ const populateCategory = async (category) => {
 
 const populateBoards = async (boards) => {
     for (let i = 0; i < boards.length; i++) {
-        boards[i] = await Board.findById(boards[i]).populate(
-            { 
-                path: 'posts', 
-                model: 'Post', 
-                populate: [
-                    { 
-                        path: 'poster', 
-                        model: 'User', 
-                        populate: [
-                            {
-                                path: 'posts',
-                                model: 'Post',
-                            },
-                            {
-                                path: 'replies',
-                                model: 'Reply',
-                            }
-                        ]
-                    },
-                    {
-                        path: 'replies',
-                        model: 'Reply',
-                        populate: [
-                            {
-                                path: 'refPost',
-                                model: 'Post'
-                            },
-                            {
-                                path: 'poster',
-                                model: 'User'
-                            }
-                        ]
-                    },
-                    {
-                        path: 'refBoard',
-                        model: 'Board',
-                    }
-                ]
-            }).populate('category');
+        boards[i] = await populateBoard(boards[i]);
     }
 
     return boards;
@@ -245,86 +132,7 @@ const populateBoard = async (board) => {
 
 const populatePosts = async (posts) => {
     for (let i = 0; i < posts.length; i++) {
-        posts[i] = await Post.findById(posts[i]).populate(
-            { 
-                path: 'poster', 
-                model: 'User', 
-                populate: [
-                    {
-                        path: 'posts',
-                        model: 'Post',
-                        populate: [
-                            { 
-                                path: 'poster', 
-                                model: 'User', 
-                            },
-                            {
-                                path: 'replies',
-                                model: 'Reply',
-                            },
-                            {
-                                path: 'refBoard',
-                                model: 'Board',
-                            }
-                        ]
-                    },
-                    {
-                        path: 'replies',
-                        model: 'Reply',
-                        populate: [
-                            {
-                                path: 'refPost',
-                                model: 'Post'
-                            },
-                            {
-                                path: 'poster',
-                                model: 'User'
-                            }
-                        ]
-                    }
-                ]
-            }).populate(
-            {
-                path: 'replies',
-                model: 'Reply',
-                populate: [
-                    {
-                        path: 'refPost',
-                        model: 'Post',
-                        populate: [
-                            { 
-                                path: 'poster', 
-                                model: 'User', 
-                            },
-                            {
-                                path: 'replies',
-                                model: 'Reply',
-                                populate: [
-                                    {
-                                        path: 'refPost',
-                                        model: 'Post'
-                                    },
-                                    {
-                                        path: 'poster',
-                                        model: 'User'
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        path: 'poster',
-                        model: 'User'
-                    }
-                ]
-        }).populate({
-            path: 'refBoard',
-            model: 'Board',
-            populate: {
-                path: 'category',
-                model: 'Category'
-            }
-        });
+        posts[i] = await populatePost(posts[i]);
     }
     return posts;
 }
@@ -415,57 +223,7 @@ const populatePost = async (post) => {
 
 const populateReplies = async (replies) => {
     for (let i = 0; i < replies.length; i++) {
-        replies[i] = await Reply.findById(replies[i].id).populate({
-            path: 'refPost',
-            model: 'Post',
-            populate: [
-                { 
-                    path: 'poster', 
-                    model: 'User', 
-                    populate: [
-                        {
-                            path: 'posts',
-                            model: 'Post',
-                        },
-                        {
-                            path: 'replies',
-                            model: 'Reply',
-                        }
-                    ]
-                },
-                {
-                    path: 'replies',
-                    model: 'Reply',
-                    populate: [
-                        {
-                            path: 'refPost',
-                            model: 'Post'
-                        },
-                        {
-                            path: 'poster',
-                            model: 'User'
-                        }
-                    ]
-                }, 
-                {
-                    path: 'refBoard',
-                    model: 'Board',
-                }
-            ]
-        }).populate({
-            path: 'poster',
-            model: 'User',
-            populate: [
-                {
-                    path: 'posts',
-                    model: 'Post',
-                },
-                {
-                    path: 'replies',
-                    model: 'Reply',
-                }
-            ]
-        });
+        replies[i] = await populateReply(replies[i]);
     }
     return replies;
 }
@@ -527,83 +285,7 @@ const populateReply = async (reply) => {
 
 const populateUsers = async (users) => {
     for (let i = 0; i < users.length; i++) {
-        users[i] = await User.findById(users[i].id).populate(
-            { 
-                path: 'posts', 
-                model: 'Post', 
-                populate: [
-                    { 
-                        path: 'poster', 
-                        model: 'User', 
-                        populate: [
-                            {
-                                path: 'posts',
-                                model: 'Post',
-                            },
-                            {
-                                path: 'replies',
-                                model: 'Reply',
-                            }
-                        ]
-                    },
-                    {
-                        path: 'replies',
-                        model: 'Reply',
-                        populate: [
-                            {
-                                path: 'refPost',
-                                model: 'Post'
-                            },
-                            {
-                                path: 'poster',
-                                model: 'User'
-                            }
-                        ]
-                    },
-                    {
-                        path: 'refBoard',
-                        model: 'Board',
-                    }
-                ]
-            }).populate(
-                {
-                    path: 'replies',
-                    model: 'Reply',
-                    populate: [
-                        {
-                            path: 'refPost',
-                            model: 'Post',
-                            populate: [
-                                { 
-                                    path: 'poster', 
-                                    model: 'User', 
-                                },
-                                {
-                                    path: 'replies',
-                                    model: 'Reply',
-                                    populate: [
-                                        {
-                                            path: 'refPost',
-                                            model: 'Post'
-                                        },
-                                        {
-                                            path: 'poster',
-                                            model: 'User'
-                                        }
-                                    ]
-                                },
-                                {
-                                    path: 'refBoard',
-                                    model: 'Board',
-                                }
-                            ]
-                        },
-                        {
-                            path: 'poster',
-                            model: 'User'
-                        }
-                    ]
-                });
+        users[i] = await populateUser(users[i]);
     }
     return users;
 }
@@ -691,28 +373,7 @@ const populateUser = async (user) => {
 
 const populateReports = async (reports) => {
     for (let i = 0; i < reports.length; i++) {
-        reports[i] = await Report.findById(reports[i].id)
-        .populate({
-            path: 'reporter',
-            model: 'User',
-            populate: [
-                {
-                    path: 'posts',
-                    model: 'Post',
-                },
-                {
-                    path: 'replies',
-                    model: 'Reply',
-                }
-            ]
-        })
-        .populate({
-            path: 'reportedItem.item',
-            populate: {
-                path: 'poster',
-                model: 'User' // Assuming 'poster' refers to the user who posted the item
-            }
-        });
+        reports[i] = await populateReport(reports[i]);
     }
     return reports;
 }
@@ -739,7 +400,7 @@ const populateReport = async (report) => {
                 path: 'poster',
                 model: 'User' // Assuming 'poster' refers to the user who posted the item
             }
-        });
+        });;
     return report;
 }
 
@@ -890,7 +551,6 @@ const verifyRememberMeToken = async (req, res, next) => {
 const paginationLimit = 10;
 
 module.exports = {
-    populateAll,
     populateCategories,
     populateCategory,
     populateBoards,
