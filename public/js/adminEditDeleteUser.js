@@ -85,6 +85,7 @@ if (editUserForm) {
         })
         .then(() => {
             alert('User updated successfully!');
+            window.location.reload();
         })
         .catch(error => {
             console.error('Error updating user:', error);
