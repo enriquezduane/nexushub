@@ -326,6 +326,22 @@ tbody tr,
   /* Light box shadow */
 }
 
+.content-frame {
+  width: 100%; /* ensure the content frame fills its container */
+  overflow-x: auto; /* add horizontal scrollbar if content overflows */
+}
+
+table {
+  width: 100%; /* make the table responsive to its container */
+  max-width: 100%; /* ensure the table doesn't exceed its container width */
+  border-collapse: collapse; /* ensure table borders collapse */
+}
+
+.index-subheading {
+  max-width: 100%; /* ensure the index subheading doesn't exceed its container width */
+  word-wrap: break-word; /* allow long words to break and wrap */
+}
+
 td[colspan="5"],
 td[colspan="4"],
 .info-center-frame div,
