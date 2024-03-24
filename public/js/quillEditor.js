@@ -55,7 +55,7 @@ function initializeQuill(className) {
                 [{ 'script': 'sub'}, { 'script': 'super' }],
                 [{ 'header': '1'}, { 'header': '2' }, 'blockquote', 'code-block'],
                 [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'indent': '-1'}, { 'indent': '+1' }],
-                ['direction', { 'align': [] }],
+                [{ 'align': [] }],
                 ['link', 'video', 'clean'],
             ],
             handlers: {}
