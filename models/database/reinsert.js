@@ -8,7 +8,7 @@ const Report = require('../reportModel');
 const dotenv = require('dotenv');
 dotenv.config();
 
-const MONGODB_URL = process.env.MONGODB_URL || 'mongodb+srv://joshuatating:gY1Vgmuy5O2BXGxk@cluster0.irigxnl.mongodb.net/NexusHub?retryWrites=true&w=majority&appName=Cluster0';
+const MONGODB_URL = process.env.MONGODB_URL;
 
 async function seedDatabase() {
     try {
