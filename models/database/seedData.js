@@ -125,9 +125,9 @@ users.forEach(async (user) => {
         const salt = await bcrypt.genSalt(10);
         let passwordToHash;
         if (user.role === "Forum Master") {
-            passwordToHash = "admin";
+            passwordToHash = "admin123";
         } else {
-            passwordToHash = "user";
+            passwordToHash = "user123";
         }
         const hashedPassword = await bcrypt.hash(passwordToHash, salt);
         user.password = hashedPassword;
