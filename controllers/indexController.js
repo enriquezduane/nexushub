@@ -203,5 +203,6 @@ module.exports = {
     getTotalCounts,
     getIndexPageItems,
     getActivityCounts,
+    getActiveUsers,
     getMostOnlineCounts
 }
