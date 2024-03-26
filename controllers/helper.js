@@ -570,6 +570,14 @@ const trackActivity = async (req, res, next) => {
                 // Set lastActivity to null to create a new one
                 lastActivity = null;
             }
+
+            if (lastActivity.user && !req.isAuthenticated()) {
+                // Delete the previous activity by its ID
+                await Activity.findByIdAndDelete(lastActivity._id);
+
+                // Set lastActivity to null to create a new one
+                lastActivity = null;
+            }
         }
 
         // If there's no previous activity or the last activity was deleted
