@@ -113,8 +113,16 @@
     </div>
     <p>
       <span style="color: #fff">Online: 
-        <%= activeGuestCount > 1 ? activeGuestCount + ' Guests, ' : activeGuestCount + ' Guest, ' %>
-        <%= activeUserCount > 1 ? activeUserCount + ' Users' : activeUserCount + ' User' %>
+        <% if (activeGuestCount > 1 || activeGuestCount === 0) { %>
+          <%= activeGuestCount %> Guests,
+        <% } else if (activeGuestCount === 1) { %>
+            <%= activeGuestCount %> Guest,
+        <% } %>
+        <% if (activeUserCount > 1 || activeUserCount === 0) { %>
+          <%= activeUserCount %> Users
+        <% } else if (activeUserCount === 1) { %>
+            <%= activeUserCount %> User
+        <% } %>
     </span>
       - Most Online Today: <span style="color: #fff"><%= mostOnlineToday %></span> - Most Online Ever: <span style="color: #fff"><%= mostOnlineEver %></span> 
       (<span style="color: #fff"><%= mostOnlineEverDate %></span>)
