@@ -1,4 +1,5 @@
 // import models
+const mongoose = require('mongoose');
 const moment = require('moment-timezone');
 const Post = require('../models/postModel');
 const User = require('../models/userModel');
@@ -6,6 +7,7 @@ const Reply = require('../models/replyModel');
 const Board = require('../models/boardModel');
 const Category = require('../models/categoryModel');
 const Report = require('../models/reportModel');
+const Activity = require('../models/activityModel');
 const bcrypt = require('bcrypt');
 
 const populateCategories = async (categories) => {
@@ -547,6 +549,36 @@ const verifyRememberMeToken = async (req, res, next) => {
     }
 };
 
+const trackActivity = async (req, res, next) => {
+    try {
+        const userId = req.isAuthenticated() ? req.user._id : null;
+
+        // Get the IP address from the request
+        const userIP = req.ip;
+
+        // Check if the user has made any activity in the last 5 minutes with the same IP address
+        const fiveMinutesAgo = moment().subtract(5, 'minutes');
+        const lastActivity = await Activity.findOne({ user: userId, identifier: userIP, timestamp: { $gte: fiveMinutesAgo } }).exec();
+
+        // If there's no previous activity or the last activity was more than 5 minutes ago
+        if (!lastActivity) {
+            // Create a new activity record
+            const activity = new Activity({
+                _id: new mongoose.Types.ObjectId(),
+                user: userId,
+                identifier: userIP, // Set the IP address as the identifier
+            });
+
+            // Save the activity record to the database
+            await activity.save();
+        }
+
+        next();
+    } catch (err) {
+        console.error("Error tracking activity:", err);
+        next(err);
+    }
+};
 
 const paginationLimit = 10;
 
@@ -572,5 +604,6 @@ module.exports = {
     handleValidationError,
     checkIfBanned,
     paginationLimit,
-    verifyRememberMeToken
+    verifyRememberMeToken,
+    trackActivity
 }

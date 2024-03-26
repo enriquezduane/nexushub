@@ -1,8 +1,10 @@
 const { formatLatestPostDate } = require('../controllers/helper');
+const moment = require('moment-timezone');
 const Category = require('../models/categoryModel');
 const Post = require('../models/postModel');
 const Reply = require('../models/replyModel');
 const User = require('../models/userModel');
+const Activity = require('../models/activityModel');
 const { populatePosts, populateCategories, populateUser } = require('../controllers/helper');
 
 const renderIndex = (req, res) => {
@@ -19,6 +21,8 @@ const renderIndex = (req, res) => {
             postCount: res.postCount,
             replyCount: res.replyCount,
             userCount: res.userCount,
+            activeGuestCount: res.activeGuestCount,
+            activeUserCount: res.activeUserCount,
             forumRules: res.forumRules, 
             userLoggedIn: req.user
         });
@@ -104,6 +108,33 @@ const getIndexPageItems = async (req, res, next) => {
     }
 }
 
+const getActivityCounts = async (req, res, next) => {
+    try {
+        const fiveMinutesAgo = moment().subtract(5, 'minutes');
+        const activities = await Activity.find({ timestamp: { $gte: fiveMinutesAgo } });
+
+        console.log(activities)
+
+        let guestCount = 0;
+        let userCount = 0;
+
+        activities.forEach(activity => {
+            if (activity.user === null) {
+                guestCount++;
+            } else {
+                userCount++;
+            }
+        });
+
+        res.activeGuestCount = guestCount;
+        res.activeUserCount = userCount;
+
+        next();
+    } catch (err) {
+        console.error('Error fetching data:', err);
+        res.status(500).json({ message: err.message });
+    }
+};
 
 module.exports = {
     renderIndex,
@@ -111,4 +142,5 @@ module.exports = {
     getLatestPosts,
     getTotalCounts,
     getIndexPageItems,
+    getActivityCounts
 }

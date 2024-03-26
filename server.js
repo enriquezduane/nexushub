@@ -13,7 +13,7 @@ const passport = require('passport');
 const flash = require('express-flash');
 const session = require('express-session');
 const MemoryStore = require('memorystore')(session);
-const { checkIfBanned, verifyRememberMeToken } = require('./controllers/helper');
+const { checkIfBanned, verifyRememberMeToken, trackActivity } = require('./controllers/helper');
 
 // config 
 const app = express(); 
@@ -61,6 +61,9 @@ app.use(checkIfBanned);
 
 // remember me functionality
 app.use(verifyRememberMeToken);
+
+// online activity tracker
+app.use(trackActivity);
 
 // import routers
 const indexRouter = require('./routes/index');

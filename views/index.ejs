@@ -112,7 +112,7 @@
       Users Online
     </div>
     <p>
-      <span style="color: #fff">Online: 10 Guests, 1 User</span>
+      <span style="color: #fff">Online: <%= activeGuestCount %> Guests, <%= activeUserCount %> User</span>
       - Most Online Today: <span style="color: #fff">16</span> - Most Online Ever: <span style="color: #fff">34</span> (<span style="color: #fff">Feb 01, 2024 09:23 PM</span>)
       <br>
       Users active in past 15 minutes: <a href="<%= latestUser.href %>"><%= latestUser.username %></a>

@@ -8,9 +8,9 @@ router.use(express.static('public'));
 const { headerFooterData } = require('../controllers/helper');
 
 // import controller
-const { renderIndex, renderTerms, getLatestPosts, getTotalCounts, getIndexPageItems } = require('../controllers/indexController');
+const { renderIndex, renderTerms, getLatestPosts, getTotalCounts, getIndexPageItems, getActivityCounts } = require('../controllers/indexController');
 
-router.get('/', getIndexPageItems, getLatestPosts, getTotalCounts, headerFooterData, renderIndex);
+router.get('/', getIndexPageItems, getLatestPosts, getTotalCounts, getActivityCounts, headerFooterData, renderIndex);
 
 router.get('/terms-and-conditions', headerFooterData, renderTerms);
 

@@ -6,6 +6,7 @@ const Post = require('../postModel');
 const Board = require('../boardModel');
 const Category = require('../categoryModel');
 const Report = require('../reportModel');
+const Activity = require('../activityModel');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -24,6 +25,7 @@ async function seedDatabase() {
         await Board.deleteMany();
         await Category.deleteMany();
         await Report.deleteMany();
+        await Activity.deleteMany();
 
         console.log('\nDatabase cleared')
 

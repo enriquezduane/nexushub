@@ -70,4 +70,6 @@ reportSchema.path('reporter').validate(async function(value) {
   return true;
 }, 'You have already reported this item.');
 
-module.exports = mongoose.model('Report', reportSchema);  
+const Report = mongoose.model('Report', reportSchema);
+
+module.exports = Report;  
