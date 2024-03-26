@@ -13,11 +13,30 @@ const passport = require('passport');
 const flash = require('express-flash');
 const session = require('express-session');
 const MemoryStore = require('memorystore')(session);
-const { checkIfBanned, verifyRememberMeToken, trackActivity } = require('./controllers/helper');
+const cron = require('node-cron');
+const { checkIfBanned, verifyRememberMeToken, trackActivity, deleteOldActivities, resetMostOnlineToday } = require('./controllers/helper');
 
 // config 
 const app = express(); 
 const port = process.env.PORT;
+
+// cron job to delete old activities
+cron.schedule('*/5 * * * *', async () => {
+  try {
+      await deleteOldActivities();
+  } catch (err) {
+      console.error('Error running scheduled reset:', err);
+  }
+});
+
+// cron job to reset most online today count
+cron.schedule('* * * * *', async () => {
+  try {
+    await resetMostOnlineToday();
+  } catch (err) {
+    console.error('Error running scheduled reset:', err);
+  }
+});
 
 // passport and session initialization
 const initializePassport = require('./controllers/passportConfig');

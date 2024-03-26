@@ -1,10 +1,12 @@
 const { formatLatestPostDate } = require('../controllers/helper');
+const mongoose = require('mongoose');
 const moment = require('moment-timezone');
 const Category = require('../models/categoryModel');
 const Post = require('../models/postModel');
 const Reply = require('../models/replyModel');
 const User = require('../models/userModel');
 const Activity = require('../models/activityModel');
+const OnlineCount = require('../models/onlineCountModel');
 const { populatePosts, populateCategories, populateUser } = require('../controllers/helper');
 
 const renderIndex = (req, res) => {
@@ -23,6 +25,9 @@ const renderIndex = (req, res) => {
             userCount: res.userCount,
             activeGuestCount: res.activeGuestCount,
             activeUserCount: res.activeUserCount,
+            mostOnlineToday: res.mostOnlineToday,
+            mostOnlineEver: res.mostOnlineEver,
+            mostOnlineEverDate: res.mostOnlineEverDate,
             forumRules: res.forumRules, 
             userLoggedIn: req.user
         });
@@ -113,8 +118,6 @@ const getActivityCounts = async (req, res, next) => {
         const fiveMinutesAgo = moment().subtract(5, 'minutes');
         const activities = await Activity.find({ timestamp: { $gte: fiveMinutesAgo } });
 
-        console.log(activities)
-
         let guestCount = 0;
         let userCount = 0;
 
@@ -126,6 +129,29 @@ const getActivityCounts = async (req, res, next) => {
             }
         });
 
+        const totalCount = guestCount + userCount;
+
+        let onlineCounts = await OnlineCount.findOne();
+
+        if (!onlineCounts) {
+            onlineCounts = new OnlineCount();
+            onlineCounts._id = new mongoose.Types.ObjectId();
+        }
+
+        // Compare totalCount with mostOnlineToday and update if needed
+        if (totalCount > onlineCounts.mostOnlineToday) {
+            onlineCounts.mostOnlineToday = totalCount;
+        }
+
+        // Compare totalCount with mostOnlineEver and update if needed
+        if (totalCount > onlineCounts.mostOnlineEver.count) {
+            // Update mostOnlineEver count and date
+            onlineCounts.mostOnlineEver.count = totalCount;
+            onlineCounts.mostOnlineEver.date = Date.now();
+        }
+
+        await onlineCounts.save();
+
         res.activeGuestCount = guestCount;
         res.activeUserCount = userCount;
 
@@ -136,11 +162,27 @@ const getActivityCounts = async (req, res, next) => {
     }
 };
 
+const getMostOnlineCounts = async (req, res, next) => {
+    try {
+        let onlineCounts = await OnlineCount.findOne();
+
+        res.mostOnlineToday = onlineCounts.mostOnlineToday;
+        res.mostOnlineEver = onlineCounts.mostOnlineEver.count;
+        res.mostOnlineEverDate = onlineCounts.mostOnlineEverDateFormatted;
+
+        next();
+    } catch (err) {
+        console.error('Error fetching data:', err);
+        res.status(500).json({ message: err.message });
+    }
+}
+
 module.exports = {
     renderIndex,
     renderTerms,
     getLatestPosts,
     getTotalCounts,
     getIndexPageItems,
-    getActivityCounts
+    getActivityCounts,
+    getMostOnlineCounts
 }

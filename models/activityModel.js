@@ -1,8 +1,4 @@
 const mongoose = require('mongoose');
-const moment = require('moment-timezone');
-
-// Set the default timezone to Singapore
-moment.tz.setDefault('Asia/Singapore');
 
 const activitySchema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,

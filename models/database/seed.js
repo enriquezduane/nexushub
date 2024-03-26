@@ -7,6 +7,7 @@ const Board = require('../boardModel');
 const Category = require('../categoryModel');
 const Report = require('../reportModel');
 const Activity = require('../activityModel');
+const OnlineCount = require('../onlineCountModel');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -26,6 +27,7 @@ async function seedDatabase() {
         await Category.deleteMany();
         await Report.deleteMany();
         await Activity.deleteMany();
+        await OnlineCount.deleteMany();
 
         console.log('\nDatabase cleared')
 
@@ -36,6 +38,7 @@ async function seedDatabase() {
         await Board.insertMany(boards);
         await Category.insertMany(categories);
         await Report.insertMany(reports);
+        await OnlineCount.create();
 
         console.log(`\nDatabase ${connection.connection.name} on ${connection.connection.host} seeded succesfully\n`);
     } catch (error) {

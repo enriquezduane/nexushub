@@ -8,6 +8,7 @@ const Board = require('../models/boardModel');
 const Category = require('../models/categoryModel');
 const Report = require('../models/reportModel');
 const Activity = require('../models/activityModel');
+const OnlineCount = require('../models/onlineCountModel');
 const bcrypt = require('bcrypt');
 
 const populateCategories = async (categories) => {
@@ -558,7 +559,7 @@ const trackActivity = async (req, res, next) => {
 
         // Check if the user has made any activity in the last 5 minutes with the same IP address
         const fiveMinutesAgo = moment().subtract(5, 'minutes');
-        const lastActivity = await Activity.findOne({ user: userId, identifier: userIP, timestamp: { $gte: fiveMinutesAgo } }).exec();
+        const lastActivity = await Activity.findOne({ user: userId, identifier: userIP, timestamp: { $gte: fiveMinutesAgo } });
 
         // If there's no previous activity or the last activity was more than 5 minutes ago
         if (!lastActivity) {
@@ -577,6 +578,34 @@ const trackActivity = async (req, res, next) => {
     } catch (err) {
         console.error("Error tracking activity:", err);
         next(err);
+    }
+};
+
+const deleteOldActivities = async () => {
+    try {
+        const fiveMinutesAgo = moment().subtract(5, 'minutes');
+        await Activity.deleteMany({ timestamp: { $lt: fiveMinutesAgo } });
+        console.log('Old activities deleted successfully.');
+    } catch (err) {
+        console.error('Error deleting old activities:', err);
+        throw err;
+    }
+};
+
+const resetMostOnlineToday = async () => {
+    try {
+        // Find the document containing the online counts
+        const countsDocument = await OnlineCount.findOne();
+
+        // Update the mostOnlineToday count to 0
+        countsDocument.mostOnlineToday = 0;
+
+        // Save the updated document
+        await countsDocument.save();
+        console.log('Most online today count reset successfully.');
+    } catch (err) {
+        console.error('Error resetting most online today count:', err);
+        throw err;
     }
 };
 
@@ -605,5 +634,7 @@ module.exports = {
     checkIfBanned,
     paginationLimit,
     verifyRememberMeToken,
-    trackActivity
+    trackActivity,
+    deleteOldActivities,
+    resetMostOnlineToday,
 }
