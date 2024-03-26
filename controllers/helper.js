@@ -557,9 +557,15 @@ const trackActivity = async (req, res, next) => {
         // Get the IP address from the request
         const userIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 
+        console.log("req.headers['x-forwarded-for']:", req.headers['x-forwarded-for']);
+        console.log("req.connection.remoteAddress:", req.connection.remoteAddress);
+        console.log("userIP:", userIP)
+
         // Check if the user has made any activity in the last 5 minutes with the same IP address
         const fiveMinutesAgo = moment().subtract(5, 'minutes');
         const lastActivity = await Activity.findOne({ user: userId, identifier: userIP, timestamp: { $gte: fiveMinutesAgo } });
+
+        console.log("lastActivity:", lastActivity)
 
         // If there's no previous activity or the last activity was more than 5 minutes ago
         if (!lastActivity) {
