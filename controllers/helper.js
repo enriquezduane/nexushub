@@ -564,19 +564,28 @@ const trackActivity = async (req, res, next) => {
         if (lastActivity) {
             // If the last activity has a null user and the current request is authenticated
             if (!lastActivity.user && req.isAuthenticated()) {
-                // Delete the previous activity by its ID
                 await Activity.findByIdAndDelete(lastActivity._id);
 
                 // Set lastActivity to null to create a new one
                 lastActivity = null;
             }
 
+            // If the last activity has a user and the current request is not authenticated
             if (!req.isAuthenticated() && lastActivity.user) {
-                // Delete the previous activity by its ID
                 await Activity.findByIdAndDelete(lastActivity._id);
 
                 // Set lastActivity to null to create a new one
                 lastActivity = null;
+            }
+
+            // If the last activity has a user and the current request is authenticated with a different user ID
+            if (req.isAuthenticated() && req.user._id) {
+                // Find and delete activities within the last 5 minutes with the same user ID but different IP
+                await Activity.deleteMany({
+                    user: req.user._id,
+                    identifier: { $ne: userIP },
+                    timestamp: { $gte: fiveMinutesAgo }
+                });
             }
         }
 

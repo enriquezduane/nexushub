@@ -112,7 +112,10 @@
       Users Online
     </div>
     <p>
-      <span style="color: #fff">Online: <%= activeGuestCount %> Guests, <%= activeUserCount %> User</span>
+      <span style="color: #fff">Online: 
+        <%= activeGuestCount > 1 ? activeGuestCount + ' Guests, ' : activeGuestCount === 1 ? activeGuestCount + ' Guest, ' : '' %>
+        <%= activeUserCount > 1 ? activeUserCount + ' Users' : activeUserCount === 1 ? activeUserCount + ' User' : '' %>
+    </span>
       - Most Online Today: <span style="color: #fff"><%= mostOnlineToday %></span> - Most Online Ever: <span style="color: #fff"><%= mostOnlineEver %></span> 
       (<span style="color: #fff"><%= mostOnlineEverDate %></span>)
       <br>
