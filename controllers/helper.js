@@ -552,22 +552,32 @@ const verifyRememberMeToken = async (req, res, next) => {
 
 const trackActivity = async (req, res, next) => {
     try {
-        const userId = req.isAuthenticated() ? req.user._id : null;
-
         // Get the IP address from the request
         const forwardedFor = req.headers['x-forwarded-for'];
         const userIP = forwardedFor ? forwardedFor.split(',')[0] : req.connection.remoteAddress;
 
-        // Check if the user has made any activity in the last 5 minutes with the same IP address
+        // Check if there's any activity in the last 5 minutes with the same IP address
         const fiveMinutesAgo = moment().subtract(5, 'minutes');
-        const lastActivity = await Activity.findOne({ user: userId, identifier: userIP, timestamp: { $gte: fiveMinutesAgo } });
+        let lastActivity = await Activity.findOne({ identifier: userIP, timestamp: { $gte: fiveMinutesAgo } });
 
-        // If there's no previous activity or the last activity was more than 5 minutes ago
+        // If there's a previous activity
+        if (lastActivity) {
+            // If the last activity has a null user and the current request is authenticated
+            if (!lastActivity.user && req.isAuthenticated()) {
+                // Delete the previous activity by its ID
+                await Activity.findByIdAndDelete(lastActivity._id);
+
+                // Set lastActivity to null to create a new one
+                lastActivity = null;
+            }
+        }
+
+        // If there's no previous activity or the last activity was deleted
         if (!lastActivity) {
             // Create a new activity record
             const activity = new Activity({
                 _id: new mongoose.Types.ObjectId(),
-                user: userId,
+                user: req.isAuthenticated() ? req.user._id : null,
                 identifier: userIP, // Set the IP address as the identifier
             });
 
