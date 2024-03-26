@@ -133,6 +133,8 @@
             <% if (index > 0) { %>, <% } %>
             <a href="<%= user.href %>"><%= user.username %></a>
         <% }); %>
+      <% } else { %>
+        <span style="color: #fff">None</span>
       <% } %>
     </p>
   </div>
