@@ -170,7 +170,7 @@ const getActiveUsers = async (req, res, next) => {
         const activities = await Activity.find({
             timestamp: { $gte: fiveMinutesAgo },
             user: { $ne: null } // Exclude guests (user = null)
-        }).populate('user');
+        }).limit(5).populate('user');
 
         res.activeUsers = activities.map(activity => activity.user);
 
