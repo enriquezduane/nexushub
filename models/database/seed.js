@@ -38,7 +38,7 @@ async function seedDatabase() {
         await Board.insertMany(boards);
         await Category.insertMany(categories);
         await Report.insertMany(reports);
-        await OnlineCount.create();
+        await OnlineCount.create(new OnlineCount());
 
         console.log(`\nDatabase ${connection.connection.name} on ${connection.connection.host} seeded succesfully\n`);
     } catch (error) {

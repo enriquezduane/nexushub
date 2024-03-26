@@ -26,7 +26,7 @@ async function seedDatabase() {
         const existingCategories = await Category.find();
         const existingReports = await Report.find();
         const existingActivities = await Activity.find();
-        const existingOnlineCount = await OnlineCount.findOne();
+        const existingOnlineCount = await OnlineCount.find();
 
         // Clear existing data
         await User.deleteMany();
@@ -48,8 +48,8 @@ async function seedDatabase() {
         await Category.insertMany(existingCategories);
         await Report.insertMany(existingReports);
         await Activity.insertMany(existingActivities);
-        await OnlineCount.create(existingOnlineCount);
-
+        await OnlineCount.insertMany(existingOnlineCount);
+        
         console.log(`\nDatabase ${connection.connection.name} on ${connection.connection.host} seeded successfully\n`);
     } catch (error) {
         console.error('Error seeding database:', error);
