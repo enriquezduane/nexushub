@@ -571,7 +571,7 @@ const trackActivity = async (req, res, next) => {
                 lastActivity = null;
             }
 
-            if (lastActivity.user && !req.isAuthenticated()) {
+            if (!req.isAuthenticated() && lastActivity.user) {
                 // Delete the previous activity by its ID
                 await Activity.findByIdAndDelete(lastActivity._id);
 
