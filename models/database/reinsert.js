@@ -48,7 +48,7 @@ async function seedDatabase() {
         await Category.insertMany(existingCategories);
         await Report.insertMany(existingReports);
         await Activity.insertMany(existingActivities);
-        await OnlineCount.insertOne(existingOnlineCount);
+        await OnlineCount.create(existingOnlineCount);
 
         console.log(`\nDatabase ${connection.connection.name} on ${connection.connection.host} seeded successfully\n`);
     } catch (error) {
