@@ -30,7 +30,7 @@ cron.schedule('*/5 * * * *', async () => {
 });
 
 // cron job to reset most online today count
-cron.schedule('* * * * *', async () => {
+cron.schedule('0 0 * * *', async () => {
   try {
     await resetMostOnlineToday();
   } catch (err) {
