@@ -570,6 +570,8 @@ const trackActivity = async (req, res, next) => {
                 identifier: userIP, // Set the IP address as the identifier
             });
 
+            console.log(activity)
+
             // Save the activity record to the database
             await activity.save();
         }
