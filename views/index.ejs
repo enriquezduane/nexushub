@@ -116,7 +116,11 @@
       - Most Online Today: <span style="color: #fff"><%= mostOnlineToday %></span> - Most Online Ever: <span style="color: #fff"><%= mostOnlineEver %></span> 
       (<span style="color: #fff"><%= mostOnlineEverDate %></span>)
       <br>
-      Users active in past 15 minutes: <a href="<%= latestUser.href %>"><%= latestUser.username %></a>
+      Users active in past 5 minutes:
+      <% activeUsers.forEach((user, index) => { %>
+          <% if (index > 0) { %>, <% } %>
+          <a href="<%= user.href %>"><%= user.username %></a>
+      <% }); %>
     </p>
   </div>
 </div>

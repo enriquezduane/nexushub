@@ -28,6 +28,7 @@ const renderIndex = (req, res) => {
             mostOnlineToday: res.mostOnlineToday,
             mostOnlineEver: res.mostOnlineEver,
             mostOnlineEverDate: res.mostOnlineEverDate,
+            activeUsers: res.activeUsers,
             forumRules: res.forumRules, 
             userLoggedIn: req.user
         });
@@ -161,6 +162,24 @@ const getActivityCounts = async (req, res, next) => {
         res.status(500).json({ message: err.message });
     }
 };
+
+const getActiveUsers = async (req, res, next) => {
+    try {
+        const fiveMinutesAgo = moment().subtract(5, 'minutes');
+
+        const activities = await Activity.find({
+            timestamp: { $gte: fiveMinutesAgo },
+            user: { $ne: null } // Exclude guests (user = null)
+        }).populate('user');
+
+        res.activeUsers = activities.map(activity => activity.user);
+
+        next();
+    } catch (err) {
+        console.error('Error fetching data:', err);
+        res.status(500).json({ message: err.message });
+    }
+}
 
 const getMostOnlineCounts = async (req, res, next) => {
     try {
