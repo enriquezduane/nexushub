@@ -554,7 +554,7 @@ const trackActivity = async (req, res, next) => {
     try {
         // Get the IP address from the request
         const forwardedFor = req.headers['x-forwarded-for'];
-        const userIP = forwadedFor ? forwardedFor.split(',')[0] : req.connection.remoteAddress;
+        const userIP = forwardedFor ? forwardedFor.split(',')[0] : req.connection.remoteAddress;
 
         console.log('forwarded for:', forwardedFor);
         console.log('remoteAddress:'. req.connection.remoteAddress);
