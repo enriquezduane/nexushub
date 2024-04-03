@@ -14,6 +14,7 @@ const flash = require('express-flash');
 const session = require('express-session');
 const MemoryStore = require('memorystore')(session);
 const cron = require('node-cron');
+const requestIp = require('request-ip');
 const { checkIfBanned, verifyRememberMeToken, trackActivity, deleteOldActivities, resetMostOnlineToday } = require('./controllers/helper');
 
 // config 
@@ -65,6 +66,7 @@ app.use(bodyParser.json({ limit: '10mb' }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(requestIp.mw());
 
 
 // templating engine
