@@ -554,7 +554,7 @@ const trackActivity = async (req, res, next) => {
     try {
         // Get the IP address from the request
         const forwardedFor = req.headers['x-forwarded-for'];
-        const userIP = forwardedFor.split(',')[0];
+        const userIP = forwardedFor ? forwardedFor.split(',')[0] : req.connection.remoteAddress;
 
         // Check if there's any activity in the last 5 minutes with the same IP address
         const fiveMinutesAgo = moment().subtract(5, 'minutes');
