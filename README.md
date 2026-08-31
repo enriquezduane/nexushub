@@ -30,13 +30,28 @@ Dive into the retro universe of **NexusHub**, a Ragnarok forums site that catapu
 ## 🌟 How to Run
 
 Requirements
-- MongoDB Installed
-- Node.js Installed
+- Node.js installed
+- MongoDB running locally (or `docker run -d -p 27017:27017 mongo`)
 
-1. Redirect your terminal to the path NexusHub/models/database.
-  - ("cd models" > "cd database")
-2. run "node seed.js" to initialize the MongoDB Database locally with seed (initial) data.
-3. run "npm run devStart" to run the server on localhost:3000 
+1. Install dependencies:
+   ```
+   npm install
+   ```
+2. Create your environment file:
+   ```
+   cp .env.example .env
+   ```
+   Adjust the values if needed (`PORT`, `SESSION_SECRET`, `MONGODB_URL`).
+3. Seed the database with initial data:
+   ```
+   npm run seed
+   ```
+4. Start the server:
+   ```
+   npm start
+   ```
+   (or `npm run devStart` for auto-reload during development)
+5. Open http://localhost:3001 in your browser.
 
 ## 🌟 Join the NexusHub Odyssey
 

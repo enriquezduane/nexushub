@@ -14,7 +14,6 @@ const flash = require('express-flash');
 const session = require('express-session');
 const MemoryStore = require('memorystore')(session);
 const cron = require('node-cron');
-const axios = require('axios');  // Added axios
 const requestIp = require('request-ip');
 const { checkIfBanned, verifyRememberMeToken, trackActivity, deleteOldActivities, resetMostOnlineToday } = require('./controllers/helper');
 
@@ -37,16 +36,6 @@ cron.schedule('0 0 * * *', async () => {
     await resetMostOnlineToday();
   } catch (err) {
     console.error('Error running scheduled reset:', err);
-  }
-});
-
-// cron job to ping the server itself every 14 minutes
-cron.schedule('*/14 * * * *', async () => {
-  try {
-    await axios.get(`https://nexushub-3snn.onrender.com`);
-    console.log('Self-ping successful');
-  } catch (err) {
-    console.error('Error pinging self:', err);
   }
 });
 
