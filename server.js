@@ -12,7 +12,7 @@ const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const flash = require('express-flash');
 const session = require('express-session');
-const MemoryStore = require('memorystore')(session);
+const MongoStore = require('connect-mongo').default;
 const cron = require('node-cron');
 const requestIp = require('request-ip');
 const { checkIfBanned, verifyRememberMeToken, trackActivity, deleteOldActivities, resetMostOnlineToday } = require('./controllers/helper');
@@ -47,8 +47,9 @@ app.use(flash());
 
 app.use(session({
     cookie: { maxAge: 86400000 },
-    store: new MemoryStore({
-      checkPeriod: 86400000 // prune expired entries every 24h
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGODB_URL,
+      ttl: 86400 // sessions expire after 24h, matching the cookie
     }),
     resave: false,
     secret: process.env.SESSION_SECRET,
