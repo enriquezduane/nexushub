@@ -36,13 +36,13 @@
                         <td style="text-align: center">
                             <a href="<%= user.href %>"><strong><%= user.username %></strong></a>
                         </td>
-                        <td class="center-table-data">
+                        <td class="center-table-data" data-label="Role">
                             <div class="role <%= user.roleClass %>">
                                 <%= user.role %>
                             </div>
                         </td>
-                        <td class="center-table-data"><%= user.joinDateMonth %></td>
-                        <td class="center-table-data"><%= user.postCount %></td>
+                        <td class="center-table-data" data-label="Joined"><%= user.joinDateMonth %></td>
+                        <td class="center-table-data" data-label="Posts"><%= user.postCount %></td>
                     </tr>
                 <% }) %>
             </tbody>

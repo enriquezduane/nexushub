@@ -238,6 +238,12 @@ header div {
   opacity: 1;
 }
 
+.spin-img,
+.music-button {
+  width: 100px;
+  height: 100px;
+}
+
 .spin-img {
   animation: spin 4s linear infinite;
 }
@@ -263,6 +269,11 @@ header div {
 header img {
   margin-left: 20px;
   margin-right: 20px;
+}
+
+.kades-img {
+  height: 180px;
+  width: 160px;
 }
 
 .ragnarok-logo-frame a {
@@ -2799,7 +2810,12 @@ textarea[name="content"],
   text-transform: uppercase;
 }
 
-#showPosts {
+.profile-action {
+  margin-top: 20px;
+  width: 50%;
+}
+
+.profile-action .button-style {
   width: 80%;
 }
 
@@ -2862,4 +2878,499 @@ textarea[name="content"],
   /* Neon pink color for the label */
   font-size: 16px;
   cursor: pointer;
+}
+/* ==========================================================================
+   Responsive layout
+   Desktop rules above are untouched; everything below narrows them down.
+   ========================================================================== */
+
+@media (max-width: 900px) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  /* the editor's emoticon buttons size their own icons */
+  .ql-toolbar img {
+    max-width: none;
+  }
+
+  .container-margin,
+  footer {
+    margin: 20px 12px;
+  }
+
+  header {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  header img {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .navbar-logged-in {
+    margin-right: 0;
+  }
+
+  .spin-img,
+  .music-button {
+    width: 64px;
+    height: 64px;
+  }
+
+  #logo {
+    font-size: clamp(2.5rem, 9vw, 100px);
+    margin-left: 10px;
+  }
+
+  .ragnarok-logo-frame a {
+    flex-wrap: wrap;
+  }
+
+  .kades-img {
+    height: 120px;
+    width: 107px;
+  }
+
+  .logo-container img[alt="dark-lord"] {
+    width: 100px;
+    height: auto;
+  }
+
+  /* reading a post */
+  .post-section {
+    flex-direction: column;
+  }
+
+  .poster-info,
+  .post-area {
+    width: 100%;
+  }
+
+  .poster-info {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid #8f3e97;
+    padding-bottom: 10px;
+  }
+
+  .poster-info div {
+    margin-bottom: 0;
+  }
+
+  .post-content-footer {
+    margin: 20px 0 10px 0;
+    flex-wrap: wrap;
+  }
+
+  .post-section-top,
+  .reply-section-top,
+  .post-info-top,
+  .post-info-bottom,
+  .search-result-content,
+  .profile-info,
+  .content-header,
+  .left-side-buttons,
+  .category-actions,
+  footer {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  /* writing */
+  .ql-toolbar.ql-snow,
+  .ql-container.ql-snow,
+  #reply-box {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .reply-area {
+    padding: 10px;
+  }
+
+  .create-post-form .post-submit-btn {
+    width: auto;
+    min-width: 120px;
+  }
+
+  /* profile */
+  .profile-area {
+    flex-direction: column;
+    padding: 15px;
+    font-size: 18px;
+  }
+
+  .profile-left,
+  .profile-right {
+    width: 100%;
+  }
+
+  .profile-name {
+    font-size: 1.8rem;
+  }
+
+  .terms-container img {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+  }
+
+  /* admin: hover-only controls are unreachable by touch */
+  .category-actions .category-button {
+    display: inline-block;
+  }
+
+  .category-actions .collapse-button {
+    display: flex;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .admin-nav {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+    padding: 15px 5px;
+  }
+
+  .admin-nav a {
+    display: inline-block;
+  }
+
+  .admin-header {
+    font-size: 1.8rem;
+    padding: 0 10px;
+  }
+
+  #torch-gif {
+    width: 50px;
+    height: 50px;
+  }
+
+  /* modals */
+  .modal-container,
+  .agreement-frame,
+  .registration-form-frame,
+  .search-container,
+  .category-modal-frame,
+  .board-modal-frame,
+  .user-modal-frame,
+  .post-modal-frame,
+  .reply-modal-frame,
+  .report-frame,
+  .resolve-report-frame {
+    width: min(92vw, 750px);
+    max-width: 92vw;
+    min-width: 0;
+    max-height: 88vh;
+    overflow-y: auto;
+  }
+
+  .close,
+  .modal .close-btn {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .registration-form fieldset dl {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 5px;
+  }
+
+  .register_form input {
+    width: 100%;
+  }
+
+  .registration-form fieldset dl #register-email {
+    margin-left: 0;
+  }
+
+  .search-container {
+    height: auto;
+    padding: 15px;
+    gap: 15px;
+  }
+
+  .search-box form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .search-input {
+    width: 100%;
+  }
+
+  td,
+  .category-container li,
+  .category-container li span {
+    overflow-wrap: anywhere;
+  }
+
+  /* tables restack as cards */
+  .content-frame table,
+  .content-frame thead,
+  .content-frame tbody,
+  .content-frame tr,
+  .content-frame th,
+  .content-frame td,
+  .info-center-frame table,
+  .info-center-frame thead,
+  .info-center-frame tbody,
+  .info-center-frame tr,
+  .info-center-frame th,
+  .info-center-frame td {
+    display: block;
+    width: 100%;
+  }
+
+  .content-frame .topics,
+  .info-center-frame .topics {
+    display: none;
+  }
+
+  .content-frame tbody tr,
+  .info-center-frame tbody tr {
+    border: 1px solid #c45aeb;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    padding: 5px;
+  }
+
+  .content-frame tbody td,
+  .info-center-frame tbody td {
+    border: none;
+    border-bottom: 1px dashed #4a2a6b;
+    text-align: left;
+  }
+
+  /* the desktop column widths must not survive the restack */
+  .content-frame thead th:nth-child(5),
+  .content-frame tbody td:nth-child(5),
+  .info-center-frame tbody td:nth-child(5) {
+    width: 100%;
+  }
+
+  .content-frame tbody tr td:last-child,
+  .info-center-frame tbody tr td:last-child {
+    border-bottom: none;
+  }
+
+  .content-frame tbody td[data-label]::before,
+  .info-center-frame tbody td[data-label]::before {
+    content: attr(data-label) ": ";
+    color: #a07aff;
+    font-weight: bold;
+  }
+
+  /* decorative row icons go; the pin marker carries meaning, so it stays */
+  .content-frame .post-logo,
+  .info-center-frame .post-logo {
+    display: none;
+  }
+
+  .content-frame .post-logo.pinned-logo {
+    display: block;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  /* the category rows in the boards table are headings, not cards */
+  .content-frame tbody tr:has(> td[colspan="5"]) {
+    border: none;
+    border-radius: 0;
+    margin-bottom: 0;
+    padding: 0;
+  }
+
+  /* restacked cards outgrow the accordion's fixed max-height */
+  .info-center-frame {
+    max-height: none;
+  }
+
+  /* the legend keeps its own flex table layout */
+  .legend-frame table,
+  .legend-frame table tbody,
+  .legend-frame table tr {
+    display: flex;
+  }
+
+  .legend-frame table td {
+    display: flex;
+    width: auto;
+    border-bottom: none;
+  }
+
+  .legend-frame table tr {
+    border: none;
+    border-radius: 0;
+    margin-bottom: 0;
+    padding: 0;
+  }
+
+  .center-table-data,
+  .info-center-frame tbody :not(td:nth-child(2)) {
+    text-align: left;
+  }
+
+  .index-subheading {
+    white-space: normal;
+  }
+
+  .marquee {
+    animation: none;
+  }
+
+  .letter-loop {
+    float: none;
+    display: block;
+    padding-top: 10px;
+    line-height: 1.8rem;
+  }
+
+  .legend-frame {
+    max-width: 100%;
+  }
+
+}
+
+@media (max-width: 600px) {
+  .container-margin,
+  footer {
+    margin: 12px 8px;
+  }
+
+  .content-container {
+    padding: 8px;
+  }
+
+  .spin-img,
+  .music-button {
+    width: 48px;
+    height: 48px;
+  }
+
+  header nav img {
+    height: 32px;
+    width: auto;
+  }
+
+  .cyberpunk-nav .dropbtn {
+    padding: 10px;
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+
+  .kades-img {
+    height: 80px;
+    width: 71px;
+  }
+
+  .logo-container img[alt="dark-lord"] {
+    width: 70px;
+  }
+
+  /* headings */
+  td[colspan="5"],
+  td[colspan="4"],
+  .info-center-frame div,
+  #registration-agreement,
+  .registration-form header,
+  .topic-header,
+  .info-center-header,
+  thead,
+  .topics {
+    font-size: 1.1rem;
+  }
+
+  .directory-bar {
+    font-size: 14px;
+    padding: 8px 0;
+  }
+
+  .poster-name a {
+    font-size: 1.1rem;
+  }
+
+  .admin-header {
+    font-size: 1.2rem;
+  }
+
+  /* forms and buttons */
+  .prev-button,
+  .next-button,
+  .reply-button,
+  .post-button,
+  .edit-button,
+  .delete-button,
+  .save-button,
+  .create-post-button,
+  .cancel-button,
+  .nav-button,
+  .category-button,
+  .report-button,
+  #bot,
+  #top {
+    padding: 10px 12px;
+  }
+
+  .page-button,
+  .currentPage {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  .button-style,
+  .profile-action,
+  .profile-action .button-style,
+  #updatePictureForm {
+    width: 100%;
+  }
+
+  #cancelUpdate {
+    right: 10px;
+  }
+
+  .edit-profile-form .form-control {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .category-container {
+    padding: 10px;
+  }
+
+  .category-container li,
+  .category-container li span {
+    font-size: 16px;
+  }
+
+  .category-container li ul li {
+    margin-left: 16px;
+    font-size: 15px;
+  }
+
+  .search-bar input {
+    padding: 10px;
+  }
+
+  /* fewer full-screen animated layers to composite on phones */
+  .shade-2,
+  .shade-5 {
+    display: none;
+  }
 }

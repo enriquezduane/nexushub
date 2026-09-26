@@ -29,7 +29,7 @@
       <tbody>
         <% for (let i = 0; i < posts.length; i++) { %>
           <tr class="<%= posts[i].pinnedClass %>">
-            <td class="post-logo">
+            <td class="post-logo <%= posts[i].pinned ? 'pinned-logo' : '' %>">
               <% const imageSource = !posts[i].pinned ? 'images/book.gif' : 'images/candy-pin.gif'; %>
               <img src="<%= imageSource %>" alt="<%= !posts[i].pinned ? 'book gif' : 'candy pin gif'%>" />
             </td>
@@ -38,7 +38,7 @@
                 </a>
               <p><%= posts[i].createdAtSGT %></p>
             </td>
-            <td class="center-table-data">
+            <td class="center-table-data" data-label="Started By">
               <div class="username">
                 <a href="<%= posts[i].poster.href %>">
                   <%= posts[i].poster.username %>
@@ -48,8 +48,8 @@
                 <%= posts[i].poster.role %>
               </div>
             </td>
-            <td class="center-table-data"><%= posts[i].replyCount %></td>
-            <td class="center-table-data"><%= posts[i].views %></td>
+            <td class="center-table-data" data-label="Replies"><%= posts[i].replyCount %></td>
+            <td class="center-table-data" data-label="Views"><%= posts[i].views %></td>
           </tr>
         <% } %>
       </tbody>

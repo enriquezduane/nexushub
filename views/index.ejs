@@ -34,10 +34,10 @@
                 <a href="<%= board.href %>"><strong><%= board.title %></strong></a>
                 <p><%= board.description %></p>
               </td>
-              <td><%= board.postCount %></td>
-              <td><%= board.totalReplyCount %></td>
+              <td data-label="Posts"><%= board.postCount %></td>
+              <td data-label="Replies"><%= board.totalReplyCount %></td>
               <% if (!board.lastPost) { %>
-                <td style="text-align: center; font-weight: bold; font-size: 20px; color: white;">None</td>
+                <td data-label="Last Post" style="text-align: center; font-weight: bold; font-size: 20px; color: white;">None</td>
               <% } else { %>
               <td>
                 Last post: <a href="<%= board.lastPost.href %>"><%= board.lastPost.createdAtSGT %></a>
@@ -79,13 +79,13 @@
             <td>
               <a href="<%= post.href %>"><strong><%= post.title %></strong></a>
             </td>
-            <td>
+            <td data-label="Started By">
               <a href="<%= post.poster.href %>"><%= post.poster.username %></a>
             </td>
-            <td>
+            <td data-label="Board">
               <a href="<%= post.refBoard.href %>"><%= post.refBoard.title %></a>
             </td>
-            <td>
+            <td data-label="Date">
               <span><%= formatLatestPostDate(post) %></span>
             </td>
           </tr>
