@@ -21,6 +21,9 @@ const { checkIfBanned, verifyRememberMeToken, trackActivity, deleteOldActivities
 const app = express(); 
 const port = process.env.PORT;
 
+// trust the hosting proxy so req.protocol reports https
+app.set('trust proxy', 1);
+
 // cron job to delete old activities
 cron.schedule('*/5 * * * *', async () => {
   try {
@@ -68,6 +71,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(requestIp.mw());
+
+// expose the site origin to views for absolute urls like og:image
+app.use((req, res, next) => {
+  res.locals.origin = `${req.protocol}://${req.get('host')}`;
+  next();
+});
 
 
 // templating engine

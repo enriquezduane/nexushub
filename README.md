@@ -6,6 +6,8 @@
 
 Dive into the retro universe of **NexusHub**, a Ragnarok forums site that catapults you straight back to the 90s. With a design that's a love letter to the old-school internet, NexusHub combines nostalgia with the vibrant world of Ragnarok for the ultimate fan hangout spot. Crafted with the classic trio of HTML, CSS, and JS, NexusHub is a masterpiece in progress, embodying the cool essence of yesteryear with a sprinkle of today's web magic. 🎨✨
 
+Live site: https://nexushub.joshuatating.com
+
 ## 🚀 About NexusHub
 
 **NexusHub** is not just a forum; it's a time machine. Designed to evoke the nostalgia of the 90s internet era, it's a place where Ragnarok enthusiasts can gather to share, discuss, and dive deep into the realms of their favorite world. Our platform is in the exciting WIP (Work in Progress) stage, with plans to evolve our backend using the MEN stack (MongoDB, Express.js, and Node.js) for a robust and scalable future. 🕹️🌐
