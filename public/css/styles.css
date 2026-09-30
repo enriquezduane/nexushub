@@ -1522,7 +1522,6 @@ tbody {
   background: rgba(0, 0, 0, 0.7);
   border-radius: 5px;
   overflow: hidden;
-  animation: neon-flicker-purple 1.5s infinite alternate;
   /* Prevent content from overflowing */
   white-space: nowrap;
   /* Ensure the text stays in one line */
